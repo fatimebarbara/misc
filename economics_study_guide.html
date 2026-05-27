@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Economics S6 — Interactive Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1d2e;
+    --ink-soft: #4a4e6b;
+    --paper: #f5f0e6;
+    --paper-soft: #ebe4d4;
+    --accent: #c8553d;
+    --accent-dark: #9b3d2a;
+    --gold: #d4a83a;
+    --teal: #2c6e7f;
+    --green: #5a7d3a;
+    --shadow: 0 2px 0 var(--ink);
+    --shadow-soft: 0 4px 12px rgba(26, 29, 46, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    background-image:
+      radial-gradient(circle at 25% 30%, rgba(200, 85, 61, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 75% 70%, rgba(44, 110, 127, 0.04) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR NAVIGATION */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 24px;
+    overflow-y: auto;
+    border-right: 4px solid var(--accent);
+  }
+
+  .sidebar h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    color: var(--paper);
+  }
+
+  .sidebar .subtitle {
+    font-size: 12px;
+    color: var(--gold);
+    margin-bottom: 32px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .nav-chapter {
+    margin-bottom: 24px;
+  }
+
+  .nav-chapter-title {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed rgba(245, 240, 230, 0.2);
+  }
+
+  .nav-link {
+    display: block;
+    padding: 6px 0 6px 12px;
+    color: rgba(245, 240, 230, 0.7);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--paper);
+    border-left-color: var(--accent);
+    padding-left: 16px;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    padding: 60px 80px;
+    max-width: 980px;
+  }
+
+  .intro-banner {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px;
+    margin-bottom: 48px;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .intro-banner::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .intro-banner h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    line-height: 1;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .intro-banner .tagline {
+    font-size: 15px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .intro-banner p {
+    font-size: 16px;
+    color: rgba(245, 240, 230, 0.85);
+    max-width: 600px;
+  }
+
+  /* HOW TO USE */
+  .how-to {
+    background: var(--paper-soft);
+    border-left: 4px solid var(--teal);
+    padding: 24px 28px;
+    margin-bottom: 48px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .how-to h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .how-to ul { list-style: none; }
+  .how-to li {
+    padding: 4px 0;
+    font-size: 15px;
+  }
+
+  .legend-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* CHAPTER */
+  .chapter {
+    margin-bottom: 80px;
+  }
+
+  .chapter-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .chapter-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .chapter-title {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.1;
+    font-weight: 800;
+  }
+
+  /* BIG IDEA */
+  .big-idea {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 28px 32px;
+    margin: 24px 0 40px;
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .big-idea::before {
+    content: "THE BIG IDEA";
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .big-idea p {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  /* SECTION */
+  .section {
+    margin: 40px 0;
+  }
+
+  .section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .section h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    margin: 24px 0 8px;
+    color: var(--teal);
+  }
+
+  .section h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 8px;
+    color: var(--accent-dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section p {
+    margin-bottom: 14px;
+    font-size: 15.5px;
+  }
+
+  .section ul, .section ol {
+    margin: 12px 0 18px 24px;
+  }
+
+  .section li {
+    margin-bottom: 8px;
+    font-size: 15.5px;
+  }
+
+  strong { font-weight: 700; color: var(--ink); }
+  em { font-style: italic; }
+
+  /* COLLAPSIBLE */
+  details {
+    background: white;
+    border: 1px solid var(--paper-soft);
+    border-radius: 6px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.2s;
+  }
+
+  details[open] {
+    border-color: var(--teal);
+  }
+
+  details summary {
+    cursor: pointer;
+    padding: 16px 24px;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+  }
+
+  details summary::-webkit-details-marker { display: none; }
+
+  details summary::after {
+    content: "+";
+    font-size: 20px;
+    color: var(--accent);
+    transition: transform 0.2s;
+    font-weight: 400;
+  }
+
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  details summary:hover {
+    background: var(--paper-soft);
+  }
+
+  details .details-content {
+    padding: 4px 24px 20px;
+    color: var(--ink-soft);
+  }
+
+  /* BOXES */
+  .box {
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-radius: 4px;
+    border-left: 4px solid;
+  }
+
+  .box-key {
+    background: #fff8e1;
+    border-color: var(--gold);
+  }
+
+  .box-key strong {
+    color: var(--accent-dark);
+  }
+
+  .box-example {
+    background: #f0f6e8;
+    border-color: var(--green);
+  }
+
+  .box-example::before {
+    content: "EXAMPLE";
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--green);
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  .box-warning {
+    background: #fceae6;
+    border-color: var(--accent);
+  }
+
+  .box-warning::before {
+    content: "WATCH OUT";
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent-dark);
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  .box-formula {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 20px 24px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 16px 0;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .box-formula .explainer {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gold);
+    margin-top: 8px;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14.5px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+  }
+
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--paper-soft);
+  }
+
+  th {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--paper-soft); }
+
+  /* QUIZ */
+  .quiz {
+    background: white;
+    padding: 28px 32px;
+    margin: 32px 0;
+    border-radius: 6px;
+    border: 2px dashed var(--teal);
+  }
+
+  .quiz-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+
+  .quiz-subtitle {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .quiz-question {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--paper-soft);
+  }
+
+  .quiz-question:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .quiz-question-text {
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 15.5px;
+  }
+
+  .quiz-options {
+    display: grid;
+    gap: 8px;
+  }
+
+  .quiz-option {
+    padding: 10px 16px;
+    background: var(--paper);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14.5px;
+    font-family: inherit;
+    text-align: left;
+    transition: all 0.15s;
+    color: var(--ink);
+  }
+
+  .quiz-option:hover {
+    background: var(--paper-soft);
+    border-color: var(--teal);
+  }
+
+  .quiz-option.correct {
+    background: #dff0d8;
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .quiz-option.wrong {
+    background: #fceae6;
+    border-color: var(--accent);
+    color: var(--accent-dark);
+  }
+
+  .quiz-feedback {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: var(--paper-soft);
+    border-radius: 4px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .quiz-feedback.show { display: block; }
+
+  /* CONCEPT MATRIX */
+  .matrix {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 0;
+    margin: 24px 0;
+    border: 2px solid var(--ink);
+    background: white;
+  }
+
+  .matrix > div {
+    padding: 14px;
+    border: 1px solid var(--paper-soft);
+    font-size: 14px;
+  }
+
+  .matrix-header {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+  }
+
+  .matrix-row-label {
+    background: var(--teal);
+    color: var(--paper);
+    font-weight: 600;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 11px;
+  }
+
+  .matrix-cell {
+    background: var(--paper);
+    text-align: center;
+  }
+
+  .matrix-cell strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    color: var(--accent-dark);
+    margin-bottom: 4px;
+  }
+
+  /* GLOSSARY */
+  .glossary {
+    background: white;
+    padding: 32px;
+    border-radius: 6px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .glossary-search {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    font-size: 15px;
+    font-family: inherit;
+    margin-bottom: 20px;
+    background: var(--paper);
+  }
+
+  .glossary-search:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .glossary-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--paper-soft);
+  }
+
+  .glossary-item:last-child { border-bottom: none; }
+
+  .glossary-term {
+    font-weight: 700;
+    color: var(--accent-dark);
+    margin-bottom: 4px;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+  }
+
+  .glossary-def {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; }
+    .content { padding: 32px 24px; }
+    .intro-banner h1 { font-size: 36px; }
+    .chapter-title { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1>Economics S6</h1>
+    <div class="subtitle">Study Guide</div>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">D2 — Market Failure</div>
+      <a href="#d2-overview" class="nav-link">Overview</a>
+      <a href="#d2-types" class="nav-link">6 Types of failure</a>
+      <a href="#d2-public" class="nav-link">Public &amp; merit goods</a>
+      <a href="#d2-externalities" class="nav-link">Externalities</a>
+      <a href="#d2-government" class="nav-link">Government response</a>
+      <a href="#d2-quiz" class="nav-link">Quiz</a>
+    </div>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">D3 — Labour Markets</div>
+      <a href="#d3-supply" class="nav-link">Supply of labour</a>
+      <a href="#d3-demand" class="nav-link">Demand for labour</a>
+      <a href="#d3-wages" class="nav-link">Wages &amp; unemployment</a>
+      <a href="#d3-types" class="nav-link">Rigid vs flexible</a>
+      <a href="#d3-flexicurity" class="nav-link">Flexicurity</a>
+      <a href="#d3-quiz" class="nav-link">Quiz</a>
+    </div>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">E — Macroeconomics</div>
+      <a href="#e-circular" class="nav-link">Circular flow</a>
+      <a href="#e-gdp" class="nav-link">Measuring GDP</a>
+      <a href="#e-ad" class="nav-link">Aggregate demand</a>
+      <a href="#e-multiplier" class="nav-link">The multiplier</a>
+      <a href="#e-cycle" class="nav-link">Business cycle</a>
+      <a href="#e-quiz" class="nav-link">Quiz</a>
+    </div>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">Reference</div>
+      <a href="#glossary" class="nav-link">Glossary</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- INTRO BANNER -->
+    <div class="intro-banner">
+      <div class="tagline">European School Belgium · S6</div>
+      <h1>Economics Study Guide</h1>
+      <p>An interactive companion to your class notes. Read at your own pace, click to reveal explanations, and test yourself with the quizzes at the end of each chapter.</p>
+    </div>
+
+    <!-- HOW TO USE -->
+    <div class="how-to">
+      <h3>How to use this guide</h3>
+      <ul>
+        <li>Click <strong>"+"</strong> on any panel to expand or hide detailed explanations</li>
+        <li>Try the <strong>quizzes</strong> at the end of each chapter to test understanding</li>
+        <li>Use the <strong>glossary search</strong> at the bottom to look up any term quickly</li>
+        <li>Colour key:
+          <span class="legend-swatch" style="background: #fff8e1; border-color: var(--gold)"></span>Key idea
+          <span class="legend-swatch" style="background: #f0f6e8; border-color: var(--green)"></span>Example
+          <span class="legend-swatch" style="background: #fceae6; border-color: var(--accent)"></span>Watch out
+        </li>
+      </ul>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER D2 -->
+    <!-- ========================================== -->
+    <section class="chapter" id="d2-overview">
+      <div class="chapter-header">
+        <span class="chapter-number">CHAPTER D2</span>
+        <h1 class="chapter-title">Market Failure &amp; Government Intervention</h1>
+      </div>
+
+      <div class="big-idea">
+        <p>In a perfect free market, supply and demand allocate resources efficiently. But the real world isn't perfect. When the market produces <strong>too much</strong>, <strong>too little</strong>, or <strong>none</strong> of a good compared to what society actually needs, we call this <strong>market failure</strong>. When this happens, governments step in to fix it.</p>
+      </div>
+
+      <div class="section">
+        <h2>I. What does "market failure" actually mean?</h2>
+        <p>An efficient market allocates resources optimally — every resource goes where it creates the most value. A market <strong>fails</strong> when this doesn't happen. There are three forms of failure:</p>
+        <ul>
+          <li><strong>Too much</strong> of a good (e.g. cigarettes — society would prefer less)</li>
+          <li><strong>Too little</strong> of a good (e.g. healthcare for the poor)</li>
+          <li><strong>None</strong> of the good (e.g. street lighting — no private firm makes it)</li>
+        </ul>
+
+        <div class="box box-key">
+          <strong>Why this matters for the exam:</strong> Whenever you see "why should the government intervene?" — the answer always starts with: <em>because the market has failed in one of six ways</em>. Learn the six causes and you can answer almost any question on this chapter.
+        </div>
+      </div>
+
+      <div class="section" id="d2-types">
+        <h2>II. The six types of market failure</h2>
+        <p>Click each one to expand the full explanation.</p>
+
+        <!-- 1. Lack of competition -->
+        <details>
+          <summary>1. Lack of competition</summary>
+          <div class="details-content">
+            <p>A perfectly competitive market has many buyers AND many sellers. When this isn't the case, prices rise, quantities fall, and quality suffers.</p>
+
+            <table>
+              <tr><th>Few sellers</th><th>Few buyers</th></tr>
+              <tr><td>Monopoly = 1 seller (e.g. Microsoft, SNCB)</td><td>Monopsony = 1 buyer</td></tr>
+              <tr><td>Duopoly = 2 sellers</td><td>Duopsony = 2 buyers</td></tr>
+              <tr><td>Oligopoly = a few sellers (e.g. Orange, SFR, Bouygues, Free)</td><td>Oligopsony = a few buyers</td></tr>
+            </table>
+
+            <p>When competition is lacking, sellers can:</p>
+            <ul>
+              <li>Charge prices that are too high</li>
+              <li>Produce quantities that are too low</li>
+              <li>Offer poor quality (bad service, no innovation)</li>
+            </ul>
+
+            <div class="box box-example">
+              The EU has fined many large tech firms for anti-competitive behaviour: Apple (€1.8B in 2024), Google (€4.34B in 2018). The <strong>EU Competition department</strong> scrutinises markets and can block mergers. The textbook lists the <strong>SEC</strong> as the US equivalent — use that on the exam.
+            </div>
+          </div>
+        </details>
+
+        <!-- 2. Missing markets -->
+        <details id="d2-public">
+          <summary>2. Missing markets — public &amp; merit goods</summary>
+          <div class="details-content">
+            <p>Some goods are not provided AT ALL by the private market (public goods), or only in TOO SMALL quantities (merit goods).</p>
+
+            <h4>Public goods — two defining features</h4>
+            <ul>
+              <li><strong>Non-rivalry (non-diminishability):</strong> one person using it doesn't reduce what's available to others. The lighthouse beam doesn't dim because more ships see it.</li>
+              <li><strong>Non-excludability:</strong> you can't stop people from using it. You can't block someone from seeing the lighthouse light.</li>
+            </ul>
+
+            <div class="box box-key">
+              <strong>The free rider problem:</strong><br>
+              → If one person pays, everyone gets it for free<br>
+              → So no one wants to pay<br>
+              → So no private firm can make a profit<br>
+              → So the market produces NONE of it<br><br>
+              <strong>Solution: Government provides it and pays through taxes.</strong>
+            </div>
+
+            <h4>Classifying any good — the 2×2 matrix</h4>
+            <p>Use this matrix to classify ANY good. Two questions: is it diminishable (rival)? Is it excludable?</p>
+
+            <div class="matrix">
+              <div class="matrix-header"></div>
+              <div class="matrix-header">RIVAL — YES</div>
+              <div class="matrix-header">RIVAL — NO</div>
+
+              <div class="matrix-row-label">Excludable — YES</div>
+              <div class="matrix-cell"><strong>PRIVATE GOODS</strong>Cars, food, clothes</div>
+              <div class="matrix-cell"><strong>CLUB GOODS</strong>Netflix, paid internet, uncongested toll roads</div>
+
+              <div class="matrix-row-label">Excludable — NO</div>
+              <div class="matrix-cell"><strong>COMMON RESOURCES</strong>Fish in ocean, wild berries, clean air</div>
+              <div class="matrix-cell"><strong>PUBLIC GOODS</strong>Traffic lights, tornado siren, public roads</div>
+            </div>
+
+            <h4>Merit goods</h4>
+            <p>Different from public goods. They CAN be provided privately, but they would be UNDER-provided — too few people could afford them.</p>
+            <p>Society as a whole benefits when more people consume them (positive externalities), so government steps in to make sure everyone has access.</p>
+            <p><strong>Examples:</strong> vaccination, education, healthcare, museums, sport facilities.</p>
+          </div>
+        </details>
+
+        <!-- 3. Demerit goods -->
+        <details>
+          <summary>3. Demerit goods</summary>
+          <div class="details-content">
+            <p>The opposite of merit goods. Socially undesirable — they harm both the consumer and society. The free market OVER-provides them because consumers don't fully realise (or don't care) how harmful they are.</p>
+            <p><strong>Examples:</strong> drugs, alcohol, cigarettes, child pornography, guns.</p>
+            <p>Government reduces production/consumption through taxes, bans, age limits, and warning campaigns.</p>
+          </div>
+        </details>
+
+        <!-- 4. Inequalities -->
+        <details>
+          <summary>4. Inequalities</summary>
+          <div class="details-content">
+            <p>The free market produces large income and wealth differences. According to the World Inequality Lab data cited in your notes (2016), the top 10% earned around 37% of national income in Europe versus around 61% in the Middle East.</p>
+            <p>Governments correct this through:</p>
+            <ul>
+              <li><strong>Progressive tax system</strong> — higher tax rates on higher incomes</li>
+              <li><strong>Social aid / benefits</strong> — unemployment benefits, health insurance, minimum living allowances</li>
+            </ul>
+          </div>
+        </details>
+
+        <!-- 5. Imperfect information -->
+        <details>
+          <summary>5. Imperfect information</summary>
+          <div class="details-content">
+            <p>In a perfect market, buyers and sellers share the same information. In reality, one party (usually the seller) knows more. This is called <strong>asymmetric information</strong>.</p>
+            <ul>
+              <li>The seller of a second-hand house knows about the leaking roof; the buyer doesn't</li>
+              <li>An insurance customer knows their health risks; the insurer doesn't</li>
+            </ul>
+            <p>This leads to bad decisions — the market doesn't reach optimal equilibrium.</p>
+          </div>
+        </details>
+
+        <!-- 6. Externalities -->
+        <details id="d2-externalities">
+          <summary>6. Externalities <em>(the most important one)</em></summary>
+          <div class="details-content">
+            <p>Read this carefully — externalities come up in almost every exam.</p>
+
+            <div class="box box-key">
+              <strong>Core definition:</strong> An externality is when the production or consumption of a good affects a <strong>THIRD PARTY</strong> — someone who is neither the buyer nor the seller.<br><br>
+              If the third party is harmed → <strong>negative</strong> externality.<br>
+              If the third party benefits → <strong>positive</strong> externality.
+            </div>
+
+            <h4>Private cost vs Social cost</h4>
+            <ul>
+              <li><strong>Private cost:</strong> cost to the producer/consumer doing the activity (e.g. for a firm: TC = FC + VC)</li>
+              <li><strong>Social cost:</strong> cost to the whole society, including third parties</li>
+            </ul>
+
+            <div class="box-formula">
+              Social cost = Private cost + External cost<br>
+              Social benefit = Private benefit + External benefit
+              <div class="explainer">Memorise both — they appear in essay questions constantly</div>
+            </div>
+
+            <h4>Negative externalities (over-produced)</h4>
+            <p>Two flavours:</p>
+            <ul>
+              <li><strong>Production externality:</strong> harm from MAKING the good. A BMW factory pollutes, creates noise, traffic jams.</li>
+              <li><strong>Consumption externality:</strong> harm from USING the good. Driving a BMW causes pollution, accidents.</li>
+            </ul>
+            <p><strong>Quick rule:</strong> ALL demerit goods produce negative externalities.</p>
+
+            <h4>Positive externalities (under-produced)</h4>
+            <ul>
+              <li><strong>Production externality:</strong> training employees, language courses, R&amp;D research</li>
+              <li><strong>Consumption externality:</strong> electric cars, vaccinations, renovating your house façade</li>
+            </ul>
+            <p><strong>Quick rule:</strong> ALL merit goods produce positive externalities.</p>
+
+            <div class="box box-warning">
+              A good can produce <strong>BOTH</strong> positive and negative externalities. An electric car has positives (less pollution) but also negatives (battery production pollutes; accidents still happen). Trees in your garden look nice for the neighbour (positive) but might drop leaves on their car (negative).
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="d2-government">
+        <h2>III. How the government fixes market failure</h2>
+        <p>Each market failure has a matching government tool. Learn this pairing — examiners love it.</p>
+
+        <table>
+          <tr><th>Market failure</th><th>Government response</th></tr>
+          <tr><td>Lack of competition</td><td>Antitrust laws; competition watchdogs (EU Competition dept, SEC)</td></tr>
+          <tr><td>Public goods (none provided)</td><td>Direct provision through taxes; or subsidise private firms</td></tr>
+          <tr><td>Merit goods (under-provided)</td><td>Provide free/subsidised; make use compulsory; awareness campaigns</td></tr>
+          <tr><td>Demerit goods (over-provided)</td><td>Bans, taxes, age limits, warning labels, restricted spaces</td></tr>
+          <tr><td>Inequalities</td><td>Progressive taxes; welfare benefits</td></tr>
+          <tr><td>Negative externality (production)</td><td>Tax polluters; legislate limits; tradable emission permits</td></tr>
+          <tr><td>Positive externality (production)</td><td>Subsidise firms; state-funded vocational training</td></tr>
+          <tr><td>Negative externality (consumption)</td><td>Tax product; advertise dangers; restrict use</td></tr>
+          <tr><td>Positive externality (consumption)</td><td>Subsidise to lower price; promotion campaigns; make use mandatory</td></tr>
+          <tr><td>Imperfect information</td><td>Mandatory labelling; consumer protection laws</td></tr>
+        </table>
+
+        <div class="box box-key">
+          <strong>Exam strategy:</strong> If asked "how should the government deal with X?" — first identify which type of market failure X is, then apply the matching tool from the table above.
+        </div>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="quiz" id="d2-quiz">
+        <h3 class="quiz-title">Quick check — Chapter D2</h3>
+        <p class="quiz-subtitle">Click the answer you think is correct. You'll get instant feedback.</p>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">1. Which two features define a public good?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">Cheap and useful</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct! Non-rivalry means one person's use doesn't reduce others' use; non-excludability means you can't stop people benefiting.">Non-rivalry and non-excludability</button>
+            <button class="quiz-option" data-correct="false">Produced by the government and free</button>
+            <button class="quiz-option" data-correct="false">Subsidised and limited in quantity</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">2. A pharmaceutical factory pollutes a river. This is an example of:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">A positive externality of consumption</button>
+            <button class="quiz-option" data-correct="false">A merit good</button>
+            <button class="quiz-option" data-correct="true" data-fb="Right. Pollution from production harms a third party (people using the river), so it's a negative externality of production.">A negative externality of production</button>
+            <button class="quiz-option" data-correct="false">Asymmetric information</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">3. Goods that produce positive externalities are typically:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">Over-produced by the market</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct. The market doesn't capture the benefit to third parties, so it under-produces. That's why governments subsidise them.">Under-produced by the market</button>
+            <button class="quiz-option" data-correct="false">Banned outright</button>
+            <button class="quiz-option" data-correct="false">Identical to demerit goods</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">4. Netflix is best classified as:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">A public good</button>
+            <button class="quiz-option" data-correct="false">A common resource</button>
+            <button class="quiz-option" data-correct="true" data-fb="Yes! Excludable (you need a subscription) but non-rival (your watching doesn't reduce mine).">A club good</button>
+            <button class="quiz-option" data-correct="false">A private good</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER D3 -->
+    <!-- ========================================== -->
+    <section class="chapter" id="d3-supply">
+      <div class="chapter-header">
+        <span class="chapter-number">CHAPTER D3</span>
+        <h1 class="chapter-title">Labour Markets</h1>
+      </div>
+
+      <div class="big-idea">
+        <p>The labour market is just like any other market — there's a <strong>SUPPLY</strong> of workers and a <strong>DEMAND</strong> for workers. The price is the <strong>WAGE RATE</strong>. If the market were perfect, supply and demand would meet at the equilibrium wage. But labour markets are NEVER perfect — and when supply &gt; demand, you get <strong>UNEMPLOYMENT</strong>.</p>
+      </div>
+
+      <div class="section">
+        <h2>I. Supply of labour</h2>
+        <p>The supply of labour = all the people willing AND able to work. Also called the labour force, the working population, or the active population.</p>
+
+        <details>
+          <summary>Who counts — and who doesn't</summary>
+          <div class="details-content">
+            <p><strong>INCLUDED</strong> (the economically active):</p>
+            <ul>
+              <li>Employed</li>
+              <li>Self-employed</li>
+              <li>Civil servants</li>
+              <li>Armed forces</li>
+              <li>Unemployed (looking for a job)</li>
+            </ul>
+
+            <p><strong>EXCLUDED</strong> (economically inactive):</p>
+            <ul>
+              <li>Very young people / children</li>
+              <li>Students</li>
+              <li>Stay-at-home parents</li>
+              <li>Retired / elderly</li>
+              <li>Those unable to work</li>
+            </ul>
+
+            <div class="box box-warning">
+              Unemployed people ARE part of the labour supply (they are willing and able). Don't confuse 'unemployed' with 'inactive'.
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why does labour supply change?</summary>
+          <div class="details-content">
+            <ul>
+              <li><strong>Working conditions:</strong> fringe benefits, holidays, atmosphere, promotion prospects</li>
+              <li><strong>Demographic changes:</strong> migration, retirement age, birth rate</li>
+              <li><strong>Tax system:</strong> high tax discourages work</li>
+              <li><strong>Legislation and women's role</strong></li>
+              <li><strong>Education and training quality</strong></li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why do wages differ between jobs?</summary>
+          <div class="details-content">
+            <ul>
+              <li><strong>Different skills/qualifications:</strong> doctors earn more than nurses</li>
+              <li><strong>Different responsibilities:</strong> multinational CEO vs small-firm director</li>
+              <li><strong>"Dirty" jobs and unsocial hours</strong> get pay bonuses</li>
+              <li><strong>Profit margins:</strong> finance pays more than retail</li>
+              <li><strong>Job satisfaction:</strong> intrinsically rewarding jobs (nursing, teaching) often pay less</li>
+              <li><strong>Labour immobility</strong> (geographical and occupational)</li>
+              <li><strong>Lack of information</strong> about available jobs</li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why do people doing the same job earn differently?</summary>
+          <div class="details-content">
+            <ul>
+              <li>Expatriation premium</li>
+              <li>Discrimination (gender, age, ethnicity, etc.)</li>
+              <li>Fringe benefits</li>
+              <li>Union-negotiated local pay agreements</li>
+              <li>Length of service / seniority</li>
+              <li>Previous experience</li>
+              <li>Location (large cities pay more)</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="d3-demand">
+        <h2>II. Demand for labour</h2>
+        <p>Demand for labour = all the people and firms willing AND able to employ workers.</p>
+
+        <div class="box box-key">
+          <strong>Two key features you MUST remember:</strong>
+          <ul style="margin-top: 8px;">
+            <li><strong>Derived demand</strong> — firms don't want labour for its own sake. They want labour because workers produce goods customers will buy. No demand for typewriters → no demand for typewriter-makers.</li>
+            <li><strong>Downward-sloping in wages</strong> — if wages rise, firms hire fewer workers; if wages fall, firms hire more.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>Why does demand for labour change?</summary>
+          <div class="details-content">
+            <ul>
+              <li><strong>Consumer demand changes</strong> for the firm's product (typists, coal miners — declined)</li>
+              <li><strong>Worker productivity changes</strong> — more productive = more demand</li>
+              <li><strong>Cost/productivity of capital</strong> — cheaper machines mean firms substitute machines for workers</li>
+              <li><strong>Non-wage employment costs</strong> — higher fringe benefits or health insurance → less demand for labour</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="d3-wages">
+        <h2>III. Wage determination &amp; unemployment</h2>
+        <p>In a perfect labour market, supply and demand of labour meet at the equilibrium wage. But this rarely happens. When the wage is ABOVE equilibrium, supply &gt; demand — and the excess supply is <strong>unemployment</strong>.</p>
+
+        <div class="box box-key">
+          <strong>Unemployment:</strong> people of working age, willing and able to work, without a paid job, but ACTIVELY LOOKING for employment. (Someone who has given up looking is "inactive", not unemployed.)
+        </div>
+
+        <h3>The two rates you must know</h3>
+
+        <div class="box-formula">
+          Unemployment rate = (Unemployed ÷ Labour force) × 100
+          <div class="explainer">Labour force = working age population − economically inactive</div>
+        </div>
+
+        <div class="box-formula">
+          Employment rate = (Employed ÷ Working age population) × 100
+          <div class="explainer">Note: this uses a different denominator from the unemployment rate</div>
+        </div>
+
+        <div class="box box-warning">
+          Employment rate is NOT equal to 100% − unemployment rate. They use different denominators. The EU target for the employment rate is 78%.
+        </div>
+
+        <details>
+          <summary>Worked example — calculate the unemployment rate</summary>
+          <div class="details-content">
+            <p>Given:</p>
+            <ul>
+              <li>Working age population = 150,000</li>
+              <li>Employed = 120,000</li>
+              <li>Economically inactive = 20,000</li>
+            </ul>
+            <p><strong>Step 1:</strong> Labour force = 150,000 − 20,000 = 130,000</p>
+            <p><strong>Step 2:</strong> Unemployed = 130,000 − 120,000 = 10,000</p>
+            <p><strong>Step 3:</strong> Unemployment rate = (10,000 ÷ 130,000) × 100 = <strong>7.69%</strong></p>
+          </div>
+        </details>
+
+        <details>
+          <summary>8 reasons real labour markets are imperfect</summary>
+          <div class="details-content">
+            <ul>
+              <li><strong>a) Minimum wage legislation</strong> — above market wage = less demand</li>
+              <li><strong>b) Trade unions</strong> — push wages up without productivity gains</li>
+              <li><strong>c) Unemployment benefits</strong> — may reduce work incentive (voluntary unemployment)</li>
+              <li><strong>d) Lack of information</strong> — workers don't know jobs exist</li>
+              <li><strong>e) Existing contracts</strong> — wages can't fall mid-contract</li>
+              <li><strong>f) Labour immobility</strong> — geographical (can't move) or occupational (lack skills)</li>
+              <li><strong>g) Discrimination</strong> — by ethnicity, gender, age</li>
+              <li><strong>h) Monopsony</strong> — single buyer can force wages down</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="d3-types">
+        <h2>IV. Rigid vs flexible labour markets</h2>
+
+        <table>
+          <tr><th>RIGID (France, Belgium)</th><th>FLEXIBLE (UK, US)</th></tr>
+          <tr><td>Many rules and regulations</td><td>Few regulations</td></tr>
+          <tr><td>Strong minimum wage</td><td>Often no minimum, or low</td></tr>
+          <tr><td>Powerful trade unions</td><td>Weaker unions; market sets wages</td></tr>
+          <tr><td>Hard to fire workers</td><td>Easy to hire and fire</td></tr>
+          <tr><td>Less short-term variation in unemployment</td><td>Unemployment moves fast with the economy</td></tr>
+          <tr><td>Long-term unemployment tends to be HIGHER</td><td>Long-term unemployment tends to be LOWER</td></tr>
+        </table>
+
+        <div class="box box-example">
+          During the global recession, the US and France had similar GDP drops, but US unemployment jumped ~5 percentage points; France only ~1.5. Over 25 years however, the US average is around 5% versus France around 9.6%. This is the rigid-vs-flexible trade-off.
+        </div>
+
+        <details>
+          <summary>Advantages of flexible labour markets</summary>
+          <div class="details-content">
+            <ul>
+              <li>Firms stay competitive — they can adjust workforce, avoid bankruptcy</li>
+              <li>Higher productivity → more output, more exports, lower inflation</li>
+              <li>More choice for workers who want flexible hours (e.g. more female participation)</li>
+              <li>Attracts foreign investment (multinationals like flexibility)</li>
+              <li>Lower structural unemployment</li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Disadvantages of flexible labour markets</summary>
+          <div class="details-content">
+            <ul>
+              <li>Part-time / temporary workers get less training</li>
+              <li>Job insecurity → lower morale, lower productivity</li>
+              <li>Rising inequality between "insiders" and "outsiders"</li>
+              <li>Risk of low-paid "working poor"</li>
+              <li>Smaller pensions for short-contract workers</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="d3-flexicurity">
+        <h2>Flexicurity — the Danish model</h2>
+        <p>Denmark combines the best of flexibility AND security. The system rests on THREE pillars — the <strong>Golden Triangle</strong>:</p>
+
+        <div class="box box-key">
+          <strong>The Golden Triangle:</strong><br><br>
+          <strong>1. Flexibility</strong> — Easy to hire and fire. Your notes say about 25% of Danish private sector workers change jobs each year (this figure is widely cited but worth confirming for any specific exam reference).<br><br>
+          <strong>2. Social security</strong> — Generous unemployment benefits for up to two years (this is the figure in your notes; the actual current Danish duration has been reduced over recent years — for the exam, use what your textbook says).<br><br>
+          <strong>3. Active labour market policies</strong> — Heavy state investment in education, retraining, and job-seeking help.<br><br>
+          <strong>Results:</strong> high job mobility, trust-based social dialogue, lower long-term unemployment.
+        </div>
+      </div>
+
+      <!-- QUIZ D3 -->
+      <div class="quiz" id="d3-quiz">
+        <h3 class="quiz-title">Quick check — Chapter D3</h3>
+        <p class="quiz-subtitle">Click your answer.</p>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">1. Demand for labour is called "derived" because:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">It depends on government regulation</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct! Firms only want labour because customers want the products labour helps make.">It depends on the demand for the goods labour produces</button>
+            <button class="quiz-option" data-correct="false">It's calculated using a derivative</button>
+            <button class="quiz-option" data-correct="false">It comes from supply of capital</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">2. Working age population = 200,000. Employed = 150,000. Inactive = 30,000. What is the unemployment rate?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">10%</button>
+            <button class="quiz-option" data-correct="true" data-fb="Right! Labour force = 200k − 30k = 170k. Unemployed = 170k − 150k = 20k. Rate = 20k ÷ 170k = 11.76%.">11.76%</button>
+            <button class="quiz-option" data-correct="false">15%</button>
+            <button class="quiz-option" data-correct="false">25%</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">3. Which is NOT one of the three pillars of flexicurity?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">Easy hiring and firing</button>
+            <button class="quiz-option" data-correct="false">Generous unemployment benefits</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct — minimum wage rules are typical of RIGID markets, not flexicurity.">High minimum wage laws</button>
+            <button class="quiz-option" data-correct="false">Active labour market policies (training)</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">4. A retired person looking after grandchildren is classified as:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">Employed</button>
+            <button class="quiz-option" data-correct="false">Unemployed</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct. Retired people are not part of the labour force, so they're inactive.">Economically inactive</button>
+            <button class="quiz-option" data-correct="false">Underemployed</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER E -->
+    <!-- ========================================== -->
+    <section class="chapter" id="e-circular">
+      <div class="chapter-header">
+        <span class="chapter-number">CHAPTER E</span>
+        <h1 class="chapter-title">Principles of Macroeconomics</h1>
+      </div>
+
+      <div class="big-idea">
+        <p>Macroeconomics looks at the economy <strong>AS A WHOLE</strong>. Money flows IN (injections) and OUT (withdrawals). When in = out, the economy is in equilibrium. When out, the economy either grows (with inflation) or shrinks (with unemployment).</p>
+      </div>
+
+      <div class="section">
+        <h2>E1. The circular flow of income</h2>
+        <p>Four agents trade money with each other:</p>
+        <ul>
+          <li><strong>Households</strong> — you and your family</li>
+          <li><strong>Businesses</strong> — firms producing goods</li>
+          <li><strong>Government</strong> — public sector</li>
+          <li><strong>World economy</strong> — other countries</li>
+        </ul>
+
+        <details open>
+          <summary>The 3 leakages (money leaving) and 3 injections (money entering)</summary>
+          <div class="details-content">
+            <p><strong>LEAKAGES (withdrawals):</strong></p>
+            <ul>
+              <li><strong>T = Taxes</strong> — money goes to government</li>
+              <li><strong>S = Savings</strong> — money goes to bank instead of being spent</li>
+              <li><strong>M = Imports</strong> — money leaves the country</li>
+            </ul>
+
+            <p><strong>INJECTIONS:</strong></p>
+            <ul>
+              <li><strong>G = Government spending</strong> — infrastructure, schools, etc.</li>
+              <li><strong>I = Investment</strong> — firms buying new equipment</li>
+              <li><strong>X = Exports</strong> — foreigners buying our goods</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="box-formula">
+          G + I + X = T + S + M
+          <div class="explainer">Equilibrium: injections equal leakages</div>
+        </div>
+
+        <p>Think of the economy as a bathtub:</p>
+        <ul>
+          <li><strong>In = Out:</strong> water level stays the same → equilibrium</li>
+          <li><strong>In &gt; Out:</strong> level rises → growth, but risk of overheating &amp; inflation</li>
+          <li><strong>In &lt; Out:</strong> level falls → recession, unemployment risk</li>
+        </ul>
+      </div>
+
+      <div class="section" id="e-gdp">
+        <h2>E2. Measuring national income — GDP</h2>
+        <div class="box box-key">
+          <strong>GDP (Gross Domestic Product)</strong> = the market value of all FINAL goods and services produced WITHIN a country during a given period (usually a year).
+        </div>
+
+        <details>
+          <summary>GDP vs GNP — the Audi example</summary>
+          <div class="details-content">
+            <ul>
+              <li><strong>GDP</strong> = where the production happens (within the country's borders)</li>
+              <li><strong>GNP</strong> = who owns the production (the country's citizens, wherever they are)</li>
+            </ul>
+            <div class="box box-example">
+              Audi is a German company. Cars made at Audi's plant in Belgium count in:<br>
+              → Belgian GDP (production happens in Belgium)<br>
+              → German GNP (Audi is a German company)<br><br>
+              Formula: <strong>GNP = GDP + residents' overseas income − foreign residents' income earned here</strong>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Nominal GDP vs Real GDP</summary>
+          <div class="details-content">
+            <p>If GDP rises year-on-year, two things could be happening:</p>
+            <ul>
+              <li>Production actually increased (good)</li>
+              <li>Just prices rose (inflation — production unchanged)</li>
+            </ul>
+            <div class="box box-key">
+              <strong>Nominal (money) GDP:</strong> measured at current prices. Affected by inflation.<br><br>
+              <strong>Real GDP:</strong> measured using a BASE YEAR's prices. Strips out inflation. Shows true changes in production.
+            </div>
+
+            <div class="box-formula">
+              Real GDP (year B) = Money GDP (year B) × [Price Index Year A ÷ Price Index Year B]
+            </div>
+
+            <div class="box-formula">
+              Growth = (Real GDP Year B − Real GDP Year A) ÷ Real GDP Year A
+            </div>
+
+            <div class="box-formula">
+              Real GDP per capita = Real GDP ÷ Population
+              <div class="explainer">Used to measure standard of living</div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Three ways to measure national income (all give the same answer)</summary>
+          <div class="details-content">
+            <div class="box box-key">
+              <strong>National output = National expenditure = National income</strong>
+            </div>
+
+            <h4>a) Output (value-added) approach</h4>
+            <p>Sum the value added at each stage of production.</p>
+            <div class="box box-example">
+              The bread example:<br>
+              a) Farmer grows wheat, sells for $1 → value added = $1<br>
+              b) Miller buys wheat for $1, sells flour for $2 → value added = $1<br>
+              c) Baker buys flour for $2, sells bread for $5 → value added = $3<br>
+              d) Grocer buys bread for $5, sells for $9 → value added = $4<br><br>
+              <strong>Total: $1 + $1 + $3 + $4 = $9 = final price of the bread</strong>
+            </div>
+
+            <h4>b) Expenditure approach</h4>
+            <div class="box-formula">
+              GDP = C + I + G + (X − M) = AD
+            </div>
+            <p>C = consumption, I = investment, G = government spending, X−M = net exports.</p>
+
+            <h4>c) Income approach</h4>
+            <p>Sum all income earned: wages + rent + interest + profit (taxes and depreciation excluded).</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why GDP is a flawed measure of welfare</summary>
+          <div class="details-content">
+            <h4>Things GDP misses</h4>
+            <ul>
+              <li>Black market / underground economy</li>
+              <li>Household production (cooking, DIY, growing vegetables)</li>
+              <li>Voluntary unpaid work</li>
+              <li>Subsistence farming in developing countries</li>
+              <li>Illegal activities</li>
+              <li>Second-hand sales between individuals</li>
+            </ul>
+
+            <h4>Things GDP ignores</h4>
+            <ul>
+              <li>Income distribution (just an average — your notes give the Norway vs Kuwait example: both have similar real GDP per head, but very different inequality levels)</li>
+              <li>What is produced (guns vs education? Capital vs consumer? Merit vs demerit?)</li>
+              <li>Environmental damage</li>
+              <li>Sustainability (over-exploiting nature today hurts tomorrow)</li>
+              <li>Working conditions</li>
+              <li>Health and education indicators</li>
+            </ul>
+
+            <h4>Comparing countries</h4>
+            <ul>
+              <li>Different price levels → use PPP (Purchasing Power Parity)</li>
+              <li>Different currencies → convert to a common one (USD)</li>
+              <li>Different accounting standards</li>
+              <li>Corruption / unreliable data</li>
+            </ul>
+
+            <div class="box box-key">
+              GDP is <strong>necessary but not sufficient</strong> to measure development. Other indicators (HDI, GDI) add literacy, life expectancy, gender equality.
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="e-ad">
+        <h2>E3. Aggregate Demand (AD)</h2>
+        <div class="box box-key">
+          <strong>Aggregate demand</strong> = total spending on all goods and services by all economic agents in an economy, at a given price level, over a given period.
+        </div>
+
+        <div class="box-formula">
+          AD = C + I + G + (X − M)
+        </div>
+
+        <details>
+          <summary>The four components explained</summary>
+          <div class="details-content">
+            <h4>C — Consumption (by households)</h4>
+            <ul>
+              <li>Durable goods (used over time): computers, cars, fridges</li>
+              <li>Non-durable goods (used quickly): Coca-Cola, toothpaste</li>
+              <li>Services (non-tangible): insurance, plumbing</li>
+            </ul>
+
+            <h4>I — Investment (by firms)</h4>
+            <ul>
+              <li><strong>Replacement investment:</strong> replacing old capital</li>
+              <li><strong>Induced investment:</strong> NEW capital that increases productive capacity</li>
+            </ul>
+
+            <h4>G — Government spending</h4>
+            <ul>
+              <li><strong>Capital spending:</strong> infrastructure, schools, hospitals</li>
+              <li><strong>Current spending:</strong> day-to-day running (medicines, electricity)</li>
+            </ul>
+            <div class="box box-warning">G does NOT include transfer payments (pensions, unemployment benefits) — those just move money around without paying for production.</div>
+
+            <h4>X − M — Net exports</h4>
+            <p>Imports must be subtracted because C, I and G already include imported goods. Imports are part of someone else's GDP, not ours.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>What shifts the AD curve?</summary>
+          <div class="details-content">
+            <p><strong>Change in price level →</strong> MOVE along the curve.<br>
+            <strong>Change in any component (C, I, G, X−M) →</strong> SHIFT the curve.</p>
+
+            <h4>What changes C (consumption)?</h4>
+            <ul>
+              <li>Disposable income, consumer confidence, interest rates, taxes</li>
+              <li>Inflation (double effect: buy now / money loses value)</li>
+              <li>Credit availability, household composition</li>
+            </ul>
+
+            <h4>What changes I (investment)?</h4>
+            <ul>
+              <li>Interest rates, national income, savings, profits</li>
+              <li>Political/economic stability, business confidence</li>
+            </ul>
+
+            <h4>What changes G (government spending)?</h4>
+            <ul>
+              <li><strong>Fiscal policy:</strong> spending and taxation rules (expansionary or contractionary)</li>
+              <li><strong>Monetary policy:</strong> central bank controls money supply and interest rates</li>
+            </ul>
+
+            <h4>What changes X − M?</h4>
+            <ul>
+              <li>Foreign incomes, exchange rates, trade policies, inflation differences</li>
+              <li>Imports rise when our national income rises</li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Consumption and savings — formulas</summary>
+          <div class="details-content">
+            <div class="box-formula">
+              Yd = C + S
+              <div class="explainer">Disposable income = Consumption + Savings</div>
+            </div>
+
+            <h4>Average propensities</h4>
+            <ul>
+              <li><strong>APC</strong> = C ÷ Yd (e.g. APC = 0.6 → spends 60% of income)</li>
+              <li><strong>APS</strong> = S ÷ Yd</li>
+              <li><strong>APC + APS = 1</strong> (always)</li>
+            </ul>
+
+            <h4>Marginal propensities</h4>
+            <ul>
+              <li><strong>MPC</strong> = ΔC ÷ ΔYd (if MPC = 0.8 and income rises €1000, C rises €800)</li>
+              <li><strong>MPS</strong> = ΔS ÷ ΔYd</li>
+              <li>Low-income people have HIGHER MPC than wealthy people</li>
+            </ul>
+
+            <h4>Keynesian consumption function</h4>
+            <div class="box-formula">
+              C = C₀ + MPC × Yd
+              <div class="explainer">C₀ = minimum consumption (even at zero income, people need to consume)</div>
+            </div>
+            <div class="box-formula">
+              S = −C₀ + MPS × Yd
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="section" id="e-multiplier">
+        <h2>E4. The Multiplier Effect</h2>
+
+        <div class="box box-key">
+          <strong>The big idea:</strong> When the government injects €100m into the economy, the FINAL increase in national income is BIGGER than €100m. Why? Because that money becomes someone else's income, which they spend, which becomes someone else's income, and on and on. Each round multiplies the original injection.
+        </div>
+
+        <p>Example: Government spends €100m on a school.</p>
+        <ul>
+          <li>Architects, engineers, builders receive the €100m</li>
+          <li>Steel suppliers, glass makers get paid</li>
+          <li>Those workers earn wages — they spend on food, clothes, holidays</li>
+          <li>Shopkeepers earn — they spend again</li>
+          <li>Continues, but each round is smaller (some money "leaks" out)</li>
+        </ul>
+
+        <h3>What stops the multiplier?</h3>
+        <p>At each round, money leaks out via:</p>
+        <ul>
+          <li><strong>MPS</strong> — marginal propensity to save</li>
+          <li><strong>MPT</strong> — marginal propensity to tax</li>
+          <li><strong>MPM</strong> — marginal propensity to import</li>
+        </ul>
+
+        <div class="box-formula">
+          k = 1 ÷ (1 − MPC) = 1 ÷ (MPS + MPT + MPM)<br>
+          ΔY = k × Δ(injection)
+        </div>
+
+        <ul>
+          <li><strong>Higher MPC → higher multiplier</strong> (money keeps circulating)</li>
+          <li><strong>Higher leakages → lower multiplier</strong> (money escapes flow)</li>
+        </ul>
+
+        <div class="box box-example">
+          <strong>Worked example:</strong><br>
+          MPC = 0.8. Government spends an extra €100m.<br><br>
+          Step 1: k = 1 ÷ (1 − 0.8) = 1 ÷ 0.2 = <strong>5</strong><br>
+          Step 2: ΔY = 5 × €100m = <strong>€500m</strong><br><br>
+          The €100m injection raises national income by €500m.
+        </div>
+      </div>
+
+      <div class="section" id="e-cycle">
+        <h2>The Business (Trade) Cycle</h2>
+        <p>Real economies don't grow steadily — they go through cycles. Four stages:</p>
+
+        <table>
+          <tr><th>Stage</th><th>What happens</th></tr>
+          <tr><td><strong>Expansion</strong></td><td>GDP growing, employment rising, confidence high</td></tr>
+          <tr><td><strong>Peak</strong></td><td>Top of cycle — full capacity, risk of inflation</td></tr>
+          <tr><td><strong>Contraction / recession</strong></td><td>GDP falling, unemployment rising (officially: two consecutive quarters of negative growth)</td></tr>
+          <tr><td><strong>Trough</strong></td><td>Bottom — high unemployment, low confidence — but recovery begins</td></tr>
+        </table>
+
+        <p>Two output-gap ideas:</p>
+        <ul>
+          <li><strong>Positive output gap:</strong> producing ABOVE long-term trend → inflation</li>
+          <li><strong>Negative output gap:</strong> producing BELOW trend → unemployment, spare capacity</li>
+        </ul>
+      </div>
+
+      <!-- QUIZ E -->
+      <div class="quiz" id="e-quiz">
+        <h3 class="quiz-title">Quick check — Chapter E</h3>
+        <p class="quiz-subtitle">Click your answer.</p>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">1. Which of these is NOT an injection into the circular flow?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">Government spending</button>
+            <button class="quiz-option" data-correct="false">Exports</button>
+            <button class="quiz-option" data-correct="true" data-fb="Right! Imports are a LEAKAGE, not an injection. Money leaves the country to pay for them.">Imports</button>
+            <button class="quiz-option" data-correct="false">Investment</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">2. If MPC = 0.75 and government spending rises by €400m, what is the total impact on national income?</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">€400m</button>
+            <button class="quiz-option" data-correct="false">€800m</button>
+            <button class="quiz-option" data-correct="false">€1,200m</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct! k = 1 ÷ (1 − 0.75) = 4. ΔY = 4 × €400m = €1,600m.">€1,600m</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">3. Real GDP differs from nominal GDP because:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">It uses different goods</button>
+            <button class="quiz-option" data-correct="true" data-fb="Right. Real GDP uses a base year's prices to strip out the effect of inflation, showing only quantity changes.">It adjusts for inflation using base-year prices</button>
+            <button class="quiz-option" data-correct="false">It only counts services</button>
+            <button class="quiz-option" data-correct="false">It excludes net exports</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">4. A factory's value-added is calculated as:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">Sales price minus profit</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct! Value added = the difference between what you sold the output for and what you paid for the inputs.">Sales price minus cost of inputs</button>
+            <button class="quiz-option" data-correct="false">Total costs minus taxes</button>
+            <button class="quiz-option" data-correct="false">Output minus depreciation</button>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-question-text">5. Two consecutive quarters of negative GDP growth is called:</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false">A trough</button>
+            <button class="quiz-option" data-correct="false">A depression</button>
+            <button class="quiz-option" data-correct="true" data-fb="Correct — this is the standard technical definition of a recession.">A recession</button>
+            <button class="quiz-option" data-correct="false">Stagflation</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GLOSSARY -->
+    <!-- ========================================== -->
+    <section class="chapter" id="glossary">
+      <div class="chapter-header">
+        <span class="chapter-number">REFERENCE</span>
+        <h1 class="chapter-title">Master Glossary</h1>
+      </div>
+
+      <div class="glossary">
+        <input type="text" class="glossary-search" id="glossarySearch" placeholder="Search for a term... (e.g. multiplier, MPC, externality)">
+        <div id="glossaryList">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// QUIZ FUNCTIONALITY
+document.querySelectorAll('.quiz-question').forEach(q => {
+  q.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Disable all in this question
+      q.querySelectorAll('.quiz-option').forEach(b => {
+        b.disabled = true;
+        if (b.dataset.correct === 'true') b.classList.add('correct');
+      });
+      if (btn.dataset.correct !== 'true') btn.classList.add('wrong');
+
+      // Show feedback
+      const correctBtn = q.querySelector('.quiz-option[data-correct="true"]');
+      const fb = correctBtn.dataset.fb || '';
+      if (fb) {
+        let fbEl = q.querySelector('.quiz-feedback');
+        if (!fbEl) {
+          fbEl = document.createElement('div');
+          fbEl.className = 'quiz-feedback';
+          q.appendChild(fbEl);
+        }
+        fbEl.textContent = fb;
+        fbEl.classList.add('show');
+      }
+    });
+  });
+});
+
+// GLOSSARY
+const glossaryData = [
+  ["AD (Aggregate Demand)", "Total spending on all goods/services at a given price level. AD = C + I + G + (X − M)."],
+  ["APC", "Average Propensity to Consume = C ÷ Yd. The fraction of income spent."],
+  ["APS", "Average Propensity to Save = S ÷ Yd. The fraction of income saved."],
+  ["Asymmetric information", "When one party in a transaction has more or better information than the other."],
+  ["Business / trade cycle", "Recurring pattern: expansion, peak, contraction, trough."],
+  ["Circular flow of income", "Model showing money flowing between households, firms, government, financial markets, world."],
+  ["Club goods", "Excludable but non-rival (Netflix, uncongested toll roads)."],
+  ["Common resources", "Non-excludable but rival (fish in ocean, clean air)."],
+  ["Demerit good", "Socially undesirable good over-provided by free markets (drugs, cigarettes)."],
+  ["Derived demand", "Demand for an input (e.g. labour) that exists only because of demand for the final product."],
+  ["Employment rate", "Number of employed ÷ working age population × 100."],
+  ["Equilibrium (macro)", "When injections = leakages: G + I + X = T + S + M."],
+  ["Externality", "Cost or benefit affecting a third party not involved in the transaction."],
+  ["Fiscal policy", "Government use of spending and taxation to influence AD."],
+  ["Flexibility (labour)", "Ability of a labour market to adjust quickly to economic changes."],
+  ["Flexicurity", "Danish model combining flexibility, social security, and active labour policies."],
+  ["Free rider problem", "When non-excludable goods can be enjoyed without paying, so no one pays."],
+  ["GDP", "Gross Domestic Product — market value of all final goods/services produced WITHIN a country in a period."],
+  ["GDP per capita", "Real GDP ÷ population — used to measure standard of living."],
+  ["GNP", "Gross National Product — production by a country's CITIZENS, wherever they are."],
+  ["Injections", "Money entering the circular flow: G, I, X."],
+  ["Labour force", "Working age population minus economically inactive."],
+  ["Leakages / withdrawals", "Money leaving the circular flow: T, S, M."],
+  ["Market failure", "Free market fails to allocate resources efficiently."],
+  ["Merit good", "Socially desirable good under-provided by free markets (vaccination, education)."],
+  ["Monetary policy", "Central bank control of money supply and interest rates."],
+  ["Monopsony", "Single buyer in a market — gives them power to set lower wages."],
+  ["MPC", "Marginal Propensity to Consume = ΔC ÷ ΔYd."],
+  ["MPS", "Marginal Propensity to Save = ΔS ÷ ΔYd."],
+  ["Multiplier (k)", "k = 1 ÷ (1 − MPC). Shows how an initial injection multiplies through the economy."],
+  ["Negative externality", "Third party suffers a cost (e.g. pollution)."],
+  ["Nominal (money) GDP", "GDP at current prices, not adjusted for inflation."],
+  ["Non-excludability", "Cannot stop people from using a good."],
+  ["Non-rivalry (non-diminishability)", "One person using a good doesn't reduce what's left for others."],
+  ["Positive externality", "Third party gains a benefit (e.g. neighbour's nice garden)."],
+  ["PPP (Purchasing Power Parity)", "Compares GDP between countries using equivalent purchasing power."],
+  ["Public good", "Non-rival AND non-excludable — needs government provision."],
+  ["Real GDP", "GDP adjusted for inflation using a base year's prices."],
+  ["Social cost", "Total cost to society = private cost + external cost."],
+  ["Unemployment rate", "Number of unemployed ÷ labour force × 100."]
+];
+
+function renderGlossary(filter = '') {
+  const list = document.getElementById('glossaryList');
+  const f = filter.toLowerCase();
+  const filtered = glossaryData.filter(([t, d]) =>
+    t.toLowerCase().includes(f) || d.toLowerCase().includes(f)
+  );
+  list.innerHTML = filtered.map(([t, d]) =>
+    `<div class="glossary-item">
+      <div class="glossary-term">${t}</div>
+      <div class="glossary-def">${d}</div>
+    </div>`
+  ).join('') || '<p style="text-align:center;padding:20px;color:#666">No matches found.</p>';
+}
+
+renderGlossary();
+document.getElementById('glossarySearch').addEventListener('input', e => {
+  renderGlossary(e.target.value);
+});
+
+// SMOOTH SCROLL
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
