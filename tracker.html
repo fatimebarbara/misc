@@ -594,22 +594,22 @@
       if (stored && stored.value) {
         state = JSON.parse(stored.value);
       } else {
-        // Initialize with tomorrow as Day 1
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        state.startDate = tomorrow.toISOString();
+        // Initialize with yesterday as Day 1
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        yesterday.setHours(0, 0, 0, 0);
+        state.startDate = yesterday.toISOString();
         state.viewingDay = getCurrentDay();
         if (state.viewingDay < 1) state.viewingDay = 1;
         if (state.viewingDay > 30) state.viewingDay = 30;
         await saveState();
       }
     } catch (e) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(0, 0, 0, 0);
-      state.startDate = tomorrow.toISOString();
-      state.viewingDay = 1;
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      yesterday.setHours(0, 0, 0, 0);
+      state.startDate = yesterday.toISOString();
+      state.viewingDay = 2;
     }
   }
 
@@ -837,10 +837,9 @@
       try {
         await window.storage.delete('tracker:state');
       } catch (e) {}
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(0, 0, 0, 0);
-      state = { startDate: tomorrow.toISOString(), viewingDay: 1, days: {} };
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      state = { startDate: today.toISOString(), viewingDay: 1, days: {} };
       await saveState();
       render();
       showToast('A clean slate. Begin again.');
