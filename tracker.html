@@ -588,11 +588,13 @@
     days: {}
   };
 
+  const STORAGE_KEY = 'tracker:state';
+
   async function loadState() {
     try {
-      const stored = await window.storage.get('tracker:state');
-      if (stored && stored.value) {
-        state = JSON.parse(stored.value);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        state = JSON.parse(raw);
       } else {
         // Initialize with yesterday as Day 1
         const yesterday = new Date();
@@ -605,6 +607,7 @@
         await saveState();
       }
     } catch (e) {
+      console.error('Load failed', e);
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
@@ -615,7 +618,7 @@
 
   async function saveState() {
     try {
-      await window.storage.set('tracker:state', JSON.stringify(state));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (e) {
       console.error('Save failed', e);
     }
@@ -835,7 +838,7 @@
   document.getElementById('resetBtn').addEventListener('click', async () => {
     if (confirm('Reset everything? This will erase all your progress.')) {
       try {
-        await window.storage.delete('tracker:state');
+        localStorage.removeItem(STORAGE_KEY);
       } catch (e) {}
       const today = new Date();
       today.setHours(0, 0, 0, 0);
