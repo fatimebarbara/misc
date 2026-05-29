@@ -115,6 +115,25 @@
   .cert .award{font-family:'Fredoka';font-size:24px;color:#e64980;margin:12px 0;}
   .footer-note{text-align:center;color:#adb5bd;font-size:13px;margin:26px 0;}
   .toTop{font-family:'Fredoka';font-size:13px;color:#4263eb;background:#fff;border:2px solid #a5d8ff;border-radius:999px;padding:5px 14px;cursor:pointer;margin-top:10px;}
+  .btn-print{font-family:'Fredoka';font-size:12.5px;color:#1c7ed6;background:#e7f5ff;border:2px solid #a5d8ff;border-radius:999px;padding:4px 12px;cursor:pointer;}
+
+  /* ---------- PRINT SET-UP ---------- */
+  @page{ size:A4; margin:14mm; }
+  @media print{
+    .topbar,.banner,.btn-reset,.btn-print,#resetBtn,.b-check,.b-show,.donebtn,.toTop,.savechip,.feedback{ display:none !important; }
+    body{ background:#fff; }
+    .page{ box-shadow:none; border:1.5px solid #e9ecef; border-radius:0; margin:0 0 6mm; max-width:100%; padding:14px 18px; }
+    section.page{ break-before:page; page-break-before:always; }
+    .cover{ break-before:auto; page-break-before:auto; }
+    .q,.reflect,.challenge,.art,.recap{ break-inside:avoid; page-break-inside:avoid; }
+    .section-label{ break-after:avoid; page-break-after:avoid; }
+    .answer-row{ margin-left:39px; }
+    .answer-row input{ border:1.5px solid #adb5bd !important; background:#fff !important; min-height:30px; }
+    .answer-row textarea{ border:1.5px solid #adb5bd !important; background:#fff !important; min-height:48px; }
+    .reveal{ display:none !important; }
+    .q.correct,.q.wrong{ background:#fff !important; border-color:#e9ecef !important; }
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  }
 </style>
 </head>
 <body>
@@ -126,6 +145,7 @@
     <div class="progtext" id="progtext">0 stars earned</div>
   </div>
   <div class="savechip" id="savechip">All saved ✓</div>
+  <button class="btn-print" id="printBtn" onclick="window.print()">🖨️ Print / PDF</button>
   <button class="btn-reset" id="resetBtn">Start over</button>
 </div>
 
