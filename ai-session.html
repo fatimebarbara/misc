@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI, Hands On — Session Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3ECDF;
+    --card:#FBF6EC;
+    --ink:#211A14;
+    --ink-soft:#5A4F43;
+    --terra:#C0532E;
+    --terra-deep:#9C3F20;
+    --teal:#1E4D47;
+    --ochre:#C6912E;
+    --line:rgba(33,26,20,.14);
+    --shadow:rgba(33,26,20,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    position:relative;
+    line-height:1.5;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(120% 70% at 90% -10%, rgba(198,145,46,.16), transparent 55%),
+      radial-gradient(90% 70% at -10% 110%, rgba(30,77,71,.12), transparent 55%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(2.4rem,5vw,5rem) clamp(1.4rem,5vw,4rem) 4rem;}
+
+  header{margin-bottom:clamp(2.4rem,5vw,4rem);}
+  .eyebrow{
+    font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;font-weight:600;
+    color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;
+  }
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--terra);display:inline-block;}
+  h1{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(2.6rem,7vw,5.6rem);line-height:.98;letter-spacing:-.02em;
+    margin:1.2rem 0 0;max-width:16ch;
+  }
+  h1 span{color:var(--terra);}
+  .meta{
+    display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;align-items:baseline;
+    margin-top:1.8rem;font-size:.95rem;color:var(--ink-soft);
+    border-top:1px solid var(--line);padding-top:1.3rem;
+  }
+  .meta b{color:var(--ink);font-weight:600;}
+
+  .sec-head{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,3rem) 0 1.4rem;}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.4rem,2.4vw,2rem);letter-spacing:-.01em;}
+  .sec-head .ln{flex:1;height:1px;background:var(--line);}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1rem,1.8vw,1.4rem);}
+  .card{
+    position:relative;overflow:hidden;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:clamp(1.4rem,2.2vw,2rem);box-shadow:0 1px 0 var(--shadow);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--shadow);}
+  .card .bignum{
+    position:absolute;top:-.4rem;right:.4rem;
+    font-family:'Fraunces',serif;font-weight:300;font-size:6.5rem;line-height:1;
+    color:transparent;-webkit-text-stroke:1.6px var(--line);user-select:none;pointer-events:none;
+  }
+  .card.feature{background:linear-gradient(165deg,#22534C,#173B36);border-color:transparent;color:#F3ECDF;}
+  .card.feature .bignum{-webkit-text-stroke-color:rgba(243,236,223,.22);}
+  .card.feature .label,.card.feature .goal{color:#E9C77E;}
+  .card.feature h3{color:#fff;}
+  .card.feature .runs{color:rgba(243,236,223,.85);}
+  .card.feature .runs strong{color:#fff;}
+  .card.feature .foot{border-top-color:rgba(243,236,223,.2);}
+  .card.feature .pill.time{background:#E9C77E;color:#173B36;}
+  .card.feature .pill.take{border-color:rgba(243,236,223,.45);color:#E9C77E;}
+
+  .label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);position:relative;z-index:1;}
+  .card h3{
+    font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.25rem,2vw,1.65rem);
+    line-height:1.05;letter-spacing:-.01em;margin:.45rem 0 .9rem;position:relative;z-index:1;
+  }
+  .goal{
+    display:block;font-family:'Fraunces',serif;font-style:italic;font-size:1.02rem;color:var(--teal);line-height:1.35;
+    border-left:3px solid var(--ochre);padding-left:.85rem;margin-bottom:.9rem;position:relative;z-index:1;
+  }
+  .runs{font-size:.98rem;line-height:1.5;color:var(--ink-soft);position:relative;z-index:1;}
+  .runs strong{color:var(--ink);font-weight:600;}
+  .foot{
+    display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.2rem;padding-top:1rem;
+    border-top:1px solid var(--line);position:relative;z-index:1;align-items:center;
+  }
+  .pill{font-size:.76rem;font-weight:600;padding:.36rem .8rem;border-radius:100px;}
+  .pill.time{background:var(--ink);color:var(--paper);}
+  .pill.take{background:transparent;border:1.5px solid var(--terra);color:var(--terra-deep);}
+  .pill.take b{font-weight:700;}
+
+  .close{
+    margin-top:clamp(2.4rem,4vw,3.4rem);
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(1.8rem,3vw,2.8rem);
+  }
+  .close h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.5rem,2.6vw,2.2rem);margin-bottom:1.4rem;}
+  .takeaways{display:grid;gap:1rem;}
+  .k{display:flex;gap:1rem;align-items:baseline;}
+  .k i{font-family:'Fraunces',serif;font-style:normal;font-weight:500;color:var(--terra);font-size:1.25rem;min-width:1.5rem;}
+  .k p{font-size:1.05rem;line-height:1.45;}
+  .k p b{font-weight:600;}
+  .close .end{margin-top:1.6rem;font-family:'Fraunces',serif;font-style:italic;font-size:clamp(1.1rem,1.9vw,1.45rem);color:var(--ink);}
+  .close .end em{color:var(--terra-deep);font-style:italic;}
+
+  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;}
+
+  /* use cases */
+  .uses{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(.7rem,1.4vw,1rem);}
+  .use{
+    background:var(--card);border:1px solid var(--line);border-radius:13px;
+    padding:1.1rem 1.15rem 1.25rem;transition:transform .2s ease,border-color .2s ease;
+  }
+  .use:hover{transform:translateY(-3px);border-color:var(--terra);}
+  .use .tag{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);}
+  .use h4{font-family:'Fraunces',serif;font-weight:550;font-size:1.12rem;line-height:1.1;margin:.4rem 0 .5rem;letter-spacing:-.01em;}
+  .use p{font-size:.9rem;line-height:1.45;color:var(--ink-soft);}
+  .uses-note{margin-top:1.1rem;font-size:.86rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;}
+
+  @media(max-width:980px){.uses{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:720px){.grid{grid-template-columns:1fr;}.uses{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Hands-on Training Session</div>
+    <h1>Working with AI,<br><span>hands on.</span></h1>
+    <div class="meta">
+      <span>Facilitated by <b>Dr. Fatime Barbara Hegyi</b></span>
+      <span>Audience: <b>The team — all levels</b></span>
+      <span>Format: <b>Interactive · &#8776; 2h15</b></span>
+    </div>
+  </header>
+
+  <div class="sec-head"><h2>The programme</h2><span class="ln"></span></div>
+
+  <div class="grid">
+
+    <div class="card">
+      <span class="bignum">00</span>
+      <span class="label">Opening</span>
+      <h3>A short talk to open minds</h3>
+      <span class="goal">Set the tone: curiosity over fear, judgement over hype.</span>
+      <p class="runs">A short presentation and a few inspiring words to open the room and set the tone for the day.</p>
+      <div class="foot"><span class="pill time">10 min</span><span class="pill take"><b>Takeaway:</b> we're here to do, not watch</span></div>
+    </div>
+
+    <div class="card feature">
+      <span class="bignum">&#9733;</span>
+      <span class="label">Warm-up &middot; on your feet</span>
+      <h3>Where do we stand?</h3>
+      <span class="goal">Get people moving &mdash; and read the room's real starting point.</span>
+      <p class="runs">Read out a few statements and everyone <strong>moves</strong> to where they stand. Instant energy &mdash; and an honest sense of where the room really is.</p>
+      <div class="foot"><span class="pill time">5 min</span><span class="pill take"><b>Takeaway:</b> an honest baseline</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">01</span>
+      <span class="label">Activity &middot; quiz</span>
+      <h3>How wrong are we about AI?</h3>
+      <span class="goal">Bust the myths before we build the skills.</span>
+      <p class="runs">A playful quiz on what <strong>everyone gets wrong</strong>. Reveal the answers, then talk them through together.</p>
+      <div class="foot"><span class="pill time">10 min</span><span class="pill take"><b>Takeaway:</b> learning and curiosity</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">02</span>
+      <span class="label">Activity &middot; teams</span>
+      <h3>Prompt battle</h3>
+      <span class="goal">Discover that the prompt &mdash; not the tool &mdash; does the work.</span>
+      <p class="runs">Same task for every team: craft the best prompt for <strong>a short speech and a matching presentation</strong>. <strong>Five minutes</strong> to write it. Then each team presents its result live &mdash; and the <strong>funniest one wins</strong>.</p>
+      <div class="foot"><span class="pill time">15 min</span><span class="pill take"><b>Takeaway:</b> better input &rarr; better output</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">03</span>
+      <span class="label">Activity &middot; together</span>
+      <h3>Make the prompt better, together</h3>
+      <span class="goal">Learn the anatomy of a strong prompt &mdash; live.</span>
+      <p class="runs">Improve one prompt as a group, layer by layer: <strong>role, context, audience, format, constraints, examples.</strong> Re-run after each addition so everyone <strong>watches the output transform</strong>.</p>
+      <div class="foot"><span class="pill time">15 min</span><span class="pill take"><b>Takeaway:</b> a repeatable recipe</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">04</span>
+      <span class="label">Activity &middot; detective work</span>
+      <h3>Spot the hallucination</h3>
+      <span class="goal">See how confident &mdash; and how wrong &mdash; AI can be at once.</span>
+      <p class="runs">Hand out a polished AI answer seeded with a <strong>fake statistic, a fake citation, and a plausible-but-wrong fact</strong>. Teams hunt for the errors. The shock of how believable it looks is the point.</p>
+      <div class="foot"><span class="pill time">10 min</span><span class="pill take"><b>Takeaway:</b> a human must verify</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">05</span>
+      <span class="label">Activity &middot; red team</span>
+      <h3>Break it</h3>
+      <span class="goal">Build healthy scepticism by finding the cracks.</span>
+      <p class="runs">Teams get a few minutes to <strong>make the AI fail</strong>: contradict itself, fumble a simple count, miss a basic fact. Where it stumbles is exactly what we need to see.</p>
+      <div class="foot"><span class="pill time">10 min</span><span class="pill take"><b>Takeaway:</b> know where it's weak</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">06</span>
+      <span class="label">Activity &middot; game</span>
+      <h3>AI or human?</h3>
+      <span class="goal">Calibrate your eye for what AI output really looks like.</span>
+      <p class="runs">Show short snippets &mdash; a paragraph, a caption, maybe an image &mdash; and the room <strong>guesses which is AI-made</strong>. Quick, competitive, and humbling. It tunes everyone's intuition.</p>
+      <div class="foot"><span class="pill time">10 min</span><span class="pill take"><b>Takeaway:</b> a sharper, sceptical eye</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">07</span>
+      <span class="label">Activity &middot; inspiration</span>
+      <h3>A menu of use cases</h3>
+      <span class="goal">See the breadth &mdash; then find what fits your work.</span>
+      <p class="runs">Walk through real, everyday ways AI helps &mdash; drafting, summarising, data, prep, and more.</p>
+      <div class="foot"><span class="pill time">10 min</span><span class="pill take"><b>Takeaway:</b> a personal shortlist</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">08</span>
+      <span class="label">Activity &middot; your work</span>
+      <h3>A recurring task, solved</h3>
+      <span class="goal">Make the payoff personal and immediate.</span>
+      <p class="runs">Everyone picks one <strong>recurring task</strong> from their own week. We choose a few and <strong>work through together</strong> how to tackle them with AI.</p>
+      <div class="foot"><span class="pill time">20 min</span><span class="pill take"><b>Takeaway:</b> real use cases, today</span></div>
+    </div>
+
+    <div class="card">
+      <span class="bignum">09</span>
+      <span class="label">Activity &middot; end to end</span>
+      <h3>From data to a presentation</h3>
+      <span class="goal">See the full workflow: messy input &rarr; insight &rarr; something shareable.</span>
+      <p class="runs">Use AI to <strong>analyse a dataset</strong> and turn it into a clear, presentable summary. A great moment to insist, one last time, on <strong>checking the numbers</strong>.</p>
+      <div class="foot"><span class="pill time">20 min</span><span class="pill take"><b>Takeaway:</b> a thinking partner, verified</span></div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
