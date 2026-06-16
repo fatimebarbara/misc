@@ -3,164 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI, Hands On — Session Plan</title>
+<title>Working with AI, Hands On — Programme</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F3ECDF;
-    --card:#FBF6EC;
-    --ink:#211A14;
-    --ink-soft:#5A4F43;
-    --terra:#C0532E;
-    --terra-deep:#9C3F20;
-    --teal:#1E4D47;
-    --ochre:#C6912E;
-    --line:rgba(33,26,20,.14);
-    --shadow:rgba(33,26,20,.10);
+    --paper:#F3ECDF;--card:#FBF6EC;--ink:#211A14;--ink-soft:#5A4F43;
+    --terra:#C0532E;--terra-deep:#9C3F20;--teal:#1E4D47;--ochre:#C6912E;
+    --line:rgba(33,26,20,.14);--shadow:rgba(33,26,20,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Hanken Grotesk',system-ui,sans-serif;
-    position:relative;
-    line-height:1.5;
-  }
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-    background:
-      radial-gradient(120% 70% at 90% -10%, rgba(198,145,46,.16), transparent 55%),
-      radial-gradient(90% 70% at -10% 110%, rgba(30,77,71,.12), transparent 55%);
-  }
-  body::after{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.045;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;position:relative;line-height:1.5;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 70% at 90% -10%, rgba(198,145,46,.16), transparent 55%),radial-gradient(90% 70% at -10% 110%, rgba(30,77,71,.12), transparent 55%);}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
   .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(2.4rem,5vw,5rem) clamp(1.4rem,5vw,4rem) 4rem;}
 
-  header{margin-bottom:clamp(2.4rem,5vw,4rem);}
-  .eyebrow{
-    font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;font-weight:600;
-    color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;
-  }
+  header{margin-bottom:clamp(2rem,4vw,3rem);}
+  .eyebrow{font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;font-weight:600;color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;}
   .eyebrow::before{content:"";width:34px;height:2px;background:var(--terra);display:inline-block;}
-  h1{
-    font-family:'Fraunces',serif;font-weight:600;
-    font-size:clamp(2.6rem,7vw,5.6rem);line-height:.98;letter-spacing:-.02em;
-    margin:1.2rem 0 0;max-width:16ch;
-  }
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.6rem,7vw,5.6rem);line-height:.98;letter-spacing:-.02em;margin:1.2rem 0 0;max-width:16ch;}
   h1 span{color:var(--terra);}
-  .meta{
-    display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;align-items:baseline;
-    margin-top:1.8rem;font-size:.95rem;color:var(--ink-soft);
-    border-top:1px solid var(--line);padding-top:1.3rem;
-  }
+  .lede{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(1.1rem,1.9vw,1.45rem);color:var(--ink-soft);line-height:1.4;max-width:50ch;margin-top:1.4rem;}
+  .meta{display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;align-items:baseline;margin-top:1.6rem;font-size:.95rem;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:1.3rem;}
   .meta b{color:var(--ink);font-weight:600;}
 
-  .sec-head{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,3rem) 0 1.4rem;}
+  .sec-head{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,3rem) 0 1.2rem;}
   .sec-head h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.4rem,2.4vw,2rem);letter-spacing:-.01em;}
   .sec-head .ln{flex:1;height:1px;background:var(--line);}
 
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1rem,1.8vw,1.4rem);}
-  .card{
-    position:relative;overflow:hidden;
-    --accent:var(--terra);--accent-text:var(--terra-deep);
-    --tint:rgba(192,83,46,.06);--num:rgba(192,83,46,.30);
-    background:linear-gradient(var(--tint),var(--tint)),var(--card);
-    border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:16px;
-    padding:clamp(1.4rem,2.2vw,2rem);box-shadow:0 1px 0 var(--shadow);
-    transition:transform .25s ease, box-shadow .25s ease;
-  }
-  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--shadow);}
-  .card .bignum{
-    position:absolute;top:-.4rem;right:.4rem;
-    font-family:'Fraunces',serif;font-weight:300;font-size:6.5rem;line-height:1;
-    color:transparent;-webkit-text-stroke:1.6px var(--num);user-select:none;pointer-events:none;
-  }
-
-  /* clusters */
-  .card.c-frame{--accent:#C6912E;--accent-text:#8A5E12;--tint:rgba(198,145,46,.09);--num:rgba(198,145,46,.32);}
-  .card.c-together{--accent:#1E4D47;--accent-text:#1E4D47;--tint:rgba(30,77,71,.07);--num:rgba(30,77,71,.28);}
-  .card.c-hands{--accent:#C0532E;--accent-text:#9C3F20;--tint:rgba(192,83,46,.07);--num:rgba(192,83,46,.30);}
-
-  /* legend */
   .legend{display:flex;flex-wrap:wrap;gap:1.4rem 1.8rem;margin:0 0 1.8rem;}
   .legend .lg{display:flex;align-items:center;gap:.6rem;font-size:.88rem;color:var(--ink-soft);}
   .legend .sw{width:15px;height:15px;border-radius:5px;flex-shrink:0;}
   .legend b{color:var(--ink);font-weight:600;}
 
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1rem,1.8vw,1.4rem);}
+  .card{position:relative;overflow:hidden;--accent:var(--terra);--accent-text:var(--terra-deep);--tint:rgba(192,83,46,.06);--num:rgba(192,83,46,.30);
+    background:linear-gradient(var(--tint),var(--tint)),var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:16px;
+    padding:clamp(1.4rem,2.2vw,2rem);box-shadow:0 1px 0 var(--shadow);transition:transform .25s ease, box-shadow .25s ease;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--shadow);}
+  .card .bignum{position:absolute;top:-.4rem;right:.4rem;font-family:'Fraunces',serif;font-weight:300;font-size:6.5rem;line-height:1;color:transparent;-webkit-text-stroke:1.6px var(--num);user-select:none;pointer-events:none;}
+  .card.c-frame{--accent:#C6912E;--accent-text:#8A5E12;--tint:rgba(198,145,46,.09);--num:rgba(198,145,46,.32);}
+  .card.c-together{--accent:#1E4D47;--accent-text:#1E4D47;--tint:rgba(30,77,71,.07);--num:rgba(30,77,71,.28);}
+  .card.c-hands{--accent:#C0532E;--accent-text:#9C3F20;--tint:rgba(192,83,46,.07);--num:rgba(192,83,46,.30);}
   .label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent-text);position:relative;z-index:1;}
-  .card h3{
-    font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.25rem,2vw,1.65rem);
-    line-height:1.05;letter-spacing:-.01em;margin:.45rem 0 .9rem;position:relative;z-index:1;
-  }
-  .goal{
-    display:block;font-family:'Fraunces',serif;font-style:italic;font-size:1.02rem;color:var(--accent-text);line-height:1.35;
-    border-left:3px solid var(--accent);padding-left:.85rem;margin-bottom:.9rem;position:relative;z-index:1;
-  }
+  .card h3{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.25rem,2vw,1.65rem);line-height:1.05;letter-spacing:-.01em;margin:.45rem 0 .9rem;position:relative;z-index:1;}
+  .goal{display:block;font-family:'Fraunces',serif;font-style:italic;font-size:1.02rem;color:var(--accent-text);line-height:1.35;border-left:3px solid var(--accent);padding-left:.85rem;margin-bottom:.9rem;position:relative;z-index:1;}
   .runs{font-size:.98rem;line-height:1.5;color:var(--ink-soft);position:relative;z-index:1;}
   .runs strong{color:var(--ink);font-weight:600;}
-  .foot{
-    display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.2rem;padding-top:1rem;
-    border-top:1px solid var(--line);position:relative;z-index:1;align-items:center;
-  }
-  .pill{font-size:.76rem;font-weight:600;padding:.36rem .8rem;border-radius:100px;}
-  .pill.time{background:var(--ink);color:var(--paper);}
-  .pill.take{background:transparent;border:1.5px solid var(--accent);color:var(--accent-text);}
-  .pill.take b{font-weight:700;}
+  .foot{display:flex;margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line);position:relative;z-index:1;align-items:center;}
+  .pill{font-size:.76rem;font-weight:600;padding:.36rem .8rem;border-radius:100px;background:var(--ink);color:var(--paper);}
 
-  .close{
-    margin-top:clamp(2.4rem,4vw,3.4rem);
-    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(1.8rem,3vw,2.8rem);
-  }
-  .close h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.5rem,2.6vw,2.2rem);margin-bottom:1.4rem;}
-  .takeaways{display:grid;gap:1rem;}
-  .k{display:flex;gap:1rem;align-items:baseline;}
-  .k i{font-family:'Fraunces',serif;font-style:normal;font-weight:500;color:var(--terra);font-size:1.25rem;min-width:1.5rem;}
-  .k p{font-size:1.05rem;line-height:1.45;}
-  .k p b{font-weight:600;}
-  .close .end{margin-top:1.6rem;font-family:'Fraunces',serif;font-style:italic;font-size:clamp(1.1rem,1.9vw,1.45rem);color:var(--ink);}
-  .close .end em{color:var(--terra-deep);font-style:italic;}
+  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.3rem;}
 
-  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;}
-
-  /* use cases */
-  .uses{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(.7rem,1.4vw,1rem);}
-  .use{
-    background:var(--card);border:1px solid var(--line);border-radius:13px;
-    padding:1.1rem 1.15rem 1.25rem;transition:transform .2s ease,border-color .2s ease;
-  }
-  .use:hover{transform:translateY(-3px);border-color:var(--terra);}
-  .use .tag{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);}
-  .use h4{font-family:'Fraunces',serif;font-weight:550;font-size:1.12rem;line-height:1.1;margin:.4rem 0 .5rem;letter-spacing:-.01em;}
-  .use p{font-size:.9rem;line-height:1.45;color:var(--ink-soft);}
-  .uses-note{margin-top:1.1rem;font-size:.86rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;}
-
-  @media(max-width:980px){.uses{grid-template-columns:repeat(2,1fr);}}
-  @media(max-width:720px){.grid{grid-template-columns:1fr;}.uses{grid-template-columns:1fr;}}
+  @media(max-width:720px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header>
-    <h1>Hands-on Training Session<br>
+    <div class="eyebrow">Hands-on Training Session · Programme</div>
+    <h1>Working with AI,<br><span>hands on.</span></h1>
+    <p class="lede">We don't learn AI by hearing about it. We learn it by using it — a few hours to play, to test, to catch where it fails, and to leave a little braver and more capable than we walked in.</p>
     <div class="meta">
       <span>Facilitated by <b>Fatime Barbara</b></span>
-      <span>Audience: <b>The unit</b></span>
-      <span>Format: <b>Interactive · &#8776; 2h15</b></span>
+      <span>Audience: <b>The unit — all levels</b></span>
+      <span>Format: <b>Interactive · &#8776; 2 hours</b></span>
     </div>
   </header>
 
   <div class="sec-head"><h2>The programme</h2><span class="ln"></span></div>
-
   <div class="legend">
-    <span class="lg"><span class="sw" style="background:#C6912E"></span><b>Framing</b>&nbsp;&middot; scene-setter</span>
-    <span class="lg"><span class="sw" style="background:#1E4D47"></span><b>Together</b>&nbsp;&middot; we work as a group</span>
-    <span class="lg"><span class="sw" style="background:#C0532E"></span><b>Hands-on</b>&nbsp;&middot; teams play &amp; build</span>
+    <span class="lg"><span class="sw" style="background:#C6912E"></span><b>Framing</b>&nbsp;&middot; we set the scene</span>
+    <span class="lg"><span class="sw" style="background:#1E4D47"></span><b>Together</b>&nbsp;&middot; we think as a group</span>
+    <span class="lg"><span class="sw" style="background:#C0532E"></span><b>Hands-on</b>&nbsp;&middot; we play &amp; build</span>
   </div>
 
   <div class="grid">
@@ -168,85 +88,87 @@
     <div class="card c-frame">
       <span class="bignum">00</span>
       <span class="label">Opening</span>
-      <h3>A short talk to open minds</h3>
-      <span class="goal">Setting the tone: curiosity over fear</span>
-      <p class="runs">A short presentation and a few inspiring words for the day.</p>
-      <div class="foot"><span class="pill time">10 min</span>
+      <h3>A few minutes to open the room</h3>
+      <span class="goal">Set the tone — curiosity over fear, judgement over hype.</span>
+      <p class="runs">A short, opening intended to inspire: these tools don't shrink us, they expand us.</p>
+      <div class="foot"><span class="pill">10 min</span></div>
     </div>
 
     <div class="card c-hands">
       <span class="bignum">&#9733;</span>
-      <span class="label">Warm-up &middot</span>
+      <span class="label">Warm-up &middot; on our feet</span>
       <h3>Where do we stand?</h3>
-      <span class="goal">Get people moving &mdash; to get a baseline</span>
-      <div class="foot"><span class="pill time">5 min</span>
+      <span class="goal">Get us moving — and see the room honestly.</span>
+      <p class="runs">A few statements, and everyone moves to where they stand.</p>
+      <div class="foot"><span class="pill">5 min</span></div>
     </div>
 
     <div class="card c-together">
       <span class="bignum">01</span>
-      <span class="label">Activity &middot; quiz</span>
+      <span class="label">Together &middot; quiz</span>
       <h3>How wrong are we about AI?</h3>
-      <span class="goal">A playful quiz on common misconceptions about AI</span>
-      <div class="foot"><span class="pill time">10 min</span>
+      <span class="goal">Meet our own assumptions — and watch a few of them fall.</span>
+      <p class="runs">A playful quiz on the things we're sure we know. The point isn't to be right &mdash; it's to notice how confidently we can be wrong.</p>
+      <div class="foot"><span class="pill">10 min</span></div>
     </div>
 
     <div class="card c-hands">
       <span class="bignum">02</span>
-      <span class="label">Activity &middot; teams</span>
+      <span class="label">Hands-on &middot; teams</span>
       <h3>Prompt battle</h3>
-      <span class="goal">Working in teams to craft the best prompts for a short speech and presentation. Funniest team wins!</span>
-      <div class="foot"><span class="pill time">15 min</span>
+      <span class="goal">Discover that the prompt — not the tool — does the work.</span>
+      <p class="runs">Same challenge for every team, five minutes to craft the best prompt, then we run them live and the funniest result wins.</p>
+      <div class="foot"><span class="pill">15 min</span></div>
     </div>
 
     <div class="card c-together">
       <span class="bignum">03</span>
-      <span class="label">Activity &middot; together</span>
+      <span class="label">Together &middot; build it up</span>
       <h3>Make the prompt better, together</h3>
-      <span class="goal">Learn the anatomy of a strong prompt &mdash; live.</span>
-      <div class="foot"><span class="pill time">15 min</span>
+      <span class="goal">Learn the anatomy of a good prompt — live.</span>
+      <p class="runs">We take one prompt and grow it together, layer by layer. &mdash; Each time we run it again, the answer sharpens right in front of us.</p>
+      <div class="foot"><span class="pill">15 min</span></div>
     </div>
 
     <div class="card c-hands">
-      <span class="bignum">05</span>
-      <span class="label">Activity &middot; teams</span>
-      <h3>Break it</h3>
-      <span class="goal">Teams get a few minutes to make AI fail; contradict itself</span>
-      <div class="foot"><span class="pill time">10 min</span>
-    </div>
-
-    <div class="card c-hands">
-      <span class="bignum">06</span>
-      <span class="label">Activity &middot; game</span>
-      <h3>AI or human?</h3>
-      <span class="goal">Calibrate your eye for what AI output really looks like.</span>
-      <div class="foot"><span class="pill time">10 min</span>
+      <span class="bignum">04</span>
+      <span class="label">Hands-on &middot; exploratory work</span>
+      <h3>Spot the cracks</h3>
+      <span class="goal">See how confident — and how wrong — AI can be at once.</span>
+      <p class="runs">First we hunt for the errors: confident answer &mdash; a false figure, an invented source. Then we turn the tables and try to make the model fail: contradict itself, miscount, stumble.</p>
+      <div class="foot"><span class="pill">15 min</span></div>
     </div>
 
     <div class="card c-frame">
-      <span class="bignum">07</span>
-      <span class="label">Activity &middot; inspiration</span>
-      <h3>A menu of use cases</h3>
-      <span class="goal">See the breadth &mdash; showcasing some examples how AI can support your ideas</span>
-      <div class="foot"><span class="pill time">10 min</span>
+      <span class="bignum">05</span>
+      <span class="label">Framing &middot; inspiration</span>
+      <h3>Use cases</h3>
+      <span class="goal">See the breadth — then find what fits your week.</span>
+      <p class="runs">A quick tour of the everyday ways AI  helps.</p>
+      <div class="foot"><span class="pill">10 min</span></div>
     </div>
 
     <div class="card c-together">
-      <span class="bignum">08</span>
-      <span class="label">Activity &middot; your work</span>
+      <span class="bignum">06</span>
+      <span class="label">Together &middot; your work</span>
       <h3>A recurring task, solved</h3>
-      <span class="goal">Choosing a few examples and walk through how to tackle them with AI</span>
-      <div class="foot"><span class="pill time">20 min</span>
+      <span class="goal">Make it personal — and immediate.</span>
+      <p class="runs">Everyone names one recurring, time-eating task from their own week. We pick a few and work through them together &mdash; so people leave with something real, not hypothetical.</p>
+      <div class="foot"><span class="pill">20 min</span></div>
     </div>
 
     <div class="card c-together">
-      <span class="bignum">09</span>
-      <span class="label">Activity &middot; teams</span>
+      <span class="bignum">07</span>
+      <span class="label">Together &middot; end to end</span>
       <h3>From data to a presentation</h3>
-      <span class="goal">See the full workflow for preparing an analysis, especially for recurring tasks</span>
-      <div class="foot"><span class="pill time">20 min</span><span class="pill take"><b>Takeaway:</b> a thinking partner, verified</span></div>
+      <span class="goal">The whole journey: messy input → insight → something we can share.</span>
+      <p class="runs">We take a dataset, let AI help us make sense of it, and turn it into something clear enough to present.</p>
+      <div class="foot"><span class="pill">20 min</span></div>
     </div>
 
   </div>
+
+  <footer>Approximate running time &#8776; 2 hours &middot; timings are a working draft, adjustable to the slot.</footer>
 
 </div>
 </body>
