@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Away Day — Moderator Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3ECDF;--card:#FBF6EC;--ink:#211A14;--ink-soft:#5A4F43;
+    --terra:#C0532E;--terra-deep:#9C3F20;--teal:#1E4D47;--ochre:#C6912E;
+    --line:rgba(33,26,20,.14);--shadow:rgba(33,26,20,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;position:relative;line-height:1.55;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 70% at 90% -10%, rgba(198,145,46,.16), transparent 55%),radial-gradient(90% 70% at -10% 110%, rgba(30,77,71,.12), transparent 55%);}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  .wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:clamp(2.4rem,5vw,5rem) clamp(1.4rem,5vw,3rem) 4rem;}
+
+  .eyebrow{font-size:.76rem;letter-spacing:.3em;text-transform:uppercase;font-weight:600;color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--terra);display:inline-block;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.3rem,6vw,4.2rem);line-height:1;letter-spacing:-.02em;margin:1.1rem 0 0;}
+  h1 span{color:var(--terra);}
+  .meta{display:flex;flex-wrap:wrap;gap:.5rem 2rem;margin-top:1.4rem;font-size:.94rem;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:1.2rem;}
+  .meta b{color:var(--ink);}
+
+  /* aim */
+  .aim{background:linear-gradient(165deg,#22534C,#173B36);color:#F3ECDF;border-radius:16px;padding:clamp(1.5rem,3vw,2.2rem);margin-top:1.8rem;}
+  .aim .k{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#E9C77E;margin-bottom:.7rem;}
+  .aim p{font-family:'Fraunces',serif;font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.4;}
+  .aim p em{color:#E9C77E;font-style:italic;}
+
+  /* roles + legend */
+  .rolebar{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.2rem;}
+  .role{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;}
+  .role b{font-family:'Fraunces',serif;font-size:1.05rem;}
+  .role span{display:block;font-size:.88rem;color:var(--ink-soft);margin-top:.2rem;}
+  .howto{font-size:.86rem;color:var(--ink-soft);margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;}
+  .howto b{color:var(--ink);}
+
+  .sec-head{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,2.8rem) 0 1.2rem;}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.3rem,2.2vw,1.8rem);}
+  .sec-head .ln{flex:1;height:1px;background:var(--line);}
+
+  /* block */
+  .block{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent,var(--terra));border-radius:16px;padding:clamp(1.4rem,2.6vw,2rem);margin-bottom:1.1rem;}
+  .block.b-frame{--accent:#C6912E;}.block.b-hands{--accent:#C0532E;}
+  .block-head{display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
+  .block-n{font-family:'Fraunces',serif;font-size:1.7rem;color:var(--accent,var(--terra));min-width:2rem;line-height:1;}
+  .block-head .ttl{flex:1;min-width:180px;}
+  .block-label{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--accent,var(--terra-deep));}
+  .block-head h3{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.2rem,2vw,1.5rem);line-height:1.1;margin-top:.2rem;}
+  .tags{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;}
+  .tag{font-size:.72rem;font-weight:700;letter-spacing:.03em;padding:.32rem .75rem;border-radius:100px;white-space:nowrap;}
+  .tag.dur{background:var(--ink);color:var(--paper);}
+  .tag.lead{background:var(--teal);color:#F3ECDF;}
+
+  .body{margin-top:1.1rem;}
+  .plabel{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);margin:1.1rem 0 .4rem;}
+  .plabel:first-child{margin-top:0;}
+  .body p{margin-bottom:.7rem;}
+  .body ul,.body ol{margin:.2rem 0 .7rem 1.2rem;}
+  .body li{margin-bottom:.35rem;}
+
+  .say{background:#fff;border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:10px;padding:.9rem 1.1rem;margin:.5rem 0;}
+  .say p{font-family:'Fraunces',serif;font-style:italic;font-size:1.03rem;line-height:1.45;margin:0;}
+  .watch{font-size:.9rem;color:var(--ink-soft);background:rgba(192,83,46,.06);border:1px dashed var(--terra);border-radius:10px;padding:.7rem .95rem;margin-top:.5rem;}
+  .watch b{color:var(--terra-deep);}
+
+  /* spectrum question */
+  .qline{background:#fff;border:1px solid var(--line);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.7rem;}
+  .qline .q{font-family:'Fraunces',serif;font-size:1.04rem;font-weight:550;line-height:1.25;}
+  .poles{display:flex;justify-content:space-between;gap:1rem;margin-top:.55rem;font-size:.82rem;color:var(--ink-soft);}
+  .poles span{display:flex;align-items:center;gap:.4rem;}
+  .poles .l::before{content:"◄ ";color:var(--terra);}
+  .poles .r::after{content:" ►";color:var(--teal);}
+
+  /* four corners */
+  .corners{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.6rem 0;}
+  .corner{border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;background:#fff;}
+  .corner .c-cond{font-size:.74rem;letter-spacing:.03em;color:var(--ink-soft);text-transform:uppercase;font-weight:700;}
+  .corner h4{font-family:'Fraunces',serif;font-weight:600;font-size:1.12rem;margin:.35rem 0 .3rem;color:var(--terra-deep);}
+  .corner p{font-size:.88rem;color:var(--ink-soft);margin:0;}
+  .corner.c1{border-top:4px solid #1E4D47;}
+  .corner.c2{border-top:4px solid #C0532E;}
+  .corner.c3{border-top:4px solid #C6912E;}
+  .corner.c4{border-top:4px solid #5A4F43;}
+  .axes{font-size:.82rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;margin-bottom:.5rem;}
+  .axes b, .body p b{font-style:normal;font-weight:700;color:var(--terra-deep);}
+
+  .todo{background:var(--card);border:1px dashed var(--terra);border-radius:12px;padding:1.1rem 1.3rem;margin-top:1.4rem;font-size:.94rem;color:var(--ink-soft);}
+  .todo b{color:var(--terra-deep);}
+  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+
+  @media(max-width:640px){.rolebar{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">A2 Unit Away Day · Moderator Guide</div>
+  <h1>Working with AI,<br><span>hands on.</span></h1>
+  <div class="meta">
+    <span>Moderators: <b>Fatime &amp; Valentina</b></span>
+    <span>Audience: <b>A2 unit colleagues</b></span>
+    <span>Setting: <b>Away day &middot; playful, hands-on</b></span>
+  </div>
+
+  <div class="aim">
+    <div class="k">The aim of the session</div>
+    <p>To grow the A2 unit's knowledge and confident use of AI — during the away day, in a <em>playful</em> way. Less lecture, more experience: colleagues should leave curious, a little braver, and with at least one thing they can use on Monday.</p>
+  </div>
+
+  <!-- ===== RUN OF SHOW ===== -->
+  <div class="sec-head"><h2>Run of show</h2><span class="ln"></span></div>
+
+  <!-- 00 OPENING -->
+  <div class="block b-frame">
+    <div class="block-head">
+      <span class="block-n">00</span>
+      <div class="ttl"><span class="block-label">Opening</span><h3>Opening the room</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~10 min</span></div>
+    </div>
+    <div class="body">
+      <div class="plabel">Purpose</div>
+      <ul>
+        <li>Open the room and set a warm, human tone.</li>
+        <li>Turn any fear or scepticism into curiosity.</li>
+        <li>Frame the day: AI expands us, it doesn't replace us.</li>
+      </ul>
+      <div class="plabel">What it is</div>
+      <p>A short, human opening — creating curiosity and highlighting how tools don't shrink us, they expand us. It sets the tone for everything after: curiosity over fear, judgement over hype.</p>
+    </div>
+  </div>
+
+  <!-- WARM UP -->
+  <div class="block b-hands">
+    <div class="block-head">
+      <span class="block-n">&#9733;</span>
+      <div class="ttl"><span class="block-label">Warm-up · on our feet</span><h3>Where do we stand?</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~8 min</span></div>
+    </div>
+    <div class="body">
+      <p class="axes"><b>Fatime</b> introduces the session and leads the warm-up. At each round, <b>Valentina</b> asks a few people about the reasons for where they positioned themselves — a mini-interview, about a minute per person.</p>
+      <div class="plabel">Purpose</div>
+      <ul>
+        <li>Energise the group and break the ice.</li>
+        <li>Surface the room's diverse perspectives on AI adoption.</li>
+        <li>Create a shared starting point for the deeper conversations later.</li>
+      </ul>
+
+      <div class="plabel">Method — spectrum positioning</div>
+      <p>Participants physically place themselves along an imaginary line to show their stance. It gets bodies moving and makes the room's range visible to everyone.</p>
+
+      <div class="plabel">1 · Framing &amp; welcome (2 min)</div>
+      <div class="say"><p>"For each statement, picture a line across the room. One wall is 'strongly agree', the far wall is 'strongly disagree', and everywhere in between is the spectrum. Just stand where you feel. There are no right answers — we're here to see how varied we are."</p></div>
+
+      <div class="plabel">2 · The spectrum questions (play 3)</div>
+
+      <div class="qline">
+        <div class="q">"I've already used AI for something — at work or at home."</div>
+        <div class="poles"><span class="l">All the time</span><span class="r">Never touched it</span></div>
+      </div>
+      <div class="qline">
+        <div class="q">"AI is a brilliant assistant… or a confident liar that makes things up."</div>
+        <div class="poles"><span class="l">Brilliant assistant</span><span class="r">Confident fibber</span></div>
+      </div>
+      <div class="qline">
+        <div class="q">"In two years, AI will feel like a trusted colleague here at HaDEA."</div>
+        <div class="poles"><span class="l">Absolutely</span><span class="r">Still a side experiment</span></div>
+      </div>
+
+      <div class="plabel">3 · The finale — four corners (2 min)</div>
+      <p class="axes">Two axes: how much you use AI (a lot / a little) × how well you know its risks (yes / not really). Send people to the corner that fits — then read the room.</p>
+      <div class="corners">
+        <div class="corner c1"><span class="c-cond">Uses a lot · knows the risks</span><h4>Eyes open, hands on</h4><p>Confident and informed — our power users.</p></div>
+        <div class="corner c2"><span class="c-cond">Uses a lot · doesn't know the risks</span><h4>Full speed, no map</h4><p>Enthusiastic adopters — the ones today can make safer.</p></div>
+        <div class="corner c3"><span class="c-cond">Uses a little · knows the risks</span><h4>Watching from the shore</h4><p>Informed but cautious — waiting for a reason to jump in.</p></div>
+        <div class="corner c4"><span class="c-cond">Uses a little · doesn't know the risks</span><h4>Just arrived</h4><p>Curious newcomers — everything today is for them.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 QUIZ -->
+  <div class="block b-hands">
+    <div class="block-head">
+      <span class="block-n">01</span>
+      <div class="ttl"><span class="block-label">Together · quiz</span><h3>How wrong are we about AI?</h3></div>
+      <div class="tags"><span class="tag dur">~10 min</span></div>
+    </div>
+    <div class="body">
+      <p class="axes"><b>Fatime</b> introduces and reads the set-up; the quiz runs live on people's phones, then we reveal and talk each answer through together.</p>
+
+      <div class="plabel">Purpose</div>
+      <ul>
+        <li>Meet our own assumptions about AI — and watch a few of them fall.</li>
+        <li>Set up the day's real lesson: we can be fluent, confident, and still wrong.</li>
+      </ul>
+
+      <div class="plabel">The set-up</div>
+      <p><b>Fatime</b> opens the quiz from her own notes — the neuroplasticity framing and "we don't see reality, we see our interpretation of it."</p>
+
+      <div class="plabel">How it runs</div>
+      <ol>
+        <li>People join the online quiz on their phones.</li>
+        <li>One question at a time: everyone answers, then we reveal.</li>
+        <li>After each reveal, a quick word on <em>why</em> the common answer is wrong — kept light, curious, never a lecture.</li>
+      </ol>
+
+      <div class="plabel">Next — how we run it</div>
+      <p><b>Fatime</b> prepares the questions on Slido. <b>Valentina</b> could again do mini-interviews or a short feedback moment after each question — or after every two.</p>
+    </div>
+  </div>
+
+  <!-- NEXT -->
+  <div class="todo"><b>Next to build together:</b> the prompt battle, spot-the-cracks, the use-case menu, the recurring-task clinic, and data-to-presentation — each with the purpose, the words to say, and the materials. We'll add them section by section.</div>
+
+  <footer>Moderator guide · a living document — we build it section by section.</footer>
+
+</div>
+</body>
+</html>
