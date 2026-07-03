@@ -91,11 +91,15 @@
   .corner.c3{border-top:4px solid #C6912E;}
   .corner.c4{border-top:4px solid #5A4F43;}
   .axes{font-size:.82rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;margin-bottom:.5rem;}
-  .axes b, .body p b{font-style:normal;font-weight:700;color:var(--terra-deep);}
+  .axes b, .body p b, .body li b{font-style:normal;font-weight:700;color:var(--terra-deep);}
 
   .todo{background:var(--card);border:1px dashed var(--terra);border-radius:12px;padding:1.1rem 1.3rem;margin-top:1.4rem;font-size:.94rem;color:var(--ink-soft);}
   .todo b{color:var(--terra-deep);}
   footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+
+  .illus{border-radius:12px;overflow:hidden;margin:0 0 1.1rem;border:1px solid var(--line);}
+  .illus svg{display:block;width:100%;height:auto;}
+  .illus .cap{font-size:.76rem;color:var(--ink-soft);padding:.45rem .9rem;font-style:italic;background:#fff;border-top:1px solid var(--line);}
 
   @media(max-width:640px){.rolebar{flex-direction:column;}}
 </style>
@@ -127,6 +131,26 @@
       <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~10 min</span></div>
     </div>
     <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Opening: a bright idea lights up the room">
+        <defs><linearGradient id="obg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#obg)"/>
+        <g stroke="#C6912E" stroke-width="7" stroke-linecap="round">
+          <line x1="340" y1="16" x2="340" y2="38"/>
+          <line x1="266" y1="32" x2="282" y2="52"/>
+          <line x1="414" y1="32" x2="398" y2="52"/>
+          <line x1="232" y1="92" x2="258" y2="92"/>
+          <line x1="448" y1="92" x2="422" y2="92"/>
+        </g>
+        <circle cx="340" cy="92" r="40" fill="#C6912E"/>
+        <path d="M326 96 q14 -20 28 0" fill="none" stroke="#FDF8EF" stroke-width="5" stroke-linecap="round"/>
+        <rect x="326" y="128" width="28" height="12" rx="3" fill="#211A14"/>
+        <rect x="330" y="142" width="20" height="8" rx="3" fill="#211A14"/>
+        <g fill="#1E4D47"><circle cx="150" cy="150" r="11"/><path d="M150 164 q-16 6 -16 24 h32 q0 -18 -16 -24 z"/></g>
+        <g fill="#C0532E"><circle cx="530" cy="150" r="11"/><path d="M530 164 q-16 6 -16 24 h32 q0 -18 -16 -24 z"/></g>
+      </svg>
+      <div class="cap">A few minutes to open the room — curiosity over fear.</div>
+      </div>
       <div class="plabel">Purpose</div>
       <ul>
         <li>Open the room and set a warm, human tone.</li>
@@ -146,6 +170,23 @@
       <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~8 min</span></div>
     </div>
     <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Warm-up: people positioned along a spectrum line">
+        <defs><linearGradient id="wbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#wbg)"/>
+        <line x1="64" y1="132" x2="616" y2="132" stroke="#211A14" stroke-width="4" stroke-linecap="round"/>
+        <path d="M60 132 l18 -9 v18 z" fill="#211A14"/>
+        <path d="M620 132 l-18 -9 v18 z" fill="#211A14"/>
+        <text x="72" y="166" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="bold" fill="#1E4D47">AGREE</text>
+        <text x="608" y="166" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="bold" fill="#C0532E" text-anchor="end">DISAGREE</text>
+        <g fill="#C0532E"><circle cx="150" cy="96" r="11"/><path d="M150 110 q-17 6 -17 22 h34 q0 -16 -17 -22 z"/></g>
+        <g fill="#1E4D47"><circle cx="258" cy="96" r="11"/><path d="M258 110 q-17 6 -17 22 h34 q0 -16 -17 -22 z"/></g>
+        <g fill="#C6912E"><circle cx="360" cy="96" r="11"/><path d="M360 110 q-17 6 -17 22 h34 q0 -16 -17 -22 z"/></g>
+        <g fill="#1E4D47"><circle cx="452" cy="96" r="11"/><path d="M452 110 q-17 6 -17 22 h34 q0 -16 -17 -22 z"/></g>
+        <g fill="#C0532E"><circle cx="540" cy="96" r="11"/><path d="M540 110 q-17 6 -17 22 h34 q0 -16 -17 -22 z"/></g>
+      </svg>
+      <div class="cap">Where do we stand? Stand where you feel.</div>
+      </div>
       <p class="axes"><b>Fatime</b> introduces the session and leads the warm-up. At each round, <b>Valentina</b> asks a few people about the reasons for where they positioned themselves — a mini-interview, about a minute per person.</p>
       <div class="plabel">Purpose</div>
       <ul>
@@ -157,10 +198,7 @@
       <div class="plabel">Method — spectrum positioning</div>
       <p>Participants physically place themselves along an imaginary line to show their stance. It gets bodies moving and makes the room's range visible to everyone.</p>
 
-      <div class="plabel">1 · Framing &amp; welcome (2 min)</div>
-      <div class="say"><p>"For each statement, picture a line across the room. One wall is 'strongly agree', the far wall is 'strongly disagree', and everywhere in between is the spectrum. Just stand where you feel. There are no right answers — we're here to see how varied we are."</p></div>
-
-      <div class="plabel">2 · The spectrum questions (play 3)</div>
+      <div class="plabel">1 · The spectrum questions (play 3)</div>
 
       <div class="qline">
         <div class="q">"I've already used AI for something — at work or at home."</div>
@@ -175,7 +213,7 @@
         <div class="poles"><span class="l">Absolutely</span><span class="r">Still a side experiment</span></div>
       </div>
 
-      <div class="plabel">3 · The finale — four corners (2 min)</div>
+      <div class="plabel">2 · The finale — four corners (2 min)</div>
       <p class="axes">Two axes: how much you use AI (a lot / a little) × how well you know its risks (yes / not really). Send people to the corner that fits — then read the room.</p>
       <div class="corners">
         <div class="corner c1"><span class="c-cond">Uses a lot · knows the risks</span><h4>Eyes open, hands on</h4><p>Confident and informed — our power users.</p></div>
@@ -191,10 +229,37 @@
     <div class="block-head">
       <span class="block-n">01</span>
       <div class="ttl"><span class="block-label">Together · quiz</span><h3>How wrong are we about AI?</h3></div>
-      <div class="tags"><span class="tag dur">~10 min</span></div>
+      <div class="tags"><span class="tag lead">Lead: Fatime &amp; Valentina</span><span class="tag dur">~10 min</span></div>
     </div>
     <div class="body">
-      <p class="axes"><b>Fatime</b> introduces and reads the set-up; the quiz runs live on people's phones, then we reveal and talk each answer through together.</p>
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Playful quiz illustration: phones up and question marks">
+        <defs><linearGradient id="qbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#qbg)"/>
+        <g>
+          <circle cx="70" cy="40" r="6" fill="#C0532E"/>
+          <rect x="150" y="26" width="12" height="12" rx="2" fill="#1E4D47" transform="rotate(20 156 32)"/>
+          <circle cx="612" cy="46" r="5" fill="#C6912E"/>
+          <rect x="530" y="28" width="11" height="11" rx="2" fill="#C0532E" transform="rotate(-15 535 33)"/>
+          <circle cx="332" cy="22" r="5" fill="#1E4D47"/>
+          <circle cx="240" cy="34" r="4" fill="#C6912E"/>
+          <circle cx="450" cy="30" r="4" fill="#C0532E"/>
+        </g>
+        <rect x="288" y="34" width="104" height="78" rx="18" fill="#C0532E"/>
+        <path d="M322 108 L338 134 L352 108 Z" fill="#C0532E"/>
+        <text x="340" y="88" font-family="Georgia, serif" font-size="44" fill="#FDF8EF" text-anchor="middle" font-weight="bold">?!</text>
+        <g transform="rotate(-12 130 150)"><rect x="96" y="82" width="68" height="112" rx="12" fill="#1E4D47"/><rect x="104" y="92" width="52" height="84" rx="6" fill="#FDF8EF"/><text x="130" y="147" font-family="Georgia, serif" font-size="38" fill="#1E4D47" text-anchor="middle" font-weight="bold">?</text></g>
+        <g transform="rotate(12 550 150)"><rect x="516" y="82" width="68" height="112" rx="12" fill="#C6912E"/><rect x="524" y="92" width="52" height="84" rx="6" fill="#FDF8EF"/><text x="550" y="147" font-family="Georgia, serif" font-size="38" fill="#9C3F20" text-anchor="middle" font-weight="bold">?</text></g>
+        <g font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" text-anchor="middle">
+          <rect x="206" y="150" width="44" height="28" rx="14" fill="#1E4D47"/><text x="228" y="169" fill="#fff">A</text>
+          <rect x="258" y="150" width="44" height="28" rx="14" fill="#C0532E"/><text x="280" y="169" fill="#fff">B</text>
+          <rect x="378" y="150" width="44" height="28" rx="14" fill="#C6912E"/><text x="400" y="169" fill="#231a08">C</text>
+          <rect x="430" y="150" width="44" height="28" rx="14" fill="#1E4D47"/><text x="452" y="169" fill="#fff">D</text>
+        </g>
+      </svg>
+      <div class="cap">Phones out — how wrong are we about AI?</div>
+      </div>
+      <p class="axes"><b>Fatime</b> prepares the questions on Slido, introduces the set-up, and reads the questions and answers. <b>Valentina</b> runs the mini-reflection series — a short feedback moment or mini-interview after each question, or after every two. It runs live on people's phones; we reveal and talk each answer through together.</p>
 
       <div class="plabel">Purpose</div>
       <ul>
@@ -211,14 +276,220 @@
         <li>One question at a time: everyone answers, then we reveal.</li>
         <li>After each reveal, a quick word on <em>why</em> the common answer is wrong — kept light, curious, never a lecture.</li>
       </ol>
-
-      <div class="plabel">Next — how we run it</div>
-      <p><b>Fatime</b> prepares the questions on Slido. <b>Valentina</b> could again do mini-interviews or a short feedback moment after each question — or after every two.</p>
     </div>
   </div>
 
-  <!-- NEXT -->
-  <div class="todo"><b>Next to build together:</b> the prompt battle, spot-the-cracks, the use-case menu, the recurring-task clinic, and data-to-presentation — each with the purpose, the words to say, and the materials. We'll add them section by section.</div>
+  <!-- 02 PROMPT BATTLE -->
+  <div class="block b-hands">
+    <div class="block-head">
+      <span class="block-n">02</span>
+      <div class="ttl"><span class="block-label">Hands-on · teams</span><h3>Prompt battle</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Valentina</span><span class="tag dur">~15 min</span></div>
+    </div>
+    <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prompt battle illustration: two chat bubbles facing off">
+        <defs><linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#pbg)"/>
+        <g fill="#C6912E">
+          <path d="M150 36 l5 11 l11 5 l-11 5 l-5 11 l-5 -11 l-11 -5 l11 -5 z"/>
+          <path d="M534 40 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4 z"/>
+        </g>
+        <g>
+          <rect x="58" y="60" width="212" height="92" rx="20" fill="#C0532E"/>
+          <path d="M112 150 L96 174 L138 152 Z" fill="#C0532E"/>
+          <rect x="82" y="82" width="150" height="12" rx="6" fill="#FDF8EF" opacity=".92"/>
+          <rect x="82" y="104" width="120" height="12" rx="6" fill="#FDF8EF" opacity=".72"/>
+          <rect x="82" y="126" width="82" height="12" rx="6" fill="#FDF8EF" opacity=".55"/>
+        </g>
+        <g>
+          <rect x="410" y="60" width="212" height="92" rx="20" fill="#1E4D47"/>
+          <path d="M568 150 L584 174 L542 152 Z" fill="#1E4D47"/>
+          <rect x="440" y="82" width="150" height="12" rx="6" fill="#FDF8EF" opacity=".92"/>
+          <rect x="470" y="104" width="120" height="12" rx="6" fill="#FDF8EF" opacity=".72"/>
+          <rect x="508" y="126" width="82" height="12" rx="6" fill="#FDF8EF" opacity=".55"/>
+        </g>
+        <path d="M316 42 L330 62 L340 34 L350 62 L364 42 L362 68 L318 68 Z" fill="#C6912E"/>
+        <circle cx="340" cy="106" r="36" fill="#211A14"/>
+        <text x="340" y="116" font-family="Georgia, serif" font-size="30" fill="#FDF8EF" text-anchor="middle" font-weight="bold">VS</text>
+      </svg>
+      <div class="cap">Same task, two teams — the funniest prompt wins.</div>
+      </div>
+      <p class="axes"><b>Fatime</b> introduces the challenges. <b>Valentina</b> forms the groups (or we pre-form them before the event), moderates, and invites volunteers to present. The funniest result wins.</p>
+
+      <div class="plabel">Purpose</div>
+      <ul>
+        <li>Discover that the prompt — not the tool — does the work.</li>
+        <li>Loosen everyone up: play first, learn second.</li>
+      </ul>
+
+      <div class="plabel">Two challenges</div>
+      <p><b>Round 1 · the movie trailer.</b> Each team prompts AI to write a dramatic 1–2 minute film-trailer script about the unit's work — "In a world where deadlines never sleep…".</p>
+      <p><b>Round 2 · explain HaDEA three ways.</b> Same subject, three wildly different audiences — a five-year-old, an alien, a sceptical minister. The clearest possible proof that the prompt shapes everything.</p>
+
+      <div class="plabel">How it runs</div>
+      <ol>
+        <li>Groups form, or are pre-assigned before the event. About five minutes per round to craft the best prompt.</li>
+        <li>Teams that want to share present their result live; Valentina keeps it moving and warm.</li>
+        <li>The room votes — the funniest one wins.</li>
+      </ol>
+
+      <div class="plabel">The learning to surface</div>
+      <p>When teams present, show the <b>prompt</b> next to the result. The funniest team almost always wrote the richest prompt. That bridges straight into the next section.</p>
+    </div>
+  </div>
+
+  <!-- 03 STEP BY STEP -->
+  <div class="block b-together">
+    <div class="block-head">
+      <span class="block-n">03</span>
+      <div class="ttl"><span class="block-label">Together · build it live</span><h3>Build a great prompt, step by step</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~15 min</span></div>
+    </div>
+    <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Building a prompt: the result gets better step by step">
+        <defs><linearGradient id="bbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#bbg)"/>
+        <line x1="90" y1="170" x2="592" y2="170" stroke="#211A14" stroke-width="3" opacity=".28"/>
+        <rect x="104" y="142" width="66" height="28" rx="6" fill="#B8AE9C"/>
+        <rect x="200" y="118" width="66" height="52" rx="6" fill="#C0532E"/>
+        <rect x="296" y="94" width="66" height="76" rx="6" fill="#C6912E"/>
+        <rect x="392" y="68" width="66" height="102" rx="6" fill="#1E4D47"/>
+        <rect x="488" y="42" width="66" height="128" rx="6" fill="#9C3F20"/>
+        <path d="M521 20 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5 z" fill="#C6912E"/>
+        <g fill="#211A14" font-family="Georgia,serif" font-size="22" font-weight="bold" text-anchor="middle" opacity=".45">
+          <text x="185" y="162">+</text><text x="281" y="162">+</text><text x="377" y="162">+</text><text x="473" y="162">+</text>
+        </g>
+      </svg>
+      <div class="cap">Same task — add a layer, watch it get better.</div>
+      </div>
+      <p class="axes"><b>Fatime</b> leads. We build one prompt together, live, on a real task from our world — a <b>presentation and speech for an info day, addressed to national authorities</b>.</p>
+
+      <div class="plabel">Purpose</div>
+      <ul>
+        <li>Show — surprisingly — how much better the result gets when the prompt is built with care.</li>
+        <li>Leave everyone with a repeatable recipe they can use on Monday.</li>
+      </ul>
+
+      <div class="plabel">The task</div>
+      <p>A short presentation and speech for an info day — the kind we give to national authorities about a newly published call. We start with a lazy prompt and add one layer at a time, re-running after each so the room sees the jump.</p>
+
+      <div class="plabel">The reveal</div>
+      <p>Put version one and the final version side by side. The tool never changed — the prompt did. That gap is the point.</p>
+    </div>
+  </div>
+
+  <!-- 04 RECURRING TASK -->
+  <div class="block b-together">
+    <div class="block-head">
+      <span class="block-n">04</span>
+      <div class="ttl"><span class="block-label">Together · your work</span><h3>A recurring task, solved</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Valentina?</span><span class="tag dur">~40 min</span></div>
+    </div>
+    <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A recurring task, solved: a repeating loop with a check">
+        <defs><linearGradient id="rbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#rbg)"/>
+        <g opacity=".9"><rect x="118" y="72" width="74" height="44" rx="7" fill="#1E4D47"/><rect x="130" y="86" width="74" height="44" rx="7" fill="#C0532E"/></g>
+        <g opacity=".9"><rect x="488" y="72" width="74" height="44" rx="7" fill="#1E4D47"/><rect x="476" y="86" width="74" height="44" rx="7" fill="#C6912E"/></g>
+        <circle cx="340" cy="100" r="50" fill="none" stroke="#C6912E" stroke-width="12"/>
+        <path d="M344 44 L344 66 L366 55 Z" fill="#C0532E"/>
+        <path d="M336 156 L336 134 L314 145 Z" fill="#C0532E"/>
+        <path d="M316 100 l16 18 l32 -38" fill="none" stroke="#1E4D47" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="cap">The task you do again and again — solved.</div>
+      </div>
+      <p class="axes">We run a short survey beforehand — colleagues send in their recurring tasks — and build this section from what comes back.</p>
+
+      <div class="plabel">Purpose</div>
+      <p>Make it personal — and immediate.</p>
+
+      <div class="plabel">What it is</div>
+      <p>Based on the survey results, we pick a few recurring, time-eating tasks and work through them together — so people leave with something real, not hypothetical.</p>
+    </div>
+  </div>
+
+  <!-- 05 USE CASES -->
+  <div class="block b-frame">
+    <div class="block-head">
+      <span class="block-n">05</span>
+      <div class="ttl"><span class="block-label">Framing · inspiration</span><h3>Use cases — from outside work</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~20 min</span></div>
+    </div>
+    <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Use cases: health, apps, knowledge, keynotes, video">
+        <defs><linearGradient id="ubg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#ubg)"/>
+        <g><rect x="70" y="57" width="86" height="86" rx="16" fill="#C0532E"/>
+          <path d="M113 130 C 96 114, 84 104, 96 93 C 105 85, 113 93, 113 101 C 113 93, 121 85, 130 93 C 142 104, 130 114, 113 130 Z" fill="#FDF8EF"/></g>
+        <g><rect x="182" y="57" width="86" height="86" rx="16" fill="#C6912E"/>
+          <g fill="#FDF8EF"><rect x="205" y="80" width="18" height="18" rx="4"/><rect x="227" y="80" width="18" height="18" rx="4"/><rect x="205" y="102" width="18" height="18" rx="4"/><rect x="227" y="102" width="18" height="18" rx="4"/></g></g>
+        <g><rect x="294" y="57" width="86" height="86" rx="16" fill="#1E4D47"/>
+          <g fill="#FDF8EF"><rect x="313" y="84" width="48" height="8" rx="4"/><rect x="313" y="98" width="48" height="8" rx="4"/><rect x="313" y="112" width="30" height="8" rx="4"/></g></g>
+        <g><rect x="406" y="57" width="86" height="86" rx="16" fill="#9C3F20"/>
+          <rect x="440" y="78" width="18" height="30" rx="9" fill="#FDF8EF"/>
+          <path d="M433 102 a16 16 0 0 0 32 0" fill="none" stroke="#FDF8EF" stroke-width="4"/>
+          <line x1="449" y1="118" x2="449" y2="128" stroke="#FDF8EF" stroke-width="4" stroke-linecap="round"/></g>
+        <g><rect x="518" y="57" width="86" height="86" rx="16" fill="#1E4D47"/>
+          <path d="M549 82 l28 18 l-28 18 z" fill="#FDF8EF"/></g>
+      </svg>
+      <div class="cap">The breadth — health, apps, knowledge, keynotes, video.</div>
+      </div>
+      <p class="axes"><b>Fatime</b> leads — a quick, inspiring tour of what AI can do beyond the office.</p>
+
+      <div class="plabel">Purpose</div>
+      <p>See the breadth — then find what fits your week. Use cases from outside work, to open people's imagination to what's possible.</p>
+
+      <div class="plabel">What it is</div>
+      <p>A quick tour of the everyday ways AI helps. Based on the survey results, the content will be developed — a few to draw from:</p>
+      <ul>
+        <li>Support on health and nutrition</li>
+        <li>Connected apps</li>
+        <li>Knowledge management</li>
+        <li>Keynote writing</li>
+        <li>Video generation</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 06 CONCLUSION -->
+  <div class="block b-together">
+    <div class="block-head">
+      <span class="block-n">06</span>
+      <div class="ttl"><span class="block-label">Together · close</span><h3>Conclusion — what we take back</h3></div>
+      <div class="tags"><span class="tag lead">Lead: Valentina</span><span class="tag dur">~10 min</span></div>
+    </div>
+    <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Conclusion: from insight to intention, a path to a flag">
+        <defs><linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#cbg)"/>
+        <path d="M90 162 Q 250 156 330 116 T 566 62" fill="none" stroke="#C0532E" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 16"/>
+        <circle cx="90" cy="162" r="9" fill="#1E4D47"/>
+        <circle cx="330" cy="116" r="9" fill="#C6912E"/>
+        <line x1="566" y1="58" x2="566" y2="150" stroke="#211A14" stroke-width="5" stroke-linecap="round"/>
+        <path d="M566 60 h46 l-13 15 l13 15 h-46 z" fill="#C0532E"/>
+        <path d="M512 40 l5 11 l11 5 l-11 5 l-5 11 l-5 -11 l-11 -5 l11 -5 z" fill="#C6912E"/>
+        <g fill="#1E4D47"><circle cx="90" cy="140" r="10"/><path d="M90 152 q-15 5 -15 22 h30 q0 -17 -15 -22 z"/></g>
+      </svg>
+      <div class="cap">From insight to intention — what will you take back?</div>
+      </div>
+      <p class="axes"><b>Valentina</b> runs the close — turning the day's energy into intention.</p>
+
+      <div class="plabel">Purpose</div>
+      <p>Land the day: move from "that was interesting" to "here's what I'll do differently."</p>
+
+      <div class="plabel">The questions</div>
+      <ul>
+        <li>What change will you introduce in your practice?</li>
+        <li>What's the first thing you'll try this week?</li>
+        <li>What surprised you most today?</li>
+      </ul>
+    </div>
+  </div>
 
   <footer>Moderator guide · a living document — we build it section by section.</footer>
 
