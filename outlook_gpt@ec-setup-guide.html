@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT@EC+ Starter Kit — Set up your Outlook AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3ECDF;--card:#FBF6EC;--ink:#211A14;--ink-soft:#5A4F43;
+    --terra:#C0532E;--terra-deep:#9C3F20;--teal:#1E4D47;--ochre:#C6912E;
+    --line:rgba(33,26,20,.14);--shadow:rgba(33,26,20,.10);--hl:#FBE7A6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.55;position:relative;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 70% at 92% -10%, rgba(198,145,46,.16), transparent 55%),radial-gradient(90% 70% at -10% 110%, rgba(30,77,71,.12), transparent 55%);}
+  .wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:clamp(2.2rem,5vw,4rem) clamp(1.3rem,5vw,2.6rem) 4rem;}
+
+  .eyebrow{font-size:.76rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--terra);display:inline-block;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.1rem,5.5vw,3.6rem);line-height:1;letter-spacing:-.02em;margin:1rem 0 0;}
+  .intro{font-size:1.06rem;color:var(--ink-soft);margin-top:1rem;max-width:60ch;}
+  .intro b{color:var(--ink);}
+
+  .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(1.4rem,3vw,2rem);margin-top:1.6rem;}
+  .step-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.4rem;}
+  .step-n{width:38px;height:38px;flex-shrink:0;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600;}
+  .step-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.05;}
+  .where{font-size:1rem;color:var(--ink);margin:.6rem 0 1rem;}
+  .where b{color:var(--terra-deep);}
+
+  /* mock UI cues */
+  .ui{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.7rem .9rem;margin:.4rem 0 1rem;font-size:.92rem;}
+  .toggle{width:42px;height:22px;border-radius:100px;background:#2f7ed8;position:relative;flex-shrink:0;}
+  .toggle::after{content:"";position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:#fff;}
+  .radio{display:inline-flex;align-items:center;gap:.35rem;}
+  .radio .r{width:16px;height:16px;border-radius:50%;border:2px solid #2f7ed8;display:inline-block;}
+  .radio .r.on{background:#2f7ed8;box-shadow:inset 0 0 0 3px #fff;}
+  .ui .muted{color:var(--ink-soft);}
+
+  .copywrap{position:relative;background:#fff;border:1px solid var(--line);border-radius:10px;margin:.5rem 0 .3rem;}
+  .copytext{padding:1rem 1.1rem;white-space:pre-wrap;font-size:.95rem;line-height:1.5;color:var(--ink);}
+  .copybtn{position:absolute;top:.55rem;right:.55rem;font-family:'Hanken Grotesk';font-size:.74rem;font-weight:700;color:#fff;background:var(--teal);border:none;border-radius:6px;padding:.32rem .7rem;cursor:pointer;transition:background .2s;}
+  .copybtn:hover{background:#143b36;}
+
+  mark{background:var(--hl);color:var(--ink);padding:.05em .25em;border-radius:4px;font-weight:600;}
+
+  .titlepill{display:inline-block;font-size:.82rem;font-weight:700;color:var(--terra-deep);background:rgba(192,83,46,.09);border:1px solid rgba(192,83,46,.25);border-radius:6px;padding:.25rem .6rem;margin:.9rem 0 .1rem;}
+  .titlepill span{color:var(--ink-soft);font-weight:500;}
+
+  .change{background:rgba(198,145,46,.12);border:1px dashed var(--ochre);border-radius:10px;padding:.8rem 1rem;margin-top:.8rem;font-size:.92rem;}
+  .change b{color:#8A5E12;}
+  .change ul{margin:.35rem 0 0 1.1rem;}
+  .change li{margin-bottom:.25rem;}
+
+  .attention{background:var(--terra);color:#FDEFE7;border-radius:16px;padding:clamp(1.4rem,3vw,2rem);margin-top:1.8rem;}
+  .attention h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.3rem,2.4vw,1.7rem);margin-bottom:.7rem;color:#fff;}
+  .attention ul{margin:0 0 0 1.1rem;}
+  .attention li{margin-bottom:.5rem;}
+  .attention li b{color:#FFE0B8;}
+
+  .promptnote{font-size:.9rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;margin-top:1rem;}
+  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+  .divider{height:1px;background:var(--line);margin:1.4rem 0;}
+
+  .grouphead{font-family:'Fraunces',serif;font-weight:600;font-size:1.08rem;color:var(--terra-deep);margin:1.4rem 0 .6rem;}
+  .grouphead span{color:var(--ink-soft);font-weight:400;font-size:.88rem;font-family:'Hanken Grotesk';}
+  .acc{border:1px solid var(--line);border-radius:10px;margin-bottom:.5rem;background:#fff;overflow:hidden;}
+  .acc-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem;cursor:pointer;font-weight:600;color:var(--ink);font-size:.98rem;user-select:none;}
+  .acc-head:hover{background:rgba(30,77,71,.05);}
+  .acc-head .chev{color:var(--teal);font-size:1.35rem;line-height:1;transition:transform .25s;flex-shrink:0;}
+  .acc.open .acc-head .chev{transform:rotate(90deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .acc.open .acc-body{max-height:1400px;}
+  .acc-body .inner{padding:0 .85rem .9rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">GPT@EC+ · Outlook plug-in</div>
+  <h1>Your GPT@EC+ starter kit</h1>
+  <p class="intro">GPT@EC+ can draft your emails — but it works far better once you tell it <b>how you write</b>. This takes about five minutes: first you teach it your style, then you save a set of ready-made prompts for everyday emails. Everything highlighted in <mark>yellow</mark> is yours to change.</p>
+
+  <!-- STEP 1 -->
+  <div class="step">
+    <div class="step-head"><div class="step-n">1</div><h2>Teach it your style</h2></div>
+    <p class="where">In the plug-in, open <b>GPT@EC+ control → Settings</b>, switch on <b>“Use custom instructions”</b>, and paste the text below into the box.</p>
+    <div class="ui"><span class="toggle"></span><span>Use custom instructions</span><span class="muted">← turn this on</span></div>
+
+    <div class="copywrap">
+      <button class="copybtn" onclick="copyText(this)">Copy</button>
+      <div class="copytext">Write <mark>polite, kind, and warm</mark> emails that are <mark>short and to the point</mark>. Keep the tone human and friendly, never stiff or corporate — avoid jargon and filler. Use clear, simple language and short sentences.
+
+Start every email with a greeting in the form: <mark>"Dear [name],"</mark>.
+
+When the email has several points, present them as a list using <mark>square bullet points (▪)</mark>.
+
+Put key information in <mark>bold</mark> so it stands out — in particular dates, deadlines, deliverables, and status words such as "approved" or "suspended".
+
+End every email with:
+Have a lovely day,
+<mark>[Your name]</mark>
+
+For formal or sensitive emails, use this sign-off instead:
+Kind regards,
+<mark>[Your name]</mark></div>
+    </div>
+
+    <div class="change"><b>What to change:</b>
+      <ul>
+        <li>Everything in <mark>yellow</mark> is a style choice — make it your own: how short, the greeting, the bullet style, what to put in bold.</li>
+        <li>Replace <mark>[Your name]</mark> with your name — in <b>both</b> places.</li>
+        <li>Keep the “Kind regards” fallback — it saves you from a cheerful sign-off on serious emails.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <div class="step-head"><div class="step-n">2</div><h2>Save your ready-made prompts</h2></div>
+    <p class="where">Open <b>Personal Prompts → “Save this personal prompt”</b>, type the <b>Title</b>, paste the <b>Prompt</b>, select <b>“Reply”</b>, and click <b>Save</b> — then repeat for each one below.</p>
+    <div class="ui"><span class="radio" style="opacity:.55"><span class="r"></span> Draft</span><span class="radio"><span class="r on"></span> Reply</span><span class="muted">← select Reply</span></div>
+    <p class="promptnote" style="margin:.2rem 0 1rem;">Click a title to open the prompt, then copy it.</p>
+
+    <div class="grouphead">Everyday emails</div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Reply to a meeting request</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm reply to a meeting invitation. Confirm availability, or propose two or three alternative slots if the time doesn't work. Ask for an agenda or the purpose if none is given. Keep it brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Gentle deadline reminder</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, friendly reminder about an upcoming deadline. State clearly what is due and by when, offer help if useful, and keep the tone kind and non-pushy. Leave a placeholder for <mark>[deliverable]</mark> and <mark>[deadline]</mark>.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Thanks / noted</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a very short, warm reply acknowledging the message and confirming it is noted. Thank the sender, and mention any next step only if it's relevant. Keep it to a few lines.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Request information or document</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, polite request asking the recipient to provide a specific <mark>[document / information]</mark>. Say clearly what is needed and, if there is a deadline, by when. Keep it warm and easy to say yes to.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Confirm next steps (with bullets)</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm email confirming the next steps after <mark>[meeting / decision]</mark>. List the actions as square bullets, noting who does what and by when. Bold the dates and deadlines. Keep it clear and brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Follow up on no reply</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, friendly follow-up on a previous email that hasn't had a reply. Reference the earlier message, gently restate what's needed and any deadline, and assume good faith — no reproach. Keep it light and brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Polite decline</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, kind reply that declines a request or invitation. Be warm and appreciative, give a brief reason if appropriate, and offer an alternative or a pointer to someone else if possible. Keep it gracious and brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Introduction email</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm introduction connecting two people. Say who each person is in one line, why they should connect, and hand over so they can take it from there. Keep it brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Thank you after a meeting</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm thank-you after a meeting or call. Thank them for their time, note one or two key points or agreed next steps as square bullets, and confirm who does what by when. Keep it brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Share a document for review</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm email sharing a document for review. Say what it is, what feedback you're looking for, and by when. Keep it clear and brief, and leave a placeholder for <mark>[document]</mark> and <mark>[deadline]</mark>.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Limited availability notice</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm note letting the recipient know you'll have limited availability for a period. Give the dates, say who to contact in the meantime or when you'll respond, and keep it reassuring and brief. Leave placeholders for <mark>[dates]</mark> and <mark>[backup contact]</mark>.</div></div></div></div></div>
+
+    <div class="grouphead">Project &amp; payment workflow <span>— example set, adapt to your team</span></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Acknowledge report received</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm reply confirming we have received the report. Thank the sender, confirm the report title and the date received, and say we will review it and come back if anything is needed. Keep it brief.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Acknowledge invoice received</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a short, warm reply confirming we have received the invoice. Thank the sender, confirm the invoice reference and date received, and note that it will be processed according to the usual procedure. Keep it brief, and avoid committing to a specific payment date unless one is given.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Interim report accepted &rarr; next steps</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a warm, professional email informing the recipient that we have no further comments on the <mark>[first / second]</mark> interim report and that it is accepted. Then set out the next steps as square bullets: &#9642; mark the cover page and header/footer with the status "Final version" and today's date; &#9642; upload the Word and PDF versions to CIRCABC; &#9642; send the request for the <mark>[first]</mark> interim payment, with all supporting documents, to HaDEA-BTSF-PROJECTS@ec.europa.eu as soon as possible. Thank them for their cooperation and invite them to contact us for any further information. Bold "accepted", "Final version", and any dates.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Missing invoice &mdash; urgent chase</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a polite but clearly urgent email noting that we have not yet received the invoice for the <mark>[TIP]</mark> for <mark>[project reference]</mark>. Explain that the report was accepted in <mark>[month/year]</mark> and that HaDEA plans to execute the payment in <mark>[year]</mark>, so the invoice and supporting documents are needed as soon as possible. Ask the recipient to acknowledge receipt and submit the invoice to HaDEA-BTSF-PROJECTS@ec.europa.eu. Bold the deadline pressure and the acceptance date.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Prepare payment workflow (Ares)</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a warm, collegial internal email to colleagues sharing an invoice and supporting documents for the <mark>[third]</mark> interim payment of <mark>[project reference]</mark>. Present the key references as square bullets: &#9642; the payment request registered in Ares under <mark>[Ares reference]</mark>, with a CF assignment provided to <mark>[ve_hadea.operational invoice]</mark>; &#9642; the acceptance of the report registered in Ares under <mark>[Ares reference]</mark>, with both files linked. Ask them to prepare the payment workflow in Ares at their earliest convenience, and to put my name as project adviser. Bold the Ares references.</div></div></div></div></div>
+
+    <div class="acc"><div class="acc-head" onclick="this.parentElement.classList.toggle('open')"><span>Payment suspension notice</span><span class="chev">&#8250;</span></div><div class="acc-body"><div class="inner"><div class="copywrap"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="copytext">Draft a clear, professional, and courteous email informing the recipient that the payment for <mark>[project / contract reference]</mark> is suspended. State plainly that it is suspended and explain the reason briefly and factually: <mark>[reason]</mark>. Set out, as square bullets, what is needed to lift the suspension: &#9642; <mark>[action or document]</mark>; &#9642; <mark>[action or document]</mark>. Give the deadline if there is one. Keep the tone respectful and non-accusatory. Bold "suspended", any deadline, and the required deliverables. Use the sign-off "Kind regards, <mark>[Your name]</mark>".</div></div></div></div></div>
+
+    <div class="change"><b>What to change:</b>
+      <ul>
+        <li>Anything in <mark>[square brackets]</mark> is a placeholder — swap it for the real detail each time.</li>
+        <li>The workflow set is an example from one team's process — adapt the references, email address and steps to yours, or skip it.</li>
+      </ul>
+    </div>
+    <p class="promptnote">Tip: the Title is what you'll see in your prompt list, so keep it short and clear.</p>
+  </div>
+
+  <!-- ATTENTION -->
+  <div class="attention">
+    <h2>Before you hit send</h2>
+    <ul>
+      <li><b>Always read the draft.</b> AI writes confidently even when it's wrong — you are the editor.</li>
+      <li><b>Check the facts yourself</b> — dates, deadlines, figures, names and references.</li>
+      <li><b>Fill in every [placeholder]</b> before sending; don't leave brackets in the email.</li>
+      <li><b>Sensitive email?</b> It switches to “Kind regards” automatically — good, but reread the tone.</li>
+      <li><b>Mind confidentiality</b> — don't paste in more sensitive information than the task needs.</li>
+    </ul>
+  </div>
+
+  <footer>Set up once, use every day. Adjust anything to fit how you work.</footer>
+
+</div>
+
+<script>
+  function copyText(btn){
+    const box = btn.parentElement.querySelector('.copytext');
+    const text = box.innerText;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(()=>{btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy',1600);})
+      .catch(()=>fallback());
+    } else { fallback(); }
+    function fallback(){
+      const r=document.createRange(); r.selectNodeContents(box);
+      const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent='Select + Ctrl/⌘C'; setTimeout(()=>btn.textContent='Copy',2200);
+    }
+  }
+</script>
+</body>
+</html>
