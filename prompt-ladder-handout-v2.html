@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prompt Ladder — four versions of the same email</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF3FB;--card:#FFFFFF;--ink:#182338;--ink-soft:#586074;
+    --terra:#E8552E;--terra-deep:#BC4321;--teal:#1F6FD0;--teal-deep:#0A4AA0;--ochre:#E3A72A;
+    --line:rgba(20,40,80,.13);--hl:#FFE35C;
+    --ok:#1F7A4D;--ok-soft:#E4F3EA;
+    --no:#C0392B;--no-soft:#FBE7E4;
+    --weak:#8A7C5E;--weak-soft:#F3EEE1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.55;position:relative;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(52% 45% at 90% -8%, rgba(255,214,23,.30), transparent 60%),
+      radial-gradient(45% 45% at -8% 6%, rgba(31,111,208,.20), transparent 60%),
+      radial-gradient(55% 55% at 105% 105%, rgba(232,85,46,.16), transparent 60%);}
+  .wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:clamp(2.2rem,5vw,4rem) clamp(1.3rem,5vw,2.6rem) 4rem;}
+
+  .eyebrow{font-size:.76rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--terra);display:inline-block;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.1rem,5.5vw,3.6rem);line-height:1;letter-spacing:-.02em;margin:1rem 0 0;
+    background:linear-gradient(100deg,#0A4AA0,#1F6FD0 46%,#E8552E);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .intro{font-size:1.06rem;color:var(--ink-soft);margin-top:1rem;max-width:64ch;}
+  .intro b{color:var(--ink);}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(1.4rem,3vw,2rem);margin-top:1.8rem;}
+  .panel > h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.35rem,2.6vw,1.85rem);line-height:1.05;}
+  .panel .sub{color:var(--ink-soft);font-size:.98rem;margin-top:.35rem;}
+
+  /* five blocks */
+  .brow{display:grid;grid-template-columns:40px 1fr;gap:1rem;padding:1.05rem 0;border-bottom:1px solid var(--line);}
+  .brow:last-of-type{border-bottom:0;padding-bottom:0;}
+  .bn{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;}
+  .b1 .bn{background:linear-gradient(140deg,#1F6FD0,#0A4AA0);}
+  .b2 .bn{background:linear-gradient(140deg,#E8552E,#BC4321);}
+  .b3 .bn{background:linear-gradient(140deg,#7A5A8C,#5C4069);}
+  .b4 .bn{background:linear-gradient(140deg,#E3A72A,#B8801A);}
+  .b5 .bn{background:linear-gradient(140deg,#9AA7B1,#77848E);}
+  .bname{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;margin-bottom:.15rem;}
+  .b1 .bname{color:var(--teal-deep);} .b2 .bname{color:var(--terra-deep);}
+  .b3 .bname{color:#5C4069;} .b4 .bname{color:#8A5E12;} .b5 .bname{color:#6d7883;}
+  .opt{font-family:'Hanken Grotesk';font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+    background:rgba(20,40,80,.07);color:var(--ink-soft);padding:.2rem .55rem;border-radius:99px;margin-left:.5rem;vertical-align:middle;font-weight:700;}
+  .bdesc{font-size:.97rem;color:var(--ink-soft);}
+  .bdesc b{color:var(--ink);font-weight:600;}
+
+  .attach{background:rgba(122,90,140,.09);border:1px solid rgba(122,90,140,.3);border-radius:10px;padding:.95rem 1.1rem;margin-top:.8rem;}
+  .attach .at{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#5C4069;font-weight:700;margin-bottom:.5rem;}
+  .attach p{font-size:.93rem;color:#4a3a55;margin-bottom:.6rem;}
+  .attach p:last-child{margin-bottom:0;}
+  .attach strong{color:#3a2c44;}
+  .attach .ask{background:#fff;border-left:3px solid #7A5A8C;padding:.65rem .85rem;border-radius:0 6px 6px 0;font-size:.9rem;}
+
+  /* legend */
+  .legend{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem 1.2rem;margin-top:1.8rem;}
+  .legend .ll{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+  .key{display:flex;align-items:center;gap:.5rem;font-size:.9rem;}
+  .sw{width:26px;height:14px;border-radius:3px;flex-shrink:0;}
+  .sw.k1{background:var(--ok-soft);border-bottom:2px solid var(--ok);}
+  .sw.k2{background:var(--weak-soft);border-bottom:2px dotted var(--weak);}
+  .sw.k3{background:var(--no-soft);border-bottom:2px solid var(--no);}
+  .sw.k4{background:var(--hl);}
+
+  /* case */
+  .facts{display:grid;grid-template-columns:150px 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:1rem;}
+  .facts > div{padding:.6rem 1rem;border-bottom:1px solid var(--line);font-size:.95rem;}
+  .facts > div:nth-child(odd){background:rgba(20,40,80,.035);color:var(--ink-soft);font-weight:600;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;}
+  .facts > div:nth-last-child(-n+2){border-bottom:0;}
+
+  /* rung */
+  .rung{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-top:1.8rem;overflow:hidden;}
+  .rhead{display:flex;align-items:center;gap:.9rem;padding:1.1rem clamp(1.1rem,3vw,2rem);border-bottom:1px solid var(--line);}
+  .rn{width:38px;height:38px;flex-shrink:0;border-radius:50%;color:#fff;display:grid;place-items:center;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600;}
+  .v1 .rn{background:linear-gradient(140deg,#9AA7B1,#77848E);} .v1 .rhead{background:rgba(154,167,177,.12);}
+  .v2 .rn{background:linear-gradient(140deg,#E8552E,#BC4321);} .v2 .rhead{background:rgba(232,85,46,.09);}
+  .v3 .rn{background:linear-gradient(140deg,#E3A72A,#B8801A);} .v3 .rhead{background:rgba(227,167,42,.13);}
+  .v4 .rn{background:linear-gradient(140deg,#1F6FD0,#0A4AA0);} .v4 .rhead{background:rgba(31,111,208,.10);}
+  .rhead .lab{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+  .rhead .adds{font-family:'Fraunces',serif;font-weight:600;font-size:1.2rem;line-height:1.1;}
+  .v1 .adds{color:#5c6870;} .v2 .adds{color:var(--terra-deep);}
+  .v3 .adds{color:#8A5E12;} .v4 .adds{color:var(--teal-deep);}
+  .score{margin-left:auto;text-align:right;flex-shrink:0;}
+  .score .sn{font-family:'Fraunces',serif;font-size:2rem;font-weight:600;line-height:1;}
+  .v1 .sn{color:#77848E;} .v2 .sn{color:var(--terra-deep);} .v3 .sn{color:#8A5E12;} .v4 .sn{color:var(--teal-deep);}
+  .score .sl{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;}
+  .split .left{border-right:1px solid var(--line);background:rgba(20,40,80,.025);}
+  .colhead{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+    padding:.85rem clamp(1rem,2.5vw,1.6rem) .5rem;display:flex;justify-content:space-between;align-items:center;gap:.6rem;}
+  .copybtn{font-family:'Hanken Grotesk';font-size:.7rem;font-weight:700;color:#fff;background:var(--teal);border:none;border-radius:6px;padding:.3rem .65rem;cursor:pointer;transition:background .2s;letter-spacing:.04em;}
+  .copybtn:hover{background:var(--teal-deep);}
+
+  .blocks{padding:0 clamp(1rem,2.5vw,1.6rem) 1.3rem;}
+  .blk{border:1px solid var(--line);border-radius:9px;margin-bottom:.6rem;overflow:hidden;background:#fff;}
+  .blk:last-child{margin-bottom:0;}
+  .blk .bh{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:.5rem .75rem;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:.5rem;}
+  .blk .bt{padding:.65rem .8rem;font-size:.88rem;line-height:1.5;}
+  .blk .bt em{font-style:normal;color:var(--ink-soft);}
+  .blk .sq{color:var(--teal);font-weight:700;}
+  .blk.on{border-color:rgba(31,111,208,.4);} .blk.on .bh{color:var(--teal-deep);}
+  .tagnew{background:var(--teal);color:#fff;font-size:.6rem;padding:.2rem .5rem;border-radius:99px;letter-spacing:.1em;white-space:nowrap;}
+  .blk.carry .bh{color:var(--ink-soft);}
+  .blk.off{background:rgba(20,40,80,.04);border-style:dashed;}
+  .blk.off .bh{color:#9AA7B1;border-bottom:0;}
+  .blk.off .bt{color:#9AA7B1;font-style:italic;padding-top:0;font-size:.84rem;}
+  .bare{background:#fff;border:1px solid var(--line);border-radius:9px;padding:.85rem 1rem;font-size:.9rem;margin-bottom:.6rem;}
+
+  /* email */
+  .mail{padding:.6rem clamp(1rem,2.5vw,1.6rem) 1.4rem;}
+  .mrow{display:flex;gap:.6rem;font-size:.82rem;color:var(--ink-soft);margin-bottom:.2rem;}
+  .mrow b{color:var(--ink);font-weight:600;}
+  .mbody{margin-top:.9rem;font-size:.95rem;}
+  .mbody p{margin-bottom:.75rem;} .mbody p:last-child{margin-bottom:0;}
+  .mbody .bul div{margin-bottom:.3rem;}
+  .mbody .sq{color:var(--teal);font-weight:700;margin-right:.5rem;}
+  .fix{background:var(--ok-soft);border-bottom:2px solid var(--ok);padding:.05em .2em;border-radius:3px;}
+  .weak{background:var(--weak-soft);border-bottom:2px dotted var(--weak);padding:.05em .2em;border-radius:3px;}
+  .no{background:var(--no-soft);border-bottom:2px solid var(--no);padding:.05em .2em;border-radius:3px;}
+  .ph{background:var(--no-soft);color:var(--no);border-radius:3px;padding:.05em .3em;font-weight:600;}
+
+  /* callouts */
+  .calls{border-top:1px solid var(--line);padding:1.2rem clamp(1.1rem,3vw,2rem);display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;}
+  .calls .cl{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:.6rem;}
+  .good .cl{color:var(--ok);} .left-open .cl{color:#8A5E12;}
+  .calls ul{list-style:none;}
+  .calls li{position:relative;padding-left:1.1rem;margin-bottom:.55rem;font-size:.92rem;}
+  .calls li:last-child{margin-bottom:0;}
+  .calls li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;}
+  .good li::before{background:var(--ok);} .left-open li::before{background:var(--ochre);}
+  .calls li.done{color:var(--ink-soft);} .calls li.done s{color:#9AA7B1;}
+
+  /* note box */
+  .notebox{margin:0 clamp(1.1rem,3vw,2rem) 1.3rem;background:rgba(227,167,42,.12);border:1px dashed var(--ochre);border-radius:10px;padding:1.1rem 1.2rem;}
+  .notebox .tg{display:inline-block;background:var(--ochre);color:#3d2c05;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:.25rem .6rem;border-radius:99px;margin-bottom:.6rem;}
+  .notebox h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.1rem;color:#8A5E12;margin-bottom:.6rem;}
+  .notebox ul{list-style:none;}
+  .notebox li{position:relative;padding-left:1.1rem;margin-bottom:.55rem;font-size:.92rem;color:#5c4409;}
+  .notebox li:last-child{margin-bottom:0;}
+  .notebox li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--ochre);}
+  .notebox strong{color:#3d2c05;}
+
+  /* what to change */
+  .change{background:rgba(198,145,46,.12);border:1px dashed var(--ochre);border-radius:10px;padding:.85rem 1.05rem;margin-top:1rem;font-size:.92rem;}
+  .change b{color:#8A5E12;}
+  .change ul{margin:.35rem 0 0 1.1rem;}
+  .change li{margin-bottom:.25rem;}
+  mark{background:var(--hl);color:var(--ink);padding:.05em .25em;border-radius:4px;font-weight:600;}
+
+  /* tracker */
+  table{width:100%;border-collapse:collapse;font-size:.92rem;margin-top:1rem;}
+  th{text-align:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;padding-bottom:.7rem;}
+  th:first-child{text-align:left;}
+  td{padding:.65rem .4rem;border-top:1px solid var(--line);text-align:center;}
+  td:first-child{text-align:left;padding-left:0;}
+  .x{color:var(--no);font-weight:700;} .v{color:var(--ok);font-weight:700;}
+  tfoot td{border-top:2px solid var(--ink);font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;padding-top:.8rem;}
+  tfoot td:first-child{font-family:'Hanken Grotesk';font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+
+  /* honesty */
+  .honest{background:rgba(122,90,140,.09);border:1px solid rgba(122,90,140,.3);}
+  .honest h2{color:#5C4069;}
+  .honest p{font-size:.97rem;color:#4a3a55;margin-top:.7rem;}
+  .honest strong{color:#3a2c44;}
+
+  /* attention */
+  .attention{background:linear-gradient(135deg,#1F6FD0,#0A4AA0);color:#EAF1FB;border-radius:16px;padding:clamp(1.5rem,3.2vw,2.2rem);margin-top:1.8rem;box-shadow:0 12px 30px rgba(10,74,160,.24);}
+  .attention h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.4rem,2.8vw,1.9rem);margin-bottom:.4rem;color:#fff;}
+  .attention .asub{color:#C8DBF3;font-size:.97rem;margin-bottom:1.1rem;}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.2rem;}
+  .tcard{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:.9rem 1rem;}
+  .tcard .tk{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#FFD617;font-weight:700;margin-bottom:.3rem;}
+  .tcard .tv{font-size:.93rem;}
+  .attention ul{margin:0 0 0 1.1rem;}
+  .attention li{margin-bottom:.45rem;font-size:.97rem;}
+  .attention li b{color:#FFD617;}
+  .punch{font-family:'Fraunces',serif;font-size:clamp(1.1rem,2.2vw,1.4rem);font-weight:600;color:#fff;
+    border-top:1px solid rgba(255,255,255,.28);padding-top:1.1rem;margin-top:1.2rem;}
+
+  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+
+  @media(max-width:820px){
+    .split{grid-template-columns:1fr;} .split .left{border-right:0;border-bottom:1px solid var(--line);}
+    .calls,.three{grid-template-columns:1fr;} .facts{grid-template-columns:1fr;}
+    .facts > div{border-bottom:1px solid var(--line);}
+    .score{display:none;} table{font-size:.82rem;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Prompting · four versions of one email</div>
+  <h1>The prompt ladder</h1>
+  <p class="intro">You have a beneficiary whose interim report is late. Below, the same situation is prompted four times — the facts never change, only <b>what you write</b>. Each version adds one block, fixes something specific, and breaks nothing. Watch the problem count fall: <b>4 → 3 → 1 → 0</b>. Anything in <mark>yellow</mark> is yours to change.</p>
+
+  <!-- FIVE BLOCKS -->
+  <div class="panel">
+    <h2>The five blocks</h2>
+    <p class="sub">In the order they actually matter — which is not the order you probably write them in.</p>
+
+    <div class="brow b1"><div class="bn">1</div><div>
+      <div class="bname">Task</div>
+      <p class="bdesc">What you want, and <b>what “finished” looks like</b>. Not “write an email” but what has to be true afterwards. The goal is the part you’ll be tempted to leave out, and it’s the part that gives the answer an ending.</p>
+    </div></div>
+
+    <div class="brow b2"><div class="bn">2</div><div>
+      <div class="bname">Context</div>
+      <p class="bdesc">Who is reading, what the facts are, what the constraints are — and <b>what must not be said</b>. Negative instructions are the most underused line in any prompt. Give a sensitive fact and its handling rule in the same breath.</p>
+      <div class="attach">
+        <div class="at">Context includes what you attach</div>
+        <p>Your fastest upgrade is usually to stop describing a document and <strong>attach it</strong> — the call text, the grant agreement, the report you received, the notes you took.</p>
+        <p><strong>Attach only material you are authorised to upload to the tool you are using.</strong> Before you attach anything, check that the tool is approved for that category of information, and consider whether the document contains: <strong>personal data</strong>; <strong>commercially sensitive or confidential business information</strong> belonging to applicants or beneficiaries; <strong>proposals or evaluation material under assessment</strong>; or anything carrying a <strong>sensitivity or classification marking</strong>. If you need a document that can’t go up as-is, extract or redact the part you actually need.</p>
+        <p class="ask"><strong>Check this against the real rules.</strong> The categories above are the shape of the question, not the answer. What binds you are <mark>[your organisation’s]</mark> rules on data protection, information handling, and which AI tools are approved for which content. When in doubt, ask before you upload.</p>
+      </div>
+    </div></div>
+
+    <div class="brow b3"><div class="bn">3</div><div>
+      <div class="bname">Rules</div>
+      <p class="bdesc">What it may assert, and what it should do when it doesn’t know. <b>Verify before writing. Leave a marked gap rather than filling it. Flag inferences as inferences. Put consequences in a note to me, not in the deliverable.</b> This is the block almost nobody writes — and the only one that changes whether you can <em>trust</em> what comes back rather than just enjoy reading it.</p>
+    </div></div>
+
+    <div class="brow b4"><div class="bn">4</div><div>
+      <div class="bname">Output</div>
+      <p class="bdesc">Format, length, tone — and <b>examples</b>, which belong here rather than in context, because an example mostly teaches shape. A word limit will do more editing for you than any instruction to “be concise”.</p>
+    </div></div>
+
+    <div class="brow b5"><div class="bn">5</div><div>
+      <div class="bname">Role <span class="opt">Optional · least of these</span></div>
+      <p class="bdesc">“You are an experienced project officer.” It helps set vocabulary and assumed background, and it’s the move you’ll reach for first — which is why it sits last here. Below, it changes less than a single line about tone. <b>Useful, oversold.</b></p>
+    </div></div>
+  </div>
+
+  <div class="legend">
+    <span class="ll">How to read the emails</span>
+    <span class="key"><span class="sw k1"></span>What the new block fixed</span>
+    <span class="key"><span class="sw k2"></span>Still weak — not yet fixed</span>
+    <span class="key"><span class="sw k3"></span>You would not send this</span>
+    <span class="key"><span class="sw k4"></span>Yours to change</span>
+  </div>
+
+  <!-- CASE -->
+  <div class="panel">
+    <h2>What you’re working with</h2>
+    <p class="sub">Identical for all four prompts.</p>
+    <div class="facts">
+      <div>Project</div><div>CARDIOLINK — cross-border cardiac data exchange, 6 partners, 4 countries</div>
+      <div>Coordinator</div><div>Dr Marta Nowak, university hospital, lead partner</div>
+      <div>Report due</div><div>31 July 2026</div>
+      <div>Received</div><div>14 August 2026 — partial</div>
+      <div>Missing</div><div>Financial statements from two partners; data governance deliverable; no explanation for a 40% underspend</div>
+      <div>History</div><div>Strong project. First time late. Always responsive.</div>
+      <div>Informal</div><div>Her institution is restructuring; two staff left in June</div>
+      <div>You need</div><div>The complete package, to process the payment</div>
+    </div>
+    <div class="change"><b>Invented for this exercise.</b> No real project, no real person — so nothing here needed clearing before it was written down. Worth remembering when you try this with a case of your own.</div>
+  </div>
+
+  <!-- VERSION 1 -->
+  <div class="rung v1">
+    <div class="rhead"><div class="rn">1</div>
+      <div><div class="lab">Blocks filled</div><div class="adds">None. One sentence.</div></div>
+      <div class="score"><div class="sn">4</div><div class="sl">problems</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="blocks">
+          <div class="bare" data-prompt>Write an email to a beneficiary whose interim report is late.</div>
+          <div class="blk off"><div class="bh">Task</div><div class="bt">— no goal, no definition of done —</div></div>
+          <div class="blk off"><div class="bh">Context</div><div class="bt">— empty —</div></div>
+          <div class="blk off"><div class="bh">Rules</div><div class="bt">— empty —</div></div>
+          <div class="blk off"><div class="bh">Output</div><div class="bt">— empty —</div></div>
+          <div class="blk off"><div class="bh">Role</div><div class="bt">— empty —</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="mail">
+          <div class="mrow"><span>To</span><b><span class="ph">[Beneficiary Name]</span></b></div>
+          <div class="mrow"><span>Subject</span><b>Overdue Interim Report — <span class="ph">[Project Acronym]</span></b></div>
+          <div class="mbody">
+            <p>Dear <span class="ph">[Beneficiary Name]</span>,</p>
+            <p>I am writing regarding the interim report for the above project, due on <span class="ph">[Deadline Date]</span>.</p>
+            <p><span class="no">To date we have not received the report.</span> <span class="no">Timely submission of periodic reports is a contractual obligation under the Grant Agreement.</span></p>
+            <p>I kindly ask you to submit without further delay, and no later than <span class="ph">[New Deadline]</span>.</p>
+            <p><span class="no">Continued failure to submit may lead to suspension of payments and further measures in accordance with the terms of the Grant Agreement.</span></p>
+            <p>Thank you for your cooperation.<br>Kind regards,<br><span class="ph">[Your Name]</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calls">
+      <div class="good"><div class="cl">In its favour</div>
+        <ul><li>It was fast, and it is shaped like an email. That’s the whole list.</li></ul>
+      </div>
+      <div class="left-open"><div class="cl">Four problems — would you send this?</div>
+        <ul>
+          <li><strong>1 · It states something false.</strong> “We have not received the report.” Something arrived on 14 August. The first real line tells her it didn’t count.</li>
+          <li><strong>2 · It invents authority.</strong> You gave it no grant agreement and authorised no consequence. It wrote those sentences because emails like this usually contain sentences like that.</li>
+          <li><strong>3 · Eleven placeholders.</strong> With no facts it gives you a shape and hands the work straight back to you.</li>
+          <li><strong>4 · No usable ask, and the wrong register.</strong> To someone with a clean record, this reads as a first warning.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSION 2 -->
+  <div class="rung v2">
+    <div class="rhead"><div class="rn">2</div>
+      <div><div class="lab">Block added</div><div class="adds">Context — the facts</div></div>
+      <div class="score"><div class="sn">3</div><div class="sl">problems</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="blocks">
+          <div class="blk carry"><div class="bh">Task</div><div class="bt" data-prompt>Write an email to Dr Marta Nowak, coordinator of CARDIOLINK, about her interim report.</div></div>
+          <div class="blk on"><div class="bh">Context — facts <span class="tagnew">New</span></div>
+            <div class="bt" data-prompt>Due 31 July 2026; a partial report arrived 14 August. Still missing: financial statements from two partners, the data governance deliverable, any explanation for a 40% underspend. Strong project, first time anything has been late, always responsive.</div></div>
+          <div class="blk off"><div class="bh">Rules</div><div class="bt">— empty —</div></div>
+          <div class="blk off"><div class="bh">Output</div><div class="bt">— empty —</div></div>
+          <div class="blk off"><div class="bh">Role</div><div class="bt">— empty —</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="mail">
+          <div class="mrow"><span>To</span><b>Dr Marta Nowak</b></div>
+          <div class="mrow"><span>Subject</span><b>CARDIOLINK — interim report follow-up</b></div>
+          <div class="mbody">
+            <p>Dear Dr Nowak,</p>
+            <p><span class="fix">Thank you for sending through the partial interim report on 14 August.</span></p>
+            <p><span class="fix">Having reviewed what came in, a few elements are still outstanding before the report can be considered complete: the financial statements from two of the partners, the deliverable on data governance, and an explanation of the 40% underspend recorded for the period.</span> The underspend in particular is something we will need to account for, so even a brief description of the reasons would be helpful.</p>
+            <p><span class="fix">CARDIOLINK has been a strong project throughout and this is the first time anything has been delayed, so please don’t read this as a concern about your management of it.</span></p>
+            <p><span class="weak">Please send the outstanding items through when you can. If anything is unclear, do let me know.</span></p>
+            <p><span class="weak">Kind regards,</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calls">
+      <div class="good"><div class="cl">Fixed by the facts alone</div>
+        <ul>
+          <li class="done"><s><strong>1 · States something false</strong></s> — it now opens by thanking her for what actually arrived. The exact reverse of your first attempt.</li>
+          <li class="done"><s><strong>2 · Invents authority</strong></s> — the grant agreement sentences vanished on their own. Give it real facts and it stops reaching for generic ones. You didn’t have to forbid anything.</li>
+          <li class="done"><s><strong>3 · Eleven placeholders</strong></s> — none left, and all three missing items correctly named.</li>
+        </ul>
+      </div>
+      <div class="left-open"><div class="cl">Three left</div>
+        <ul>
+          <li><strong>4 · Still no usable ask.</strong> “When you can” is not a date. You need this to process a payment, and you have just told her there’s no hurry.</li>
+          <li><strong>5 · No shape.</strong> The three missing items are buried inside a paragraph. She has to extract her own to-do list from your prose.</li>
+          <li><strong>6 · Nobody wrote this.</strong> Correct, competent, anonymous. It could have come from any of your colleagues.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSION 3 -->
+  <div class="rung v3">
+    <div class="rhead"><div class="rn">3</div>
+      <div><div class="lab">Blocks added</div><div class="adds">+ Goal, + Constraint, + Output</div></div>
+      <div class="score"><div class="sn">1</div><div class="sl">problem</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="blocks">
+          <div class="blk on"><div class="bh">Task — now with a goal <span class="tagnew">Goal</span></div>
+            <div class="bt" data-prompt>Email to Dr Marta Nowak about her interim report. Done means: I have the complete package quickly, and the working relationship is intact. I want her to reply, not go quiet.</div></div>
+          <div class="blk on"><div class="bh">Context — + audience &amp; constraint <span class="tagnew">New</span></div>
+            <div class="bt" data-prompt>Facts as before. She is a clinical academic, long-standing good relationship, deals with me directly. I also know informally that her institution is restructuring and two staff left in June — do not mention it. It isn't mine to raise.</div></div>
+          <div class="blk off"><div class="bh">Rules</div><div class="bt">— still empty —</div></div>
+          <div class="blk on"><div class="bh">Output — format, length, tone <span class="tagnew">New</span></div>
+            <div class="bt" data-prompt>Acknowledge what arrived, then list what's missing, then propose a specific date, then offer a call. Under 200 words. Warm, human, concise, no corporate filler. Open "Dear <mark>Marta</mark>," — square bullets (▪) — bold the date — close "Have a lovely day, <mark>[Your name]</mark>". Never imply bad faith; assume good reasons I don't know about.</div></div>
+          <div class="blk off"><div class="bh">Role</div><div class="bt">— still empty —</div></div>
+        </div>
+        <div class="change" style="margin:0 clamp(1rem,2.5vw,1.6rem) 1.3rem;"><b>What to change:</b> the tone line is one person’s house style. Swap the greeting, the bullet character and the sign-off for your own — that instruction is doing more work than anything else in the prompt.</div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="mail">
+          <div class="mrow"><span>To</span><b>Dr Marta Nowak</b></div>
+          <div class="mrow"><span>Subject</span><b>CARDIOLINK — the last few pieces</b></div>
+          <div class="mbody">
+            <p><span class="fix">Dear Marta,</span></p>
+            <p><span class="fix">Thank you for getting the partial report to us on 14 August.</span></p>
+            <p>CARDIOLINK has been in good shape from the start and this is the first time anything has slipped, so I am not worried — I just need a few pieces to close the period.</p>
+            <p>Still to come:</p>
+            <div class="bul">
+              <div><span class="sq">▪</span>financial statements from two of the partners</div>
+              <div><span class="sq">▪</span>the deliverable on data governance</div>
+              <div><span class="sq">▪</span>a short note explaining the 40% underspend</div>
+            </div>
+            <p><span class="fix">Would <strong>Friday 4 September</strong> work for all three? If it doesn’t, tell me what does and I will plan around it.</span></p>
+            <p>And if the underspend is easier to explain out loud than in writing, I’m happy to jump on a call — twenty minutes, any day next week.</p>
+            <p><span class="fix">Have a lovely day,<br><mark>[Your name]</mark></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calls">
+      <div class="good"><div class="cl">Fixed</div>
+        <ul>
+          <li class="done"><s><strong>4 · No usable ask</strong></s> — a real date, with room for her to counter-propose. The single change that turns an email into a payment.</li>
+          <li class="done"><s><strong>5 · No shape</strong></s> — three bullets she can work from. 131 words; the limit cut the vagueness before it cut anything useful.</li>
+          <li class="done"><s><strong>6 · Nobody wrote this</strong></s> — “getting it to us” credits what it cost her; “sending through” only recorded a transaction. Four words, from one line about tone.</li>
+          <li><strong>Your constraint held.</strong> Not a word about the restructuring, even though you put the fact in the prompt. Hand over a sensitive fact together with its handling rule and nothing leaks.</li>
+        </ul>
+      </div>
+      <div class="left-open"><div class="cl">One left — and you can’t see it</div>
+        <ul>
+          <li><strong>7 · You can’t tell what it guessed.</strong> 4 September is invented. “A short note” may be far too casual if a 40% deviation needs formal justification. Nothing here tells you which parts came from your brief and which came from nowhere.</li>
+          <li>Every earlier problem announced itself. This one reads as confidence. <strong>This is where you’ll be tempted to stop, because it looks finished.</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSION 4 -->
+  <div class="rung v4">
+    <div class="rhead"><div class="rn">4</div>
+      <div><div class="lab">Block added</div><div class="adds">+ Rules (and Role, for completeness)</div></div>
+      <div class="score"><div class="sn">0</div><div class="sl">problems</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="blocks">
+          <div class="blk carry"><div class="bh">Task</div><div class="bt">— as before —</div></div>
+          <div class="blk carry"><div class="bh">Context</div><div class="bt">— as before. Nothing attached; the grant agreement would have helped, see the note below —</div></div>
+          <div class="blk on"><div class="bh">Rules <span class="tagnew">The block that matters</span></div>
+            <div class="bt" data-prompt>Before writing, run this and show it to me: ▪ Which facts came from me, and which are you inferring? ▪ Are you about to assert a consequence I didn't give you? ▪ What are you guessing at?
+Don't cite any article, clause or procedural consequence unless I gave it to you. If you think one belongs, put it in a note below the email, not in the email. Leave a marked gap rather than filling it. Never state an inference as established fact.</div></div>
+          <div class="blk carry"><div class="bh">Output</div><div class="bt">— as before —</div></div>
+          <div class="blk on"><div class="bh">Role <span class="tagnew">Last, and least</span></div>
+            <div class="bt" data-prompt>You are an experienced <mark>[EU grant project officer]</mark> — <mark>[grant reporting, financial monitoring, beneficiary relations]</mark>.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="mail">
+          <div class="mrow"><span>To</span><b>Dr Marta Nowak</b></div>
+          <div class="mrow"><span>Subject</span><b>CARDIOLINK — the last few pieces</b></div>
+          <div class="mbody">
+            <p>Dear Marta,</p>
+            <p>Thank you for getting the partial report to us on 14 August.</p>
+            <p>CARDIOLINK has been in good shape from the start and this is the first time anything has slipped, so I am not worried — I just need a few pieces to close the period.</p>
+            <p>Still to come:</p>
+            <div class="bul">
+              <div><span class="sq">▪</span>financial statements from two of the partners</div>
+              <div><span class="sq">▪</span>the deliverable on data governance</div>
+              <div><span class="sq">▪</span>a short note explaining the 40% underspend</div>
+            </div>
+            <p>Would <strong>Friday 4 September</strong> work for all three? If it doesn’t, tell me what does and I will plan around it.</p>
+            <p>And if the underspend is easier to explain out loud than in writing, I’m happy to jump on a call — twenty minutes, any day next week.</p>
+            <p>Have a lovely day,<br><mark>[Your name]</mark></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notebox">
+      <span class="tg">This is what changed · your Rules block produced it</span>
+      <h3>Checks I ran, and what I left out</h3>
+      <ul>
+        <li><strong>From you vs. inferred.</strong> Everything in the email came from your brief. The one inference is that “a short note” is a proportionate ask for the underspend — see below.</li>
+        <li><strong>A consequence I did not assert: payment.</strong> There is very likely a link between the complete package and the next payment, but you didn’t give me your payment terms, so I won’t imply a financial consequence you didn’t authorise. Add a plain sentence yourself if you want it in.</li>
+        <li><strong>I guessed the date.</strong> 4 September is roughly three weeks out — a guess, not a judgement. I don’t know your payment cycle, your leave, or hers.</li>
+        <li><strong>I may be under-formalising the underspend.</strong> If a 40% deviation triggers a formal justification requirement, “a short note” is too casual. <strong>Attach the grant agreement and I can check the reporting terms instead of leaving this blank.</strong></li>
+        <li><strong>The restructuring, left out as instructed</strong> — but worth knowing: staff who left in June wouldn’t have been charged to the project afterwards, so it may well <em>be</em> the underspend. A lead for you, not a line for the email.</li>
+      </ul>
+    </div>
+
+    <div class="calls">
+      <div class="good"><div class="cl">Fixed</div>
+        <ul>
+          <li class="done"><s><strong>7 · You can’t tell what it guessed</strong></s> — now you can. Every guess, every omission, every thing it declined to claim, listed for you.</li>
+          <li><strong>The email barely changed.</strong> That’s the part worth noticing: this version didn’t write better, it told you what to check before you press send.</li>
+          <li><strong>The last note came out of a fact you forbade.</strong> It couldn’t use the restructuring in the email, so it handed it back to you as a lead on the underspend.</li>
+          <li><strong>Role did almost nothing</strong> — compare the two emails. The tone line you wrote earlier did the work you’d have credited to the persona.</li>
+        </ul>
+      </div>
+      <div class="left-open"><div class="cl">What no prompt fixes for you</div>
+        <ul>
+          <li><strong>Nothing here was verified.</strong> No system checked, no document opened. Every fact came from you — which is exactly what attaching the grant agreement would change.</li>
+          <li><strong>You still have to read it.</strong> The writing is now confident enough that you might stop questioning it. Fluency rises faster than accuracy.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACKER -->
+  <div class="panel">
+    <h2>All four versions in one table</h2>
+    <p class="sub">Seven problems. Nothing you fixed ever comes back.</p>
+    <table>
+      <thead><tr><th>Problem</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+      <tbody>
+        <tr><td>States something false</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Invents authority you didn’t give it</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Placeholders instead of content</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>No usable ask, no date</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>No shape — she extracts her own to-do list</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Anonymous — could be from anyone</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Its guesses are invisible to you</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td></tr>
+      </tbody>
+      <tfoot><tr><td>Problems remaining</td><td>4</td><td>3</td><td>1</td><td>0</td></tr></tfoot>
+    </table>
+  </div>
+
+  <!-- HONESTY -->
+  <div class="panel honest">
+    <h2>One thing worth knowing</h2>
+    <p>This ladder was <strong>built</strong> to climb cleanly. Your own prompting won’t always be so tidy — adding context can introduce new problems as well as fix old ones.</p>
+    <p>Two turned up while this was being written. Handing over the restructuring detail <em>without</em> a handling rule produced an email that put hearsay in writing. And stating the goal — “get the package quickly” — with no Rules block produced an invented sentence about payment being processed: a lever nobody had authorised.</p>
+    <p>Both are avoided above by pairing each addition with its safeguard. <strong>Send a sensitive fact with its constraint, and a goal with its rules.</strong> That’s the actual craft.</p>
+  </div>
+
+  <!-- ATTENTION -->
+  <div class="attention">
+    <h2>If you remember nothing else</h2>
+    <p class="asub">Five blocks is one too many to hold in your head on a busy Tuesday. Use three.</p>
+    <div class="three">
+      <div class="tcard"><div class="tk">Task</div><div class="tv">What you want, and what done looks like.</div></div>
+      <div class="tcard"><div class="tk">Context</div><div class="tv">Who’s reading, the facts, what not to say — and attach what you’re allowed to attach.</div></div>
+      <div class="tcard"><div class="tk">Output</div><div class="tv">Format, length, tone.</div></div>
+    </div>
+    <ul>
+      <li><b>Then the upgrade:</b> add <b>Rules</b> — verify first, flag what you’re guessing, leave gaps marked rather than filled.</li>
+      <li><b>Always read the draft.</b> AI writes confidently even when it’s wrong — you are the editor.</li>
+      <li><b>Check the facts yourself</b> — dates, deadlines, figures, names and references.</li>
+      <li><b>Fill in every [placeholder]</b> before sending.</li>
+    </ul>
+    <p class="punch">Most people stop at version three, because version three looks finished.</p>
+  </div>
+
+  <footer>Try it once on a real email this week. Adjust anything to fit how you work.</footer>
+
+</div>
+
+<script>
+  function copyPrompt(btn){
+    const col = btn.closest('.left');
+    const parts = [...col.querySelectorAll('[data-prompt]')].map(n=>n.innerText.trim());
+    const text = parts.join('\n\n');
+    const done = ()=>{btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy',1600);};
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else { fallback(); }
+    function fallback(){
+      const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);
+      ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);
+    }
+  }
+</script>
+</body>
+</html>
