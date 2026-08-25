@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Battle — Team Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3ECDF;--card:#FFFDF8;--ink:#211A14;--ink-soft:#5A4F43;
+    --terra:#C0532E;--terra-deep:#9C3F20;--teal:#1E4D47;--ochre:#C6912E;--ochre-deep:#8F6413;
+    --line:rgba(33,26,20,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.55;position:relative;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(110% 60% at 88% -12%, rgba(198,145,46,.20), transparent 58%),
+               radial-gradient(90% 60% at -10% 108%, rgba(192,83,46,.14), transparent 58%);}
+  .wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1.2rem,5vw,2.8rem) 5rem;}
+
+  .eyebrow{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;font-weight:800;color:var(--ochre-deep);display:flex;align-items:center;gap:.9rem;}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--ochre);display:inline-block;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.1rem,5.6vw,3.6rem);line-height:1;letter-spacing:-.02em;margin:1rem 0 .5rem;}
+  h1 span{color:var(--terra);}
+  .lede{font-family:'Fraunces',serif;font-size:clamp(1.05rem,1.9vw,1.28rem);line-height:1.45;color:var(--ink-soft);max-width:60ch;}
+
+  .brief{background:linear-gradient(165deg,#22534C,#173B36);color:#F3ECDF;border-radius:16px;padding:clamp(1.3rem,3vw,1.9rem);margin-top:1.6rem;}
+  .brief .k{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#E9C77E;margin-bottom:.6rem;}
+  .brief p{font-family:'Fraunces',serif;font-size:clamp(1.05rem,1.9vw,1.32rem);line-height:1.42;}
+  .brief p em{color:#E9C77E;font-style:italic;}
+  .brief .small{font-family:'Hanken Grotesk',sans-serif;font-size:.92rem;color:#CFD9D3;margin-top:.8rem;font-style:normal;}
+
+  .legend{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;font-size:.84rem;color:var(--ink-soft);align-items:center;}
+  .chip{display:inline-flex;align-items:center;gap:.45rem;background:var(--card);border:1px solid var(--line);border-radius:100px;padding:.35rem .8rem;font-weight:600;}
+  .dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .dot.g{background:var(--teal);}
+  .dot.y{background:var(--ochre);}
+
+  .sec-head{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,2.6rem) 0 1rem;}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.25rem,2.2vw,1.7rem);}
+  .sec-head .ln{flex:1;height:1px;background:var(--line);}
+
+  /* audience picker */
+  .aud{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1rem;}
+  @media(max-width:680px){.aud{grid-template-columns:1fr;}}
+  .aud-card{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--terra);border-radius:12px;padding:.95rem 1rem;cursor:pointer;transition:.15s;}
+  .aud-card:nth-child(2){border-top-color:var(--teal);}
+  .aud-card:nth-child(3){border-top-color:var(--ochre);}
+  .aud-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(33,26,20,.10);}
+  .aud-card.on{background:#fff;box-shadow:0 0 0 2px var(--terra) inset;}
+  .aud-card h4{font-family:'Fraunces',serif;font-size:1.08rem;font-weight:600;line-height:1.2;margin-bottom:.3rem;}
+  .aud-card p{font-size:.86rem;color:var(--ink-soft);}
+
+  /* blocks */
+  .pb{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent,var(--teal));border-radius:14px;padding:clamp(1.1rem,2.4vw,1.6rem);margin-bottom:.9rem;}
+  .pb-head{display:flex;align-items:baseline;gap:.85rem;flex-wrap:wrap;}
+  .pb-n{font-family:'Fraunces',serif;font-size:1.4rem;color:var(--accent,var(--teal));line-height:1;}
+  .pb-head h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.22rem;flex:1;min-width:150px;}
+  .pb-tag{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;padding:.28rem .6rem;border-radius:100px;background:var(--teal);color:#fff;}
+  .pb-tag.opt{background:transparent;color:var(--ink-soft);border:1px dashed var(--ink-soft);}
+  .does{font-size:.94rem;color:var(--ink-soft);margin:.6rem 0 .8rem;}
+
+  .given{background:rgba(30,77,71,.07);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:.75rem .95rem;font-size:.94rem;margin-bottom:.8rem;}
+  .given .gl{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--teal);display:block;margin-bottom:.3rem;}
+  .given ul{margin:.2rem 0 0 1.1rem;}
+  .given li{margin-bottom:.25rem;}
+
+  .yours{background:rgba(198,145,46,.10);border:2px dashed var(--ochre);border-radius:12px;padding:.9rem 1rem;}
+  .yours .yl{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--ochre-deep);display:flex;align-items:center;gap:.4rem;margin-bottom:.45rem;}
+  .yours .yl::before{content:"✎";font-size:1rem;}
+  .yours .ask{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;color:var(--ink);margin-bottom:.6rem;line-height:1.35;}
+  .yours .hint{font-size:.84rem;color:var(--ink-soft);margin-top:.5rem;}
+  textarea{width:100%;min-height:78px;resize:vertical;font-family:'Hanken Grotesk',sans-serif;font-size:.95rem;line-height:1.5;color:var(--ink);
+    background:#fff;border:1px solid var(--line);border-radius:9px;padding:.65rem .8rem;}
+  textarea:focus{outline:2px solid var(--ochre);outline-offset:1px;}
+  textarea::placeholder{color:#A79C8C;font-style:italic;}
+
+  /* assemble */
+  .assemble{background:#fff;border:1px solid var(--line);border-radius:14px;padding:clamp(1.1rem,2.4vw,1.6rem);margin-top:1rem;}
+  .btnrow{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.9rem;}
+  button{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.92rem;border:none;border-radius:100px;padding:.65rem 1.3rem;cursor:pointer;transition:.15s;}
+  .primary{background:var(--terra);color:#fff;}
+  .primary:hover{background:var(--terra-deep);}
+  .ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line);}
+  .ghost:hover{border-color:var(--ink-soft);}
+  pre{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1rem;white-space:pre-wrap;word-wrap:break-word;
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.86rem;line-height:1.55;color:var(--ink);min-height:60px;}
+  .said{font-size:.85rem;color:var(--teal);font-weight:700;margin-top:.5rem;min-height:1.2em;}
+
+  .check{background:rgba(192,83,46,.07);border:1px solid var(--terra);border-radius:12px;padding:1rem 1.15rem;margin-top:1rem;}
+  .check .cl{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--terra-deep);margin-bottom:.5rem;}
+  .check ul{margin-left:1.1rem;font-size:.94rem;}
+  .check li{margin-bottom:.3rem;}
+  .check b{color:var(--terra-deep);}
+
+  footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+
+  @media print{
+    body::before{display:none;}
+    .btnrow{display:none;}
+    textarea{min-height:100px;background:#fff;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Session 03 · Team sheet</div>
+  <h1>Prompt battle:<br><span>explain HaDEA three ways.</span></h1>
+  <p class="lede">One subject. Three very different listeners. Only one thing changes in your prompt — and everything changes in the answer.</p>
+
+  <div class="brief">
+    <div class="k">Your brief</div>
+    <p>Write a prompt that explains what HaDEA does — to <em>your</em> audience. Same organisation, same facts. A completely different answer.</p>
+    <p class="small">About 5 minutes to build it. Then we run them, and the room decides which one lands best.</p>
+  </div>
+
+  <div class="legend">
+    <span class="chip"><span class="dot g"></span> Given to you — use as is</span>
+    <span class="chip"><span class="dot y"></span> Your idea goes here</span>
+  </div>
+
+  <!-- AUDIENCE -->
+  <div class="sec-head"><h2>First — who are you talking to?</h2><span class="ln"></span></div>
+  <p class="does" style="margin-top:-.4rem;">Pick your team's audience. Tap to select — it drops into your prompt automatically.</p>
+  <div class="aud">
+    <div class="aud-card" data-aud="a five-year-old who has never heard the word &quot;agency&quot;">
+      <h4>A five-year-old</h4><p>Has never heard the word "agency". Attention span: short.</p>
+    </div>
+    <div class="aud-card" data-aud="a sceptical minister who has twenty seconds, in a lift">
+      <h4>A sceptical minister</h4><p>Twenty seconds. In a lift. Already unconvinced.</p>
+    </div>
+    <div class="aud-card" data-aud="a human in the year 2040 — and you are an alien who has been observing Europe from a distance all along">
+      <h4>A human in 2040</h4><p>And you're the alien who's been watching us all along.</p>
+    </div>
+  </div>
+
+  <!-- BUILD -->
+  <div class="sec-head"><h2>Now build the prompt</h2><span class="ln"></span></div>
+
+  <!-- 1 TASK -->
+  <div class="pb" style="--accent:#C0532E;">
+    <div class="pb-head"><span class="pb-n">1</span><h3>Task</h3><span class="pb-tag">Essential</span></div>
+    <p class="does">What you actually want done. Be concrete — a verb and a thing, not a topic.</p>
+    <div class="given"><span class="gl">Given</span>Explain what HaDEA does, for the audience named below.</div>
+    <div class="yours">
+      <span class="yl">Your idea</span>
+      <p class="ask">What exactly should it produce — and how long?</p>
+      <textarea id="t1" placeholder="e.g. a 60-second spoken explanation, three short paragraphs, one page of a bedtime story…"></textarea>
+      <p class="hint">The more specific the shape, the less it waffles.</p>
+    </div>
+  </div>
+
+  <!-- 2 CONTEXT -->
+  <div class="pb" style="--accent:#1E4D47;">
+    <div class="pb-head"><span class="pb-n">2</span><h3>Context</h3><span class="pb-tag">Essential</span></div>
+    <p class="does">Everything it can't know on its own — who's listening, what they care about, what the situation is.</p>
+    <div class="given">
+      <span class="gl">Given</span>
+      <div>Your audience: <b id="audEcho">— pick one above —</b></div>
+    </div>
+    <div class="yours">
+      <span class="yl">Your idea</span>
+      <p class="ask">What does this audience already know, and what do they actually care about?</p>
+      <textarea id="t2" placeholder="e.g. they don't know what the EU is, but they know what a doctor is — they care about whether it helps people…"></textarea>
+      <p class="hint">This is the block that does the heavy lifting. Spend most of your time here.</p>
+    </div>
+  </div>
+
+  <!-- 3 RULES -->
+  <div class="pb" style="--accent:#C6912E;">
+    <div class="pb-head"><span class="pb-n">3</span><h3>Rules</h3><span class="pb-tag">Essential</span></div>
+    <p class="does">The guardrails. What it must not do — and the limits it has to respect.</p>
+    <div class="given">
+      <span class="gl">Given</span>
+      <ul>
+        <li>No invented figures, budgets or dates.</li>
+        <li>Flag anything you are not sure about instead of guessing.</li>
+        <li>No jargon and no acronyms unless you explain them.</li>
+        <li>Nothing confidential goes into the prompt.</li>
+      </ul>
+    </div>
+    <div class="yours">
+      <span class="yl">Your idea</span>
+      <p class="ask">What would ruin this for your audience? Ban it.</p>
+      <textarea id="t3" placeholder="e.g. no words longer than three syllables · don't mention procedures · never say &quot;framework&quot;…"></textarea>
+    </div>
+  </div>
+
+  <!-- 4 OUTPUT -->
+  <div class="pb" style="--accent:#9C3F20;">
+    <div class="pb-head"><span class="pb-n">4</span><h3>Output</h3><span class="pb-tag">Essential</span></div>
+    <p class="does">The shape of what comes back — so you can use it without reformatting.</p>
+    <div class="given"><span class="gl">Given</span>Plain text we can read aloud in front of the room.</div>
+    <div class="yours">
+      <span class="yl">Your idea</span>
+      <p class="ask">How should it be structured — and how should it end?</p>
+      <textarea id="t4" placeholder="e.g. three short paragraphs, ending on one line they'd remember tomorrow…"></textarea>
+    </div>
+  </div>
+
+  <!-- 5 ROLE -->
+  <div class="pb" style="--accent:#5A4F43;">
+    <div class="pb-head"><span class="pb-n">5</span><h3>Role</h3><span class="pb-tag opt">Optional · last</span></div>
+    <p class="does">Who the AI is speaking as. It's the block everyone reaches for first — and it changes the least. Add it only if the voice matters.</p>
+    <div class="yours">
+      <span class="yl">Your idea</span>
+      <p class="ask">Whose voice is telling this? (Skip it if it doesn't add anything.)</p>
+      <textarea id="t5" placeholder="e.g. a patient grandparent · a very tired alien anthropologist…" style="min-height:56px;"></textarea>
+    </div>
+  </div>
+
+  <!-- ASSEMBLE -->
+  <div class="sec-head"><h2>Your prompt</h2><span class="ln"></span></div>
+  <div class="assemble">
+    <div class="btnrow">
+      <button class="primary" id="build">Build my prompt</button>
+      <button class="ghost" id="copy">Copy</button>
+    </div>
+    <pre id="out">Fill the blocks above, then press "Build my prompt".</pre>
+    <div class="said" id="said"></div>
+  </div>
+
+  <!-- AFTER -->
+  <div class="sec-head"><h2>Before you present it</h2><span class="ln"></span></div>
+  <div class="check">
+    <div class="cl">Two minutes that decide the round</div>
+    <ul>
+      <li><b>Check the facts.</b> A good prompt fixes structure and voice. It does not fix facts. Anything about what HaDEA does, or any number, gets checked against the real source before you read it out.</li>
+      <li><b>Bring the prompt, not just the answer.</b> When you present, show what you wrote as well as what came back. That's the part everyone learns from.</li>
+      <li><b>If it's dull, look at block 2.</b> Nine times out of ten the answer is flat because the audience wasn't described sharply enough.</li>
+    </ul>
+  </div>
+
+  <footer>Team sheet · Session 03 · AI Away Day</footer>
+</div>
+
+<script>
+  var A = null;
+  document.querySelectorAll('.aud-card').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.aud-card').forEach(function(x){x.classList.remove('on');});
+      c.classList.add('on');
+      A = c.getAttribute('data-aud');
+      document.getElementById('audEcho').textContent = A;
+    });
+  });
+
+  function val(id){ var v = document.getElementById(id).value.trim(); return v; }
+
+  document.getElementById('build').addEventListener('click', function(){
+    var p = [];
+    p.push('TASK');
+    p.push('Explain what HaDEA does, for the audience described below.');
+    if(val('t1')) p.push(val('t1'));
+    p.push('');
+    p.push('CONTEXT');
+    p.push('Audience: ' + (A ? A : '[pick your audience above]'));
+    if(val('t2')) p.push(val('t2'));
+    p.push('');
+    p.push('RULES');
+    p.push('- No invented figures, budgets or dates.');
+    p.push('- Flag anything you are not sure about instead of guessing.');
+    p.push('- No jargon or acronyms unless you explain them.');
+    if(val('t3')) p.push('- ' + val('t3'));
+    p.push('');
+    p.push('OUTPUT');
+    p.push('Plain text, to be read aloud.');
+    if(val('t4')) p.push(val('t4'));
+    if(val('t5')){ p.push(''); p.push('ROLE'); p.push('Write as ' + val('t5') + '.'); }
+    document.getElementById('out').textContent = p.join('\n');
+    document.getElementById('said').textContent = '';
+  });
+
+  document.getElementById('copy').addEventListener('click', function(){
+    var t = document.getElementById('out').textContent;
+    var ta = document.createElement('textarea');
+    ta.value = t; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); document.getElementById('said').textContent = 'Copied — paste it into the AI tool.'; }
+    catch(e){ document.getElementById('said').textContent = 'Select the text above and copy it manually.'; }
+    document.body.removeChild(ta);
+  });
+</script>
+</body>
+</html>
