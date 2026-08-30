@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Run Sheet — AI Away Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F0E8D6;--card:#FBF6EA;--ink:#3B3226;--ink-soft:#6E6153;
+    --clay:#B0724A;--clay-deep:#8A5730;--sage:#77835E;--soft:#E4D6BC;
+    --line:rgba(59,50,38,.15);--shadow:rgba(59,50,38,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.55;position:relative;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(52% 45% at 92% -8%, rgba(176,114,74,.16), transparent 60%),radial-gradient(50% 50% at -8% 105%, rgba(119,131,94,.13), transparent 60%);}
+  .wrap{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:clamp(2.2rem,5vw,4rem) clamp(1.3rem,5vw,2.6rem) 4rem;}
+
+  .eyebrow{font-size:.76rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;color:var(--clay-deep);display:flex;align-items:center;gap:.9rem;}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--clay);display:inline-block;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.1rem,5.5vw,3.6rem);line-height:1;letter-spacing:-.02em;margin:1rem 0 .4rem;}
+  h1 span{color:var(--clay);}
+  .tagline{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-soft);font-size:1.05rem;}
+
+  .block{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--clay);border-radius:16px;padding:clamp(1.4rem,3vw,2rem);margin-top:1.2rem;}
+  .block-head{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;margin-bottom:1rem;}
+  .block-n{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--clay);line-height:1;}
+  .block-label{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--clay-deep);}
+  .block-head h3{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.3rem,2.4vw,1.75rem);line-height:1.05;}
+  .block-head .ttl{flex:1;min-width:200px;}
+  .dur{font-size:.74rem;font-weight:700;color:#fff;background:var(--sage);padding:.3rem .7rem;border-radius:100px;}
+
+  .plabel{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--clay-deep);margin:1.1rem 0 .5rem;}
+  .plabel:first-child{margin-top:0;}
+  p{margin-bottom:.7rem;}
+  .axes{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-soft);font-size:.95rem;margin-bottom:.6rem;}
+  .note{font-size:.9rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;margin-bottom:.9rem;}
+
+  .slot{border:1.5px dashed var(--clay);background:rgba(176,114,74,.07);border-radius:12px;padding:1.1rem 1.2rem;color:var(--clay-deep);font-size:.95rem;font-style:italic;}
+
+  .qline{background:#fff;border:1px solid var(--line);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.7rem;}
+  .qline .q{font-family:'Fraunces',serif;font-size:1.06rem;font-weight:550;line-height:1.25;}
+  .poles{display:flex;justify-content:space-between;gap:1rem;margin-top:.55rem;font-size:.82rem;color:var(--ink-soft);}
+  .poles .l::before{content:"◄ ";color:var(--clay);}
+  .poles .r::after{content:" ►";color:var(--sage);}
+  .rnd{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--clay-deep);margin-bottom:.3rem;}
+
+  .corners{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin:.5rem 0 .2rem;}
+  .corner{border:1px solid var(--line);border-top:4px solid var(--clay);border-radius:10px;padding:.7rem .85rem;background:#fff;font-size:.86rem;font-weight:600;color:var(--ink);}
+  .corner.c2{border-top-color:var(--sage);}.corner.c3{border-top-color:var(--soft);}.corner.c4{border-top-color:var(--clay-deep);}
+
+  .q-item{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem 1.15rem;margin-bottom:.75rem;}
+  .q-q{font-family:'Fraunces',serif;font-weight:600;font-size:1.08rem;line-height:1.2;color:var(--ink);}
+  .q-opts{font-size:.88rem;color:var(--ink-soft);margin-top:.45rem;}
+  .q-opts b{color:var(--clay-deep);background:rgba(176,114,74,.14);padding:.05em .3em;border-radius:4px;}
+  .q-r{font-size:.94rem;line-height:1.5;color:var(--ink);margin-top:.6rem;border-top:1px solid var(--line);padding-top:.55rem;}
+  .q-r .lab{font-weight:700;color:var(--clay-deep);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.15rem;}
+  .mic{font-family:'Fraunces',serif;font-style:italic;color:var(--sage);font-weight:600;}
+
+  .promptbox{position:relative;background:#fff;border:1px solid var(--line);border-radius:10px;margin:.4rem 0 .2rem;}
+  .promptbox .pt{padding:.9rem 1.05rem;padding-right:4.4rem;white-space:pre-wrap;font-size:.94rem;line-height:1.5;color:var(--ink);}
+  .copybtn{position:absolute;top:.5rem;right:.5rem;font-family:'Hanken Grotesk';font-size:.72rem;font-weight:700;color:#fff;background:var(--clay);border:none;border-radius:6px;padding:.32rem .7rem;cursor:pointer;transition:background .2s;}
+  .copybtn:hover{background:var(--clay-deep);}
+  .steplabel{font-size:.72rem;letter-spacing:.06em;font-weight:700;color:var(--clay-deep);margin-top:1.1rem;text-transform:uppercase;}
+  .steplabel span{color:var(--ink-soft);font-weight:500;text-transform:none;letter-spacing:0;}
+  .handoff{margin-top:.9rem;font-weight:600;color:var(--clay-deep);font-size:.9rem;background:rgba(176,114,74,.09);border-left:3px solid var(--clay);padding:.55rem .8rem;border-radius:0 8px 8px 0;}
+
+  .combo{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.7rem 0;}
+  .combo .cc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem;}
+  .combo h5{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--clay-deep);margin-bottom:.5rem;}
+  .combo ul{margin:0 0 0 1.05rem;}
+  .combo li{margin-bottom:.3rem;font-size:.9rem;}
+
+  footer{margin-top:2.2rem;font-size:.8rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+  .script2{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.3rem;}
+  .script2 .mv{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--clay-deep);margin:1.1rem 0 .45rem;}
+  .script2 .mv:first-child{margin-top:0;}
+  .script2 p{font-family:'Fraunces',serif;font-size:1.02rem;line-height:1.5;margin-bottom:.7rem;color:var(--ink);}
+  .script2 p:last-child{margin-bottom:0;}
+  .script2 .dir{font-family:'Hanken Grotesk';font-style:italic;color:var(--clay);font-size:.85rem;}
+  .script2 em{color:var(--clay-deep);font-style:italic;}
+  .block ul{margin:.2rem 0 .6rem 1.15rem;}
+  .block li{margin-bottom:.35rem;font-size:.95rem;}
+
+  .intention{background:rgba(119,131,94,.12);border-left:3px solid var(--sage);border-radius:0 10px 10px 0;padding:.85rem 1.05rem;margin:.9rem 0;font-family:'Fraunces',serif;font-style:italic;font-size:1rem;color:var(--ink);}
+  .beliefs{list-style:none;margin:.7rem 0;padding:0;}
+  .beliefs li{font-family:'Fraunces',serif;font-size:1.04rem;font-weight:600;color:var(--clay-deep);padding:.35rem 0 .35rem .9rem;border-left:3px solid var(--clay);margin-bottom:.45rem;font-style:italic;}
+  .divider2{height:1px;background:var(--line);margin:1.5rem 0;}
+  .deep-h{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;color:var(--clay-deep);margin:.5rem 0 .3rem;}
+  .deep-sub{font-size:.88rem;color:var(--ink-soft);font-style:italic;margin-bottom:.5rem;}
+  .flagbox{background:rgba(176,114,74,.10);border:1px dashed var(--clay);border-radius:10px;padding:.8rem 1rem;margin:.8rem 0;font-size:.88rem;line-height:1.5;color:var(--ink);}
+  .flagbox b{color:var(--clay-deep);}
+  .ask{background:#F4D77A;color:#3B3226;font-weight:600;padding:.08em .35em;border-radius:5px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+
+  /* session 03 battle extras */
+  .callout{background:rgba(198,145,46,.15);border-left:4px solid #C6912E;border-radius:0 10px 10px 0;padding:.8rem 1rem;margin:.5rem 0 .8rem;}
+  .callout .k{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#8A5E12;display:block;margin-bottom:.3rem;}
+  .callout p{font-family:'Fraunces',serif;font-size:1.05rem;line-height:1.35;margin:0;color:var(--ink);}
+  .aud-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;margin:.4rem 0 .3rem;}
+  .aud{border:1px solid var(--line);border-top:4px solid var(--clay);border-radius:10px;padding:.7rem .85rem;background:#fff;font-size:.88rem;font-weight:600;line-height:1.3;}
+  .aud.a2{border-top-color:var(--sage);}
+  .aud.a3{border-top-color:#C6912E;}
+  .aud span{display:block;font-weight:400;color:var(--ink-soft);font-size:.82rem;margin-top:.2rem;}
+  .q-q .tagblock{font-family:'Hanken Grotesk',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#fff;background:var(--clay);padding:.2rem .5rem;border-radius:100px;margin-right:.5rem;vertical-align:middle;}
+  .q-q .tagblock.opt{background:transparent;color:var(--ink-soft);border:1px dashed var(--ink-soft);}
+  .q-item ul{margin:.55rem 0 0 1.1rem;font-size:.94rem;}
+  .warn{background:rgba(119,131,94,.12);border:1px solid var(--sage);border-radius:12px;padding:.9rem 1.1rem;font-size:.93rem;color:var(--ink);margin-top:.8rem;}
+  .warn b{color:#566146;}
+
+  .rungnote{font-family:'Fraunces',serif;font-style:italic;color:var(--sage);font-size:.86rem;margin:.2rem 0 .9rem;}
+
+  @media(max-width:560px){.corners,.combo,.aud-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Personal run sheet · for me</div>
+  <h1>Working with AI,<br><span>hands on.</span></h1>
+  <p class="tagline">My content, section by section.</p>
+
+  <!-- 00 OPENING -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">00</span><div class="ttl"><span class="block-label">Opening</span><h3>Opening the room</h3></div><span class="dur">~10 min</span></div>
+    <div class="script2">
+      <div class="mv">Movement zero &middot; the cold open</div>
+      <p><span class="ask">Who is excited to learn something new today?</span> <span class="dir">[show of hands]</span></p>
+      <p>It's a rare occasion that I don't have to introduce myself before speaking &mdash; so let me get straight to it. Putting this together, I realised a talk is basically <b>stand-up comedy</b>. The job is the same: make you feel something, make you laugh, hand you a few <em>aha</em> moments &mdash; and send you home with one idea you can't shake. There's just one difference: a comedian does their set, takes the applause, and gets on a plane. <span class="dir">[beat]</span> I have to see all of you&hellip; at Thursday's team meeting. So the jokes today are, let's say, HR-compliant. <span class="dir">[smile]</span> But I still want us to have fun.</p>
+      <p>Before we dive in, I like to set an intention whenever I begin something. Mine for today is simple: to share some of my enthusiasm for AI, to raise your curiosity, to shift you a little from scepticism &mdash; and to send you off inspired to go and learn <b>one tool</b>.</p>
+
+      <div class="mv">Movement one &middot; look outward, or look inward</div>
+      <p>Because here's what I keep noticing. I often hear people blaming the tools. <em>"AI wrote me this robotic nonsense." "AI is coming for my job."</em> And honestly? Blaming it feels good &mdash; it lets us off the hook. But the braver move is to turn the question on ourselves: where is this actually making me sharper, more creative, more efficient? Because I believe <b>AI is here to reveal you, not to replace you.</b> It's a spotlight, not a shadow &mdash; <b>it doesn't erase you, it makes you impossible to miss.</b></p>
+      <p>That question &mdash; the one that looks <em>inward</em> &mdash; is the whole point of today. And it reminds me of a story.</p>
+
+      <div class="mv">Movement two &middot; the three genies</div>
+      <p>Three genies once argued about where to hide happiness, so we'd never find it. The ocean floor? We'd build a submarine. The mountain top? We'd climb. <span class="dir">[smile]</span> So the third said: hide it <em>inside</em> them &mdash; they'll never look there. And mostly&hellip; we don't. We look outside &mdash; for the applause, the permission. But what we were looking for never left.</p>
+      <p>Take creativity. <span class="ask">Who here remembers being creative as a child?</span> <span class="dir">[hands]</span> <span class="ask">And who's still creating today?</span> <span class="dir">[fewer hands]</span> Somewhere along the way we filed it under childhood and packed it away with the toys. <em>I'm not the creative type.</em> But neuroscience is clear: the brain rewires at any age &mdash; it strengthens the paths you walk and thins the ones you abandon. "Not the creative type" was never a fact. It's a path you stopped walking. <span class="dir">[slow]</span> And that path is the exact door these tools quietly reopen &mdash; <b>if you let them.</b></p>
+
+      <div class="mv">Movement three &middot; the turn</div>
+      <p>So why do we hesitate? Fear. <span class="ask">Who here is concerned about AI? And who's not using it because of those concerns?</span> Mostly, we focus on the risks &mdash; privacy, security. Those matter. But we rarely weigh the other side: the <b>opportunity cost of not using it</b>. The risks may or may not materialise; the opportunity cost is guaranteed. Avoid AI completely, and you quietly fall behind while others move forward.</p>
+      <p>And underneath it all sits a deeper fear &mdash; that AI will make us obsolete. But that's a scarcity story, the illusion that intelligence is zero-sum &mdash; that if the machines get smarter, we must be getting more irrelevant. The telescope didn't make sight irrelevant. The microscope didn't replace the doctor &mdash; it deepened medicine, revealing what the eye alone could never see. The camera didn't end art &mdash; it forced art to evolve. <b>Tools don't erase us. They expand us.</b> AI hasn't made my thinking smaller; it's sharpened it &mdash; pushed me to ask better questions, to better connect ideas. It reveals how powerful human intelligence already is, when amplified. The real risk was never AI getting smarter. <span class="dir">[beat]</span> It's us staying small in how we think about it.</p>
+      <p>So today &mdash; don't shrink your gift to fit a small idea of what this is. Play with it. <span class="dir">[beat]</span> Let's find out what it feels like to let it out.</p>
+    </div>
+
+    <div class="divider2"></div>
+
+    <div class="deep-h">Going deeper &mdash; the practical picture</div>
+    <p class="deep-sub">Note: this runs beyond a 10-minute opening &mdash; likely its own segment. Kept together, in order.</p>
+
+    <div class="deep-h" style="font-size:1.05rem;margin-top:1rem;">1 &middot; Mindset shift &mdash; AI as a thought partner</div>
+    <ul>
+      <li>An Einstein-level assistant. <b>GPT is the car, not the driver</b> &mdash; move from simple searches towards algorithm design.</li>
+      <li>It's you <em>and</em> AI &mdash; not AI with a sparkle of you. It's who you can become when amplified.</li>
+      <li>We're architecting; we're scaling outcomes &mdash; building the kind of leverage that transforms roles, teams and organisations, and makes things possible.</li>
+      <li>Our chances of success depend on our capacity to learn &mdash; deeper, faster, better.</li>
+    </ul>
+
+    <div class="deep-h" style="font-size:1.05rem;margin-top:1rem;">2 &middot; Rapid, exponential progress</div>
+    <ul>
+      <li><b>Good chaos</b> = doing my work more efficiently; <b>bad chaos</b> = unpredictability. The best way to prepare for an uncertain future is to jump in and accelerate your own learning.</li>
+      <li>The scale behind these models has been <b>doubling roughly every six months</b> &mdash; about <b>4&times; more each year</b>, ~16&times; in two years, and on the order of <b>a thousand times in five years</b>.</li>
+      <li><em>The bicycle image:</em> if your bicycle doubled its speed every six months, in a year you'd pedal four times faster &mdash; and in five years, over a thousand times faster, through the sound barrier. That's the pace we're living through.</li>
+    </ul>
+    <div class="flagbox"><b>Source &amp; wording:</b> figures from <b>Epoch AI (2024)</b> &mdash; the training compute of notable AI models has doubled ~every 6 months (~4&times;/year) since 2010; frontier models scale even faster (~every 5 months). It's a <em>compute / scale</em> trend, not a single "power" number, so say "the scale behind AI" rather than "AI's power." (This replaces the earlier "3.3 months / a million times" &mdash; that figure was from 2018 and didn't add up.)</div>
+
+    <div class="deep-h" style="font-size:1.05rem;margin-top:1rem;">3 &middot; Beyond search &rarr; algorithm design</div>
+    <p class="deep-sub">Reusable GPT problems to demonstrate &mdash; each level asks more of the tool:</p>
+    <div class="steplabel">L1 &middot; Search <span>(Google 2.0)</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">What are the top 5 TED talks on resilience? Summarize each in 2 bullet points.</div></div>
+    <div class="steplabel">L2 &middot; Task <span>(tireless intern)</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Summarize this 3000-word article into a 5-bullet LinkedIn post, written in a professional tone with a funny takeaway, max 120 words.</div></div>
+    <div class="steplabel">L3 &middot; Strategy <span>(on-demand consultant)</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Design me a 90-day LinkedIn campaign for HaDEA targeting its key stakeholders to raise awareness, with weekly themes, platform recommendations, and key metrics to track.</div></div>
+    <div class="steplabel">L4 &middot; Vision <span>(thought partner)</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">I want to reinvent education and training by 2040. Give me 5 radical models, each inspired by a different civilization in history, and explain how each would work today, with a reflection on the future of learning.</div></div>
+    <div class="steplabel">L5 &middot; Agentic workflows <span>(chained tools / processes)</span></div>
+    <ul>
+      <li><b>Assistant / custom GPT</b> &mdash; reactive: it waits for you to ask.</li>
+      <li><b>Agent</b> &mdash; proactive: it monitors and takes initiative on triggers, and makes decisions. The difference is <b>agency</b> &mdash; autonomy.</li>
+      <li><b>Agentic team</b> &mdash; multiple agents proactively collaborating, like a team of people.</li>
+    </ul>
+
+    <div class="deep-h" style="font-size:1.05rem;margin-top:1rem;">4 &middot; AI is only as good as its data</div>
+    <ul>
+      <li><b>Recency:</b> ask GPT@EC+ "who is the president of the US?" and you might get a happy little time-travel &mdash; the answer is only as current as the data behind it.</li>
+      <li><b>Quality &amp; fairness:</b> this is why we benchmark models. Stanford's <b>HELM</b> (Holistic Evaluation of Language Models) tests them across accuracy, bias and more &mdash; so we can judge them, not just trust them.</li>
+    </ul>
+  </div>
+
+  <!-- WARM UP -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">&#9733;</span><div class="ttl"><span class="block-label">Warm-up · on our feet</span><h3>Where do we stand?</h3></div><span class="dur">~12 min</span></div>
+
+    <div class="rnd">Round 1 · how much do you use it?</div>
+    <div class="qline"><div class="q">"I've already used AI for something — at work or at home."</div><div class="poles"><span class="l">All the time</span><span class="r">Never touched it</span></div></div>
+
+    <div class="rnd">Round 2 · four corners</div>
+    <p class="axes">Two axes: how much you use AI (a lot / a little) × how well you know its risks (yes / not really).</p>
+    <div class="corners">
+      <div class="corner c1">Uses a lot · knows the risks</div>
+      <div class="corner c2">Uses a lot · doesn't know the risks</div>
+      <div class="corner c3">Uses a little · knows the risks</div>
+      <div class="corner c4">Uses a little · doesn't know the risks</div>
+    </div>
+
+    <div class="rnd" style="margin-top:.8rem;">Round 3 · do you trust it?</div>
+    <div class="qline"><div class="q">"AI is a brilliant assistant… or a confident liar that makes things up."</div><div class="poles"><span class="l">Brilliant assistant</span><span class="r">Confident fibber</span></div></div>
+
+    <div class="rnd">Round 4 · where is this going?</div>
+    <div class="qline"><div class="q">"In two years, AI will feel like a trusted colleague here at HaDEA."</div><div class="poles"><span class="l">Absolutely</span><span class="r">Still a side experiment</span></div></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">01</span><div class="ttl"><span class="block-label">Quiz · Slido</span><h3>How wrong are we about AI?</h3></div><span class="dur">~10 min</span></div>
+    <p class="note">Ask, let them answer, reveal — then land the reflection. (Verify the exact figures close to the day; they move fast.)</p>
+
+    <div class="script2">
+      <div class="mv">Before the quiz &middot; read aloud</div>
+      <p>I am super fascinated by neuroscience &mdash; <b>neuroplasticity</b>, the brain's ability to rewire itself, at any age. Adults can grow new neurons until the day they die. Science only admitted this in 2018. Imagine how many other things we're still wrong about.</p>
+      <p>Also about neuroscience: we learn best when learning is tied to <b>emotion and movement</b>. So today, instead of just sharing data with you, we'll be playing a little bit. The intention of this session is to connect with you all better &mdash; and to play.</p>
+      <p>The quiz questions are based on one fact: <b>we don't see reality &mdash; we see our interpretation of it.</b> Think about that for a moment. Every email you read this morning. Every assumption you brought into this room. Every opinion you hold about AI. You didn't experience reality &mdash; you experienced your interpretation of it.</p>
+      <p>And here's the uncomfortable part &mdash; most of the time, we act on that interpretation before we even understand it.</p>
+      <p>That's what neuroscientists mean when they say <em>"neurons that fire together, wire together."</em> Every time you repeat a thought, a habit, a belief, your brain physically strengthens that pathway.</p>
+      <p>Which means every habit, every belief, every assumption you carry into this room today was wired in by repetition. <b>Including the ones that are wrong.</b> <span class="dir">[beat]</span> <span class="ask">Are you ready? Get your phones out!</span></p>
+    </div>
+    <div class="flagbox"><b>Check before saying aloud:</b> the <em>"adults grow new neurons until the day they die / science only admitted it in 2018"</em> line is shakier than it sounds. The rewiring (neuroplasticity) part is rock-solid. But adult <em>neurogenesis</em> is specific to the hippocampus, declines with age (not "until the day they die" at full strength), and 2018 was when the science flared into <em>debate</em> (two contradictory papers) &mdash; not a clean "admission." Recent evidence (2023&ndash;25) does lean yes. Safer wording if a scientist's in the room: <em>"we now have strong evidence the adult brain keeps making some new neurons late in life &mdash; something scientists doubted for years."</em></div>
+
+    <div class="q-item" style="border-left:4px solid var(--sage);">
+      <div class="q-q">First · How do you feel about AI today?</div>
+      <div class="q-opts">A quick temperature check — one word, or a Slido word cloud. No right answer; it warms the room up before the myth-busting begins.</div>
+    </div>
+
+    <div class="script2">
+      <div class="mv">After the first question &middot; read aloud</div>
+      <p>They're valid. And some of them carry a bit of frustration in them &mdash; frustration that the gap between <em>"what AI can do"</em> and <em>"what we're allowed to do with it"</em> keeps widening.</p>
+      <p>We need to recognise that underneath a lot of our frustration sits something deeper &mdash; a story we've been told, and that we tell ourselves. Remember the scarcity example from earlier: most of our frustration rests on that same scarcity story &mdash; the idea that intelligence is a zero-sum game. But none of those tools erased the human role. <b>They raised the bar.</b></p>
+    </div>
+
+    <div class="q-item">
+      <div class="q-q">1 · How much energy does one typical AI question use?</div>
+      <div class="q-opts">Boiling a kettle · <b>a microwave for ~1 second</b> · charging your phone fully · a 10-minute hot shower</div>
+      <div class="q-r"><span class="lab">Reflection</span>A standard AI question uses about the same energy as a single Google search — roughly one second of microwave. <span class="mic">The energy monster everyone fears? For an everyday question, it's the size of a mouse.</span></div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-q">2 · "AI uses 10× more energy than a Google search." True?</div>
+      <div class="q-opts">True · an underestimate · <b>debunked — about the same now</b> · impossible to measure</div>
+      <div class="q-r"><span class="lab">Reflection</span>That figure came from a 2023 estimate that turned out roughly ten times too high; today a query and a search are neighbours. <span class="mic">The scariest AI stat going around was simply… out of date.</span></div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-q">3 · A normal question ≈ 1 second of microwave. Switch on "thinking / reasoning" mode for the <em>same</em> question — how long now?</div>
+      <div class="q-opts">Still ~1 second · ~10 seconds · <b>~30 seconds</b> · over a minute</div>
+      <div class="q-r"><span class="lab">Reflection</span>On average, reasoning mode uses about 30× more — and the heaviest models can run past a full minute, for the very same answer. <span class="mic">Same question, same reply, just "thinking" switched on. The cost isn't the AI — it's how we use it.</span></div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-q">4 · Training GPT-3 used enough freshwater to build how many BMW cars?</div>
+      <div class="q-opts">3 · 37 · <b>370</b> · 3,700</div>
+      <div class="q-r"><span class="lab">Reflection</span>Training GPT-3 evaporated around 700,000 litres of clean water — enough to build about 370 cars — before a single person typed hello. <span class="mic">The story was never in your chat. It's in the training.</span></div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-q">5 · "It takes a bottle of water to write one email with AI." How true?</div>
+      <div class="q-opts">Accurate · <b>a worst-case lifecycle figure — really a few drops to a few mL</b> · ten times too low · about right</div>
+      <div class="q-r"><span class="lab">Reflection</span>That viral bottle quietly bundles the whole lifecycle — cooling, electricity, everything. Your actual email costs a few drops. <span class="mic">The bottle was never in your inbox.</span></div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-q">6 · Which of these has by far the biggest footprint?</div>
+      <div class="q-opts">100 AI questions · streaming one 4K film · boiling ten cups of tea · <b>one short-haul flight</b></div>
+      <div class="q-r"><span class="lab">Reflection</span>Per question you're a rounding error — yet we lose sleep over a chatbot while streaming Netflix in 4K and flying to meetings that could've been emails. <span class="mic">Send the email. Skip the flight.</span></div>
+    </div>
+  </div>
+
+  <!-- 02 BUILD -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">02</span><div class="ttl"><span class="block-label">Build it live</span><h3>The prompt ladder</h3></div><span class="dur">~20 min</span></div>
+
+    <p class="note">Run each rung live so the room sees the jump. Same idea both times: the facts never change &mdash; only what I write.</p>
+
+    <p>The model isn't withholding quality &mdash; <b>it's guessing at everything you didn't tell it.</b> The generic answer is what a competent stranger produces when handed one sentence of context.</p>
+    <div class="flagbox"><b>Say this out loud:</b> prompting controls the <b>shape, specificity and usefulness</b> of an answer. It does <b>not</b> control whether it's <b>true</b> &mdash; that still needs a human.</div>
+
+    <div class="deep-h" style="margin-top:1.2rem;">Ladder 1 &middot; the late interim report</div>
+    <p class="deep-sub">A beneficiary's interim report is late. The same situation, prompted four times &mdash; the facts never change, only what I write. Each rung adds one block, fixes something specific, and breaks nothing.</p>
+
+    <div class="steplabel">V1 <span>&middot; Task only</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Write an email to a beneficiary whose interim report is late.</div></div>
+    <p class="rungnote">Hollow and generic &mdash; it's guessing at the facts.</p>
+
+    <div class="steplabel">V2 <span>&middot; + Context</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Write an email to a beneficiary whose interim report is late. It was due on 15 September, it's now three weeks overdue, this is my first reminder, and we have a good working relationship.</div></div>
+    <p class="rungnote">Fixes the invented facts &mdash; now it knows the situation.</p>
+
+    <div class="steplabel">V3 <span>&middot; + Rules</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Write an email to a beneficiary whose interim report is late. It was due on 15 September, it's now three weeks overdue, this is my first reminder, and we have a good working relationship. Keep it polite and warm, never threatening. State the original deadline and propose a clear new one. Offer help if they're stuck. Do not invent penalties, legal consequences, or reasons for the delay.</div></div>
+    <p class="rungnote">Fixes the tone and stops it inventing threats.</p>
+
+    <div class="steplabel">V4 <span>&middot; + Output</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Write an email to a beneficiary whose interim report is late. It was due on 15 September, it's now three weeks overdue, this is my first reminder, and we have a good working relationship. Keep it polite and warm, never threatening. State the original deadline and propose a clear new one. Offer help if they're stuck. Do not invent penalties, legal consequences, or reasons for the delay. Open with "Dear [name],", keep it under 120 words, put the deadline in bold, make one clear ask, and close with "Have a lovely day, Fatime".</div></div>
+    <p class="rungnote">Fixes the shape and the voice &mdash; now it sounds like me.</p>
+
+    <div class="deep-h" style="margin-top:1.4rem;">Ladder 2 &middot; with a document attached</div>
+    <p class="deep-sub">Presenting a newly published call to national authorities. This time the raw material is a real <b>75-page tender specification</b> &mdash; attach the PDF before running each rung.</p>
+
+    <div class="steplabel">V1 <span>&middot; Task only</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Summarise the attached tender specification into a short presentation.</div></div>
+    <p class="rungnote">It compresses 75 pages &mdash; but into what, and for whom?</p>
+
+    <div class="steplabel">V2 <span>&middot; + Context</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Summarise the attached tender specification into a short presentation for an info day. Audience: national authorities &mdash; expert but time-poor, and a little sceptical about EU added value. Goal: leave them clear on what the call offers and how to take part.</div></div>
+    <p class="rungnote">Now it knows who's listening and why.</p>
+
+    <div class="steplabel">V3 <span>&middot; + Rules</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Summarise the attached tender specification into a short presentation for an info day. Audience: national authorities &mdash; expert but time-poor, and a little sceptical about EU added value. Goal: leave them clear on what the call offers and how to take part. Use only what's in the attached document &mdash; do not add figures, dates or facts that aren't there. Quote deadlines and budgets exactly as written. Flag anything ambiguous instead of smoothing it over, and separate what is binding from what is only indicative. Do not oversimplify HaDEA's role.</div></div>
+    <p class="rungnote">The rung that protects the truth &mdash; the whole point of working from a real document.</p>
+
+    <div class="steplabel">V4 <span>&middot; + Output</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Summarise the attached tender specification into a short presentation for an info day. Audience: national authorities &mdash; expert but time-poor, and a little sceptical about EU added value. Goal: leave them clear on what the call offers and how to take part. Use only what's in the attached document &mdash; do not add figures, dates or facts that aren't there. Quote deadlines and budgets exactly as written. Flag anything ambiguous instead of smoothing it over, and separate what is binding from what is only indicative. Do not oversimplify HaDEA's role. Output 5 slides: (1) what the call is, (2) who it's for, (3) what it funds, (4) key dates and budget, (5) how to apply. One headline and up to three short bullets per slide, plain language, and put the single most important number in bold.</div></div>
+    <p class="rungnote">Now it's presentable &mdash; and still faithful to the source.</p>
+
+    <div class="steplabel">Bonus <span>&middot; the one-pager</span></div>
+    <div class="promptbox"><button class="copybtn" onclick="copyText(this)">Copy</button><div class="pt">Now turn slides 1-5 into a clean one-page visual handout: a single-page HTML one-pager with a clear title, the key points, the most important number, and how to apply &mdash; something I could print or share. Use only what's in the document.</div></div>
+
+    <div class="handoff">&rarr; These five blocks &mdash; Task, Context, Rules, Output (and optional Role) &mdash; are exactly the blocks the teams play with in the battle next.</div>
+  </div>
+
+  <!-- 03 BATTLE -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">03</span><div class="ttl"><span class="block-label">Hands-on &middot; teams</span><h3>Prompt battle</h3></div><span class="dur">~15 min</span></div>
+
+    <p class="note">Valentina forms the groups and runs the presenting. I introduce the challenge and hand over. My job: set it up in under two minutes, then get out of the way.</p>
+
+    <div class="plabel">How I introduce it</div>
+    <p>One subject &mdash; what HaDEA does. Three very different listeners. Only the audience changes in the prompt. Everything else stays exactly the same.</p>
+
+    <div class="callout">
+      <span class="k">To the room</span>
+      <p>"You all know what we do. So this should be the easiest task of the day. Watch how quickly that stops being true."</p>
+    </div>
+
+    <div class="plabel">The three audiences</div>
+    <div class="aud-row">
+      <div class="aud a1">A five-year-old<span>Never heard the word "agency".</span></div>
+      <div class="aud a2">A sceptical minister<span>Twenty seconds. In a lift.</span></div>
+      <div class="aud a3">A human in 2040<span>Explained by an alien.</span></div>
+    </div>
+    <p class="note">One audience per team. The comparison happens when they present &mdash; that's the moment the lesson lands, not before.</p>
+
+    <div class="plabel">The alien version &mdash; the one I demo</div>
+    <p>The alien is the card that gets the room. Below is what I feed into the blocks if I show it, or hand to the team that draws it.</p>
+
+    <div class="warn"><b>The rule that makes it work:</b> the alien is never sarcastic. It finds all of this genuinely impressive and says so. An alien that mocks us is a team mocking their own work &mdash; that lands badly in this room. An alien that is sincerely moved is much funnier.</div>
+
+    <div class="q-item"><div class="q-q"><span class="tagblock">Task</span>What it produces</div>
+      <ul><li>A bedtime story the alien tells its own offspring &mdash; about the creatures who fund each other's health research.</li></ul></div>
+
+    <div class="q-item"><div class="q-q"><span class="tagblock">Context</span>Who the alien is</div>
+      <ul><li>It has been observing Europe since <b>2021</b>.</li><li>It understands spreadsheets perfectly.</li><li>It has never once understood a deadline extension.</li></ul></div>
+
+    <div class="q-item"><div class="q-q"><span class="tagblock">Rules</span>The guardrails that do the comedy</div>
+      <ul><li>It may not use an acronym without first guessing what it stands for &mdash; and it gets exactly one of them wrong.</li><li>Never sarcastic. Sincere throughout.</li></ul></div>
+
+    <div class="q-item"><div class="q-q"><span class="tagblock">Output</span>The shape</div>
+      <ul><li>Three short paragraphs, ending on the single line the alien files as its official conclusion about humanity.</li></ul></div>
+
+    <div class="q-item"><div class="q-q"><span class="tagblock opt">Role</span>Optional &mdash; last, and least</div>
+      <ul><li>An alien that is fond of humans roughly the way we are fond of dogs.</li></ul></div>
+
+    <div class="plabel">The line I want them to find</div>
+    <p>The funniest constraint is almost always a <b>Rule</b>, not a Role. The acronym gag and the deadline-extension blind spot do more work than any "you are a&hellip;" ever will. If a team is stuck, point them at Rules &mdash; never at Role.</p>
+
+    <div class="callout">
+      <span class="k">To the room, after the alien one is read out</span>
+      <p>"Which block made that funny? Not the one you'd expect."</p>
+    </div>
+
+    <div class="plabel">Before anyone presents</div>
+    <ul>
+      <li>Facts still get checked. A bedtime story about HaDEA still has to be true about HaDEA.</li>
+      <li>Show the <b>prompt</b> next to the result. That's the part people learn from.</li>
+      <li>If an output is flat, it's the Context block &mdash; the audience wasn't described sharply enough.</li>
+    </ul>
+
+    <div class="plabel">Wildcards, if a team wants one</div>
+    <p>The alien takes no notes during a meeting it observes for forty minutes. Or: it correctly identifies which document is binding and is visibly proud of itself.</p>
+
+    <div class="slot">Space for the acronym the alien gets wrong &mdash; decide on the day, based on the room.</div>
+  </div>
+
+  <!-- 04 RECURRING -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">04</span><div class="ttl"><span class="block-label">Your work</span><h3>A recurring task, solved</h3></div><span class="dur">~40 min</span></div>
+    <div class="plabel">Tasks we'll solve together</div>
+    <ul>
+      <li><b>Outlook GPT@EC+</b> — drafting emails with custom instructions and saved prompts.</li>
+    </ul>
+    <div class="slot">More to add, based on the survey results.</div>
+  </div>
+
+  <!-- 05 USE CASES -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">05</span><div class="ttl"><span class="block-label">Inspiration</span><h3>Use cases — from outside work</h3></div><span class="dur">~20 min</span></div>
+    <div class="slot">To develop from the survey. Examples to draw from: health &amp; nutrition, connected apps, knowledge management, keynote writing, video generation.</div>
+  </div>
+
+  <!-- 06 CONCLUSION -->
+  <div class="block">
+    <div class="block-head"><span class="block-n">&#10022;</span><div class="ttl"><span class="block-label">Close</span><h3>What we take back</h3></div><span class="dur">~10 min</span></div>
+    <div class="plabel">The questions</div>
+    <div class="qline"><div class="q">What tool will you learn? <span style="color:var(--ink-soft);font-weight:400;font-size:.85rem;">(tying back to today's intention)</span></div></div>
+    <div class="qline"><div class="q">What change will you introduce in your practice?</div></div>
+    <div class="qline"><div class="q">What's the first thing you'll try this week?</div></div>
+    <div class="qline"><div class="q">What surprised you most today?</div></div>
+  </div>
+
+  <footer>My personal run sheet · beige, so I never mix it up with the moderator guide.</footer>
+
+</div>
+
+<script>
+  function copyText(btn){
+    const box = btn.parentElement.querySelector('.pt');
+    const text = box.innerText;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(()=>{btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy',1600);}).catch(fallback);
+    } else { fallback(); }
+    function fallback(){
+      const r=document.createRange(); r.selectNodeContents(box);
+      const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent='Ctrl/⌘C'; setTimeout(()=>btn.textContent='Copy',2000);
+    }
+  }
+</script>
+</body>
+</html>
