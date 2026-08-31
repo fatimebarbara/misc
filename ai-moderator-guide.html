@@ -20,7 +20,7 @@
   body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.045;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-  .wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:clamp(2.4rem,5vw,5rem) clamp(1.4rem,5vw,3rem) 4rem;}
+  .wrap{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:clamp(2.4rem,5vw,5rem) clamp(1.4rem,5vw,3rem) 4rem;}
 
   .eyebrow{font-size:.76rem;letter-spacing:.3em;text-transform:uppercase;font-weight:600;color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;}
   .eyebrow::before{content:"";width:34px;height:2px;background:var(--terra);display:inline-block;}
@@ -35,21 +35,15 @@
   .aim p{font-family:'Fraunces',serif;font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.4;}
   .aim p em{color:#E9C77E;font-style:italic;}
 
-  /* roles + legend */
-  .rolebar{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.2rem;}
-  .role{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;}
-  .role b{font-family:'Fraunces',serif;font-size:1.05rem;}
-  .role span{display:block;font-size:.88rem;color:var(--ink-soft);margin-top:.2rem;}
-  .howto{font-size:.86rem;color:var(--ink-soft);margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;}
-  .howto b{color:var(--ink);}
-
   .sec-head{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,2.8rem) 0 1.2rem;}
   .sec-head h2{font-family:'Fraunces',serif;font-weight:550;font-size:clamp(1.3rem,2.2vw,1.8rem);}
   .sec-head .ln{flex:1;height:1px;background:var(--line);}
 
   /* block */
   .block{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent,var(--terra));border-radius:16px;padding:clamp(1.4rem,2.6vw,2rem);margin-bottom:1.1rem;}
-  .block.b-frame{--accent:#C6912E;}.block.b-hands{--accent:#C0532E;}
+  .block.b-frame{--accent:#C6912E;}
+  .block.b-hands{--accent:#C0532E;}
+  .block.b-together{--accent:#1E4D47;}
   .block-head{display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
   .block-n{font-family:'Fraunces',serif;font-size:1.7rem;color:var(--accent,var(--terra));min-width:2rem;line-height:1;}
   .block-head .ttl{flex:1;min-width:180px;}
@@ -58,7 +52,6 @@
   .tags{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;}
   .tag{font-size:.72rem;font-weight:700;letter-spacing:.03em;padding:.32rem .75rem;border-radius:100px;white-space:nowrap;}
   .tag.dur{background:var(--ink);color:var(--paper);}
-  .tag.lead{background:var(--teal);color:#F3ECDF;}
 
   .body{margin-top:1.1rem;}
   .plabel{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);margin:1.1rem 0 .4rem;}
@@ -67,10 +60,30 @@
   .body ul,.body ol{margin:.2rem 0 .7rem 1.2rem;}
   .body li{margin-bottom:.35rem;}
 
-  .say{background:#fff;border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:10px;padding:.9rem 1.1rem;margin:.5rem 0;}
-  .say p{font-family:'Fraunces',serif;font-style:italic;font-size:1.03rem;line-height:1.45;margin:0;}
-  .watch{font-size:.9rem;color:var(--ink-soft);background:rgba(192,83,46,.06);border:1px dashed var(--terra);border-radius:10px;padding:.7rem .95rem;margin-top:.5rem;}
-  .watch b{color:var(--terra-deep);}
+  /* two-column session layout */
+  .cols{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(1.1rem,2.4vw,1.8rem);align-items:start;margin-top:.2rem;}
+  @media(max-width:760px){.cols{grid-template-columns:1fr;}}
+  .content>.plabel:first-child{margin-top:0;}
+  .roles{background:rgba(30,77,71,.06);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;position:sticky;top:1rem;}
+  .roles h5{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--teal);margin-bottom:.7rem;}
+  .roles p{font-size:.92rem;line-height:1.46;margin-bottom:.6rem;color:var(--ink-soft);}
+  .roles p:last-child{margin-bottom:0;}
+  .roles p b{color:var(--terra-deep);font-weight:700;}
+  .roles .mat{margin-top:.7rem;padding-top:.65rem;border-top:1px dashed var(--line);font-size:.86rem;color:var(--ink-soft);}
+  .roles .mat b{color:var(--teal);}
+  .roles .open{margin-top:.7rem;padding-top:.65rem;border-top:1px dashed var(--terra);font-size:.86rem;color:var(--terra-deep);font-style:italic;}
+
+  .handoff{margin-top:.9rem;font-weight:600;color:var(--terra-deep);font-size:.9rem;background:rgba(192,83,46,.08);border-left:3px solid var(--terra);padding:.55rem .8rem;border-radius:0 8px 8px 0;}
+
+  .handout{margin-top:1rem;background:rgba(198,145,46,.13);border:2px solid var(--ochre);border-radius:12px;padding:.9rem 1.1rem;}
+  .handout .hl{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--ochre-deep,#8F6413);display:flex;align-items:center;gap:.45rem;margin-bottom:.4rem;}
+  .handout .hl::before{content:"▪";font-size:1.1rem;line-height:1;}
+  .handout .hname{font-family:'Fraunces',serif;font-weight:600;font-size:1.08rem;color:var(--ink);}
+  .handout p{font-size:.9rem;color:var(--ink-soft);margin:.35rem 0 0;}
+  .handout .link{display:inline-block;margin-top:.5rem;font-size:.86rem;font-weight:700;color:var(--terra-deep);border-bottom:1.5px dashed var(--terra);padding-bottom:1px;}
+  .handout a.link{text-decoration:none;}
+  .handout a.link:hover{color:var(--terra);border-bottom-style:solid;}
+  .handout p{font-size:.88rem;color:var(--ink-soft);margin:.2rem 0 .1rem;}
 
   /* spectrum question */
   .qline{background:#fff;border:1px solid var(--line);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.7rem;}
@@ -81,19 +94,17 @@
   .poles .r::after{content:" ►";color:var(--teal);}
 
   /* four corners */
-  .corners{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.6rem 0;}
-  .corner{border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;background:#fff;}
-  .corner .c-cond{font-size:.74rem;letter-spacing:.03em;color:var(--ink-soft);text-transform:uppercase;font-weight:700;}
-  .corner h4{font-family:'Fraunces',serif;font-weight:600;font-size:1.12rem;margin:.35rem 0 .3rem;color:var(--terra-deep);}
-  .corner p{font-size:.88rem;color:var(--ink-soft);margin:0;}
+  .corners{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.6rem 0;}
+  .corner{border:1px solid var(--line);border-radius:10px;padding:.8rem .95rem;background:#fff;
+    font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.35;}
   .corner.c1{border-top:4px solid #1E4D47;}
   .corner.c2{border-top:4px solid #C0532E;}
   .corner.c3{border-top:4px solid #C6912E;}
   .corner.c4{border-top:4px solid #5A4F43;}
-  .axes{font-size:.82rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;margin-bottom:.5rem;}
+  .axes{font-size:.88rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;margin-bottom:.5rem;}
   .axes b, .body p b, .body li b{font-style:normal;font-weight:700;color:var(--terra-deep);}
 
-  .todo{background:var(--card);border:1px dashed var(--terra);border-radius:12px;padding:1.1rem 1.3rem;margin-top:1.4rem;font-size:.94rem;color:var(--ink-soft);}
+  .todo{background:rgba(192,83,46,.05);border:1px dashed var(--terra);border-radius:12px;padding:.9rem 1.1rem;margin-top:1rem;font-size:.92rem;color:var(--ink-soft);}
   .todo b{color:var(--terra-deep);}
   footer{margin-top:2.4rem;font-size:.82rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
 
@@ -101,7 +112,7 @@
   .illus svg{display:block;width:100%;height:auto;}
   .illus .cap{font-size:.76rem;color:var(--ink-soft);padding:.45rem .9rem;font-style:italic;background:#fff;border-top:1px solid var(--line);}
 
-  @media(max-width:640px){.rolebar{flex-direction:column;}}
+  @media(max-width:640px){.corners{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -117,7 +128,7 @@
 
   <div class="aim">
     <div class="k">The aim of the session</div>
-    <p>To grow the A2 unit's knowledge and confident use of AI — during the away day, in a <em>playful</em> way. Less lecture, more experience: colleagues should leave curious, a little braver, and with at least one thing they can use on Monday.</p>
+    <p>To grow the A2 unit's knowledge and confident use of AI — during the away day, in a <em>playful</em> way. Less lecture, more experience: the intention is that colleagues leave more curious, and with some hands-on materials they can start implementing the following day.</p>
   </div>
 
   <!-- ===== RUN OF SHOW ===== -->
@@ -128,7 +139,7 @@
     <div class="block-head">
       <span class="block-n">00</span>
       <div class="ttl"><span class="block-label">Opening</span><h3>Opening the room</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~10 min</span></div>
+      <div class="tags"><span class="tag dur">~10 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -151,14 +162,24 @@
       </svg>
       <div class="cap">A few minutes to open the room — curiosity over fear.</div>
       </div>
-      <div class="plabel">Purpose</div>
-      <ul>
-        <li>Open the room and set a warm, human tone.</li>
-        <li>Turn any fear or scepticism into curiosity.</li>
-        <li>Frame the day: AI expands us, it doesn't replace us.</li>
-      </ul>
-      <div class="plabel">What it is</div>
-      <p>A short, human opening — creating curiosity and highlighting how tools don't shrink us, they expand us. It sets the tone for everything after: curiosity over fear, judgement over hype.</p>
+
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <ul>
+            <li>Open the room and set a warm, human tone.</li>
+            <li>Turn any fear or scepticism into curiosity.</li>
+            <li>Frame the day: AI expands us, it doesn't replace us.</li>
+          </ul>
+          <div class="plabel">What it is</div>
+          <p>A short, human opening — creating curiosity and highlighting how tools don't shrink us, they expand us. It sets the tone for everything after: curiosity over fear, judgement over hype.</p>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Fatime</b> gives the intro speech.</p>
+          <p><b>Valentina</b> adds a few warm words to welcome the group.</p>
+        </aside>
+      </div>
     </div>
   </div>
 
@@ -167,7 +188,7 @@
     <div class="block-head">
       <span class="block-n">&#9733;</span>
       <div class="ttl"><span class="block-label">Warm-up · on our feet</span><h3>Where do we stand?</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Fatime & Valentina </span><span class="tag dur">~8 min</span></div>
+      <div class="tags"><span class="tag dur">~12 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -187,49 +208,63 @@
       </svg>
       <div class="cap">Where do we stand? Stand where you feel.</div>
       </div>
-      <p class="axes"><b>Fatime</b> introduces the session and leads the warm-up. At each round, <b>Valentina</b> asks a few people about the reasons for where they positioned themselves — a mini-interview, about a minute per person.</p>
-      <div class="plabel">Purpose</div>
-      <ul>
-        <li>Energise the group and break the ice.</li>
-        <li>Surface the room's diverse perspectives on AI adoption.</li>
-        <li>Create a shared starting point for the deeper conversations later.</li>
-      </ul>
 
-      <div class="plabel">Method — spectrum positioning</div>
-      <p>Participants physically place themselves along an imaginary line to show their stance. It gets bodies moving and makes the room's range visible to everyone.</p>
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <ul>
+            <li>Energise the group and break the ice.</li>
+            <li>Surface the room's diverse perspectives on AI.</li>
+            <li>Create a shared starting point for the day.</li>
+          </ul>
 
-      <div class="plabel">1 · The spectrum questions (play 3)</div>
+          <div class="plabel">Method — spectrum positioning</div>
+          <p>People place themselves along an imaginary line (or in a corner) to show where they stand. It gets bodies moving and makes the room's range visible.</p>
 
-      <div class="qline">
-        <div class="q">"I've already used AI for something — at work or at home."</div>
-        <div class="poles"><span class="l">All the time</span><span class="r">Never touched it</span></div>
-      </div>
-      <div class="qline">
-        <div class="q">"AI is a brilliant assistant… or a confident liar that makes things up."</div>
-        <div class="poles"><span class="l">Brilliant assistant</span><span class="r">Confident fibber</span></div>
-      </div>
-      <div class="qline">
-        <div class="q">"In two years, AI will feel like a trusted colleague here at HaDEA."</div>
-        <div class="poles"><span class="l">Absolutely</span><span class="r">Still a side experiment</span></div>
-      </div>
+          <div class="plabel">Round 1 · how much do you use it?</div>
+          <div class="qline">
+            <div class="q">"I've already used AI for something — at work or at home."</div>
+            <div class="poles"><span class="l">All the time</span><span class="r">Never touched it</span></div>
+          </div>
 
-      <div class="plabel">2 · The finale — four corners (2 min)</div>
-      <p class="axes">Two axes: how much you use AI (a lot / a little) × how well you know its risks (yes / not really). Send people to the corner that fits — then read the room.</p>
-      <div class="corners">
-        <div class="corner c1"><span class="c-cond">Uses a lot · knows the risks</span><h4>Eyes open, hands on</h4><p>Confident and informed — our power users.</p></div>
-        <div class="corner c2"><span class="c-cond">Uses a lot · doesn't know the risks</span><h4>Full speed, no map</h4><p>Enthusiastic adopters — the ones today can make safer.</p></div>
-        <div class="corner c3"><span class="c-cond">Uses a little · knows the risks</span><h4>Watching from the shore</h4><p>Informed but cautious — waiting for a reason to jump in.</p></div>
-        <div class="corner c4"><span class="c-cond">Uses a little · doesn't know the risks</span><h4>Just arrived</h4><p>Curious newcomers — everything today is for them.</p></div>
+          <div class="plabel">Round 2 · four corners</div>
+          <p class="axes">The same question, one layer deeper. Two axes: how much you use AI (a lot / a little) × how well you know its risks (yes / not really). Go to the corner that fits.</p>
+          <div class="corners">
+            <div class="corner c1">Uses a lot · knows the risks</div>
+            <div class="corner c2">Uses a lot · doesn't know the risks</div>
+            <div class="corner c3">Uses a little · knows the risks</div>
+            <div class="corner c4">Uses a little · doesn't know the risks</div>
+          </div>
+
+          <div class="plabel">Round 3 · do you trust it?</div>
+          <div class="qline">
+            <div class="q">"AI is a brilliant assistant… or a confident liar that makes things up."</div>
+            <div class="poles"><span class="l">Brilliant assistant</span><span class="r">Confident fibber</span></div>
+          </div>
+
+          <div class="plabel">Round 4 · where is this going?</div>
+          <div class="qline">
+            <div class="q">"In two years, AI will feel like a trusted colleague here at HaDEA."</div>
+            <div class="poles"><span class="l">Absolutely</span><span class="r">Still a side experiment</span></div>
+          </div>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Fatime</b> introduces each question and leads the rounds.</p>
+          <p>For the four corners, <b>Fatime</b> and <b>Valentina</b> take opposite corners of the room to anchor what each corner means.</p>
+          <p>Once people have placed themselves, <b>Valentina</b> asks a few of them why they positioned themselves there (about a minute each).</p>
+          <p class="mat"><b>Materials:</b> four flipcharts — one to label each corner.</p>
+        </aside>
       </div>
     </div>
   </div>
 
   <!-- 01 QUIZ -->
-  <div class="block b-hands">
+  <div class="block b-together">
     <div class="block-head">
       <span class="block-n">01</span>
       <div class="ttl"><span class="block-label">Together · quiz</span><h3>How wrong are we about AI?</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Fatime &amp; Valentina</span><span class="tag dur">~10 min</span></div>
+      <div class="tags"><span class="tag dur">~10 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -259,32 +294,89 @@
       </svg>
       <div class="cap">Phones out — how wrong are we about AI?</div>
       </div>
-      <p class="axes"><b>Fatime</b> prepares the questions on Slido, introduces the set-up, and reads the questions and answers. <b>Valentina</b> runs the mini-reflection series — a short feedback moment or mini-interview after each question, or after every two. It runs live on people's phones; we reveal and talk each answer through together.</p>
 
-      <div class="plabel">Purpose</div>
-      <ul>
-        <li>Meet our own assumptions about AI — and watch a few of them fall.</li>
-        <li>Set up the day's real lesson: we can be fluent, confident, and still wrong.</li>
-      </ul>
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <ul>
+            <li>Meet our own assumptions about AI — and watch a few of them fall.</li>
+            <li>Set up the day's real lesson: we can be fluent, confident, and still wrong.</li>
+          </ul>
 
-      <div class="plabel">The set-up</div>
-      <p><b>Fatime</b> opens the quiz from her own notes — the neuroplasticity framing and "we don't see reality, we see our interpretation of it."</p>
-
-      <div class="plabel">How it runs</div>
-      <ol>
-        <li>People join the online quiz on their phones.</li>
-        <li>One question at a time: everyone answers, then we reveal.</li>
-        <li>After each reveal, a quick word on <em>why</em> the common answer is wrong — kept light, curious, never a lecture.</li>
-      </ol>
+          <div class="plabel">How it runs</div>
+          <ol>
+            <li>People join the quiz on their phones (Slido).</li>
+            <li>One question at a time: everyone answers, then we reveal.</li>
+            <li>After each reveal, a quick word on <em>why</em> the common answer is wrong — light, curious, never a lecture.</li>
+          </ol>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Fatime</b> prepares the questions on Slido, introduces the set-up, and reads the questions and answers.</p>
+          <p><b>Valentina</b> runs the mini-reflection series — a short feedback moment or mini-interview after each question, or after every two.</p>
+        </aside>
+      </div>
     </div>
   </div>
 
-  <!-- 02 PROMPT BATTLE -->
-  <div class="block b-hands">
+  <!-- 02 BUILD A PROMPT -->
+  <div class="block b-together">
     <div class="block-head">
       <span class="block-n">02</span>
+      <div class="ttl"><span class="block-label">Together · build it live</span><h3>Build a great prompt, step by step</h3></div>
+      <div class="tags"><span class="tag dur">~15 min</span></div>
+    </div>
+    <div class="body">
+      <div class="illus">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Building a prompt: the result gets better step by step">
+        <defs><linearGradient id="bbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
+        <rect width="680" height="200" fill="url(#bbg)"/>
+        <line x1="90" y1="170" x2="592" y2="170" stroke="#211A14" stroke-width="3" opacity=".28"/>
+        <rect x="104" y="142" width="66" height="28" rx="6" fill="#B8AE9C"/>
+        <rect x="200" y="118" width="66" height="52" rx="6" fill="#C0532E"/>
+        <rect x="296" y="94" width="66" height="76" rx="6" fill="#C6912E"/>
+        <rect x="392" y="68" width="66" height="102" rx="6" fill="#1E4D47"/>
+        <rect x="488" y="42" width="66" height="128" rx="6" fill="#9C3F20"/>
+        <path d="M521 20 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5 z" fill="#C6912E"/>
+        <g fill="#211A14" font-family="Georgia,serif" font-size="22" font-weight="bold" text-anchor="middle" opacity=".45">
+          <text x="185" y="162">+</text><text x="281" y="162">+</text><text x="377" y="162">+</text><text x="473" y="162">+</text>
+        </g>
+      </svg>
+      <div class="cap">Same task — add a layer, watch it get better.</div>
+      </div>
+
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <p>Show how much the answer improves when the prompt is built with care — and send everyone away with a recipe they can reuse.</p>
+
+          <div class="plabel">What we cover</div>
+          <p>Two ladders, both from our own work. Each starts with a lazy prompt and climbs to a usable one, re-running at every step so the room sees the jump. The last rung is always the same: a good prompt fixes structure and voice, but only checking fixes facts.</p>
+
+          <div class="handout">
+            <span class="hl">Handouts · we work from these</span>
+            <a class="link" href="https://fatimebarbara.github.io/misc/prompt-ladder-handout-v2.html" target="_blank" rel="noopener">The Prompt Ladder — four versions of the same email</a>
+            <p>Drafting an email to a beneficiary.</p>
+            <a class="link" href="https://fatimebarbara.github.io/misc/prompt-ladder-tender-presentation.html" target="_blank" rel="noopener">Prompt Ladder — presenting a published call</a>
+            <p>Building a presentation from a tender specification.</p>
+          </div>
+
+          <div class="handoff">→ The prompt we build here becomes the starting point for the prompt battle next.</div>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Fatime</b> leads, building the prompt live with the group and re-running it as it develops.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 PROMPT BATTLE -->
+  <div class="block b-hands">
+    <div class="block-head">
+      <span class="block-n">03</span>
       <div class="ttl"><span class="block-label">Hands-on · teams</span><h3>Prompt battle</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Valentina</span><span class="tag dur">~15 min</span></div>
+      <div class="tags"><span class="tag dur">~15 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -313,70 +405,43 @@
         <circle cx="340" cy="106" r="36" fill="#211A14"/>
         <text x="340" y="116" font-family="Georgia, serif" font-size="30" fill="#FDF8EF" text-anchor="middle" font-weight="bold">VS</text>
       </svg>
-      <div class="cap">Same task, two teams — the funniest prompt wins.</div>
+      <div class="cap">Same recipe, new subject — the funniest prompt wins.</div>
       </div>
-      <p class="axes"><b>Fatime</b> introduces the challenges. <b>Valentina</b> forms the groups (or we pre-form them before the event), moderates, and invites volunteers to present. The funniest result wins.</p>
 
-      <div class="plabel">Purpose</div>
-      <ul>
-        <li>Discover that the prompt — not the tool — does the work.</li>
-        <li>Loosen everyone up: play first, learn second.</li>
-      </ul>
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <ul>
+            <li>Put the prompt we just built to work — playfully, and in teams.</li>
+            <li>Discover that the prompt, not the tool, does the work.</li>
+          </ul>
 
-      <div class="plabel">Two challenges</div>
-      <p><b>Round 1 · the movie trailer.</b> Each team prompts AI to write a dramatic 1–2 minute film-trailer script about the unit's work — "In a world where deadlines never sleep…".</p>
-      <p><b>Round 2 · explain HaDEA three ways.</b> Same subject, three wildly different audiences — a five-year-old, an alien, a sceptical minister. The clearest possible proof that the prompt shapes everything.</p>
+          <div class="plabel">The exercise</div>
+          <p>Teams take the prompt we built together and keep its structure — but swap the subject for something playful. Same skeleton, new topic, so they practise the technique rather than starting from scratch. Volunteers present; the boldest and funniest wins.</p>
 
-      <div class="plabel">How it runs</div>
-      <ol>
-        <li>Groups form, or are pre-assigned before the event. About five minutes per round to craft the best prompt.</li>
-        <li>Teams that want to share present their result live; Valentina keeps it moving and warm.</li>
-        <li>The room votes — the funniest one wins.</li>
-      </ol>
+          <div class="plabel">The challenge — explain HaDEA three ways</div>
+          <p>One subject, three wildly different audiences. Only the audience changes in the prompt; everything else stays. The gap between the three answers is the whole lesson.</p>
+          <ul>
+            <li><b>A five-year-old</b> — who has never heard the word "agency".</li>
+            <li><b>A sceptical minister</b> — twenty seconds, in a lift.</li>
+            <li><b>A human in 2040</b> — explained by an alien who has been watching us all along.</li>
+          </ul>
 
-      <div class="plabel">The learning to surface</div>
-      <p>When teams present, show the <b>prompt</b> next to the result. The funniest team almost always wrote the richest prompt. That bridges straight into the next section.</p>
-    </div>
-  </div>
+          <div class="plabel">The learning to surface</div>
+          <p>When teams present, show the <b>prompt</b> next to the result. The richest prompt almost always wins the room.</p>
 
-  <!-- 03 STEP BY STEP -->
-  <div class="block b-together">
-    <div class="block-head">
-      <span class="block-n">03</span>
-      <div class="ttl"><span class="block-label">Together · build it live</span><h3>Build a great prompt, step by step</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~15 min</span></div>
-    </div>
-    <div class="body">
-      <div class="illus">
-      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Building a prompt: the result gets better step by step">
-        <defs><linearGradient id="bbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF8EF"/><stop offset="1" stop-color="#F1E6D3"/></linearGradient></defs>
-        <rect width="680" height="200" fill="url(#bbg)"/>
-        <line x1="90" y1="170" x2="592" y2="170" stroke="#211A14" stroke-width="3" opacity=".28"/>
-        <rect x="104" y="142" width="66" height="28" rx="6" fill="#B8AE9C"/>
-        <rect x="200" y="118" width="66" height="52" rx="6" fill="#C0532E"/>
-        <rect x="296" y="94" width="66" height="76" rx="6" fill="#C6912E"/>
-        <rect x="392" y="68" width="66" height="102" rx="6" fill="#1E4D47"/>
-        <rect x="488" y="42" width="66" height="128" rx="6" fill="#9C3F20"/>
-        <path d="M521 20 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5 z" fill="#C6912E"/>
-        <g fill="#211A14" font-family="Georgia,serif" font-size="22" font-weight="bold" text-anchor="middle" opacity=".45">
-          <text x="185" y="162">+</text><text x="281" y="162">+</text><text x="377" y="162">+</text><text x="473" y="162">+</text>
-        </g>
-      </svg>
-      <div class="cap">Same task — add a layer, watch it get better.</div>
+          <div class="handout">
+            <span class="hl">Handout · teams work from this</span>
+            <a class="link" href="https://fatimebarbara.github.io/misc/promptbattle.html" target="_blank" rel="noopener">Prompt Battle — Team Sheet</a>
+            <p>The prompt structure with the given parts filled in and the spaces where each team's own ideas go. Everyone opens it at the start of the session.</p>
+          </div>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Fatime</b> introduces the challenge.</p>
+          <p><b>Valentina</b> forms the groups (or pre-forms them before the event), moderates, invites volunteers to present, and runs the vote.</p>
+        </aside>
       </div>
-      <p class="axes"><b>Fatime</b> leads. We build one prompt together, live, on a real task from our world — a <b>presentation and speech for an info day, addressed to national authorities</b>.</p>
-
-      <div class="plabel">Purpose</div>
-      <ul>
-        <li>Show — surprisingly — how much better the result gets when the prompt is built with care.</li>
-        <li>Leave everyone with a repeatable recipe they can use on Monday.</li>
-      </ul>
-
-      <div class="plabel">The task</div>
-      <p>A short presentation and speech for an info day — the kind we give to national authorities about a newly published call. We start with a lazy prompt and add one layer at a time, re-running after each so the room sees the jump.</p>
-
-      <div class="plabel">The reveal</div>
-      <p>Put version one and the final version side by side. The tool never changed — the prompt did. That gap is the point.</p>
     </div>
   </div>
 
@@ -385,7 +450,7 @@
     <div class="block-head">
       <span class="block-n">04</span>
       <div class="ttl"><span class="block-label">Together · your work</span><h3>A recurring task, solved</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Valentina?</span><span class="tag dur">~40 min</span></div>
+      <div class="tags"><span class="tag dur">~40 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -401,13 +466,27 @@
       </svg>
       <div class="cap">The task you do again and again — solved.</div>
       </div>
-      <p class="axes">We run a short survey beforehand — colleagues send in their recurring tasks — and build this section from what comes back.</p>
 
-      <div class="plabel">Purpose</div>
-      <p>Make it personal — and immediate.</p>
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <p>To respond to the needs colleagues expressed in the survey.</p>
 
-      <div class="plabel">What it is</div>
-      <p>Based on the survey results, we pick a few recurring, time-eating tasks and work through them together — so people leave with something real, not hypothetical.</p>
+          <div class="plabel">What we'll do</div>
+          <p>We work through the areas that came back most often — using real tasks, not hypothetical ones:</p>
+          <ul>
+            <li><b>Data analysis</b></li>
+            <li><b>Document-heavy roles</b></li>
+            <li><b>Communication</b> — email drafting, Q&amp;A</li>
+          </ul>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Valentina</b> leads: picks a few tasks from the survey and works through them with the group.</p>
+          <p><b>Fatime</b> co-solves live, showing the prompting on screen.</p>
+          <p class="open">Split still to confirm.</p>
+        </aside>
+      </div>
     </div>
   </div>
 
@@ -416,7 +495,7 @@
     <div class="block-head">
       <span class="block-n">05</span>
       <div class="ttl"><span class="block-label">Framing · inspiration</span><h3>Use cases — from outside work</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Fatime</span><span class="tag dur">~20 min</span></div>
+      <div class="tags"><span class="tag dur">~20 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -438,20 +517,28 @@
       </svg>
       <div class="cap">The breadth — health, apps, knowledge, keynotes, video.</div>
       </div>
-      <p class="axes"><b>Fatime</b> leads — a quick, inspiring tour of what AI can do beyond the office.</p>
 
-      <div class="plabel">Purpose</div>
-      <p>See the breadth — then find what fits your week. Use cases from outside work, to open people's imagination to what's possible.</p>
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <p>See the breadth — then find what fits your week. Use cases from outside work, to open people's imagination to what's possible.</p>
 
-      <div class="plabel">What it is</div>
-      <p>A quick tour of the everyday ways AI helps. Based on the survey results, the content will be developed — a few to draw from:</p>
-      <ul>
-        <li>Support on health and nutrition</li>
-        <li>Connected apps</li>
-        <li>Knowledge management</li>
-        <li>Keynote writing</li>
-        <li>Video generation</li>
-      </ul>
+          <div class="plabel">What it is</div>
+          <p>A quick tour of the everyday ways AI helps. Based on the survey results, the content will be developed — a few to draw from:</p>
+          <ul>
+            <li>Support on health and nutrition</li>
+            <li>Connected apps</li>
+            <li>Knowledge management</li>
+            <li>Keynote writing</li>
+            <li>Video generation</li>
+          </ul>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Fatime</b> leads the tour and shares the examples.</p>
+          <p><b>Valentina</b> chips in with her own examples and keeps time.</p>
+        </aside>
+      </div>
     </div>
   </div>
 
@@ -460,7 +547,7 @@
     <div class="block-head">
       <span class="block-n">06</span>
       <div class="ttl"><span class="block-label">Together · close</span><h3>Conclusion — what we take back</h3></div>
-      <div class="tags"><span class="tag lead">Lead: Valentina</span><span class="tag dur">~10 min</span></div>
+      <div class="tags"><span class="tag dur">~10 min</span></div>
     </div>
     <div class="body">
       <div class="illus">
@@ -477,17 +564,25 @@
       </svg>
       <div class="cap">From insight to intention — what will you take back?</div>
       </div>
-      <p class="axes"><b>Valentina</b> runs the close — turning the day's energy into intention.</p>
 
-      <div class="plabel">Purpose</div>
-      <p>Land the day: move from "that was interesting" to "here's what I'll do differently."</p>
+      <div class="cols">
+        <div class="content">
+          <div class="plabel">Purpose</div>
+          <p>From insight to intention — turning the day's energy into something we'll actually do.</p>
 
-      <div class="plabel">The questions</div>
-      <ul>
-        <li>What change will you introduce in your practice?</li>
-        <li>What's the first thing you'll try this week?</li>
-        <li>What surprised you most today?</li>
-      </ul>
+          <div class="plabel">The questions</div>
+          <ul>
+            <li>What change will you introduce in your practice?</li>
+            <li>What's the first thing you'll try this week?</li>
+            <li>What surprised you most today?</li>
+          </ul>
+        </div>
+        <aside class="roles">
+          <h5>Who does what</h5>
+          <p><b>Valentina</b> runs the close and asks the questions.</p>
+          <p><b>Fatime</b> offers a final closing thought to send everyone off.</p>
+        </aside>
+      </div>
     </div>
   </div>
 
