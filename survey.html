@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2 Away Day 2026 - AI Training Survey Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            animation: popIn 0.5s ease-out;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .subtitle {
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .task-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 6px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .task-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .task-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .task-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .bar-container {
+            display: flex;
+            gap: 2px;
+            height: 20px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(to top, #667eea, #764ba2);
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .bar:hover {
+            background: linear-gradient(to top, #764ba2, #667eea);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .bar-label {
+            font-size: 0.7em;
+            text-align: center;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .insight-cluster {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .insight-cluster h3 {
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .insight-cluster p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .eager {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #10b98115 0%, #06b6d415 100%);
+        }
+
+        .eager h3 {
+            color: #059669;
+        }
+
+        .moderate {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b15 0%, #fbbf2415 100%);
+        }
+
+        .moderate h3 {
+            color: #d97706;
+        }
+
+        .hesitant {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #ef444415 0%, #fca5a515 100%);
+        }
+
+        .hesitant h3 {
+            color: #dc2626;
+        }
+
+        .quote-box {
+            background: #f3f4f6;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .comments-section {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .comment-item p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin: 3px 3px 3px 0;
+            font-weight: 500;
+        }
+
+        .tag.high {
+            background: #10b981;
+        }
+
+        .tag.medium {
+            background: #f59e0b;
+        }
+
+        .tag.low {
+            background: #ef4444;
+        }
+
+        .rating-scale {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .rating-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .rating-item.high {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .rating-item.medium {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .rating-item.low {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.1);
+        }
+
+        .heatmap-cell.stars-0 {
+            background: #e5e7eb;
+            color: #666;
+        }
+
+        .heatmap-cell.stars-1 {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+        }
+
+        .heatmap-cell.stars-2 {
+            background: linear-gradient(135deg, #fca5a5, #f87171);
+        }
+
+        .heatmap-cell.stars-3 {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+
+        .heatmap-cell.stars-4 {
+            background: linear-gradient(135deg, #86efac, #4ade80);
+        }
+
+        .heatmap-cell.stars-5 {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .key-finding {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .key-finding h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .key-finding p {
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #10b98115, #06b6d415);
+            border-left: 5px solid #10b981;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            color: #055160;
+            line-height: 1.6;
+        }
+
+        .recommendation strong {
+            color: #059669;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        .star-indicator {
+            display: inline-block;
+            font-size: 1.2em;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .task-stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 A2 Away Day 2026 - AI Training Survey</h1>
+            <p>Analysis of team perspectives on AI task automation</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Respondents</h3>
+                <div class="value">27</div>
+                <div class="subtitle">Strong participation</div>
+            </div>
+            <div class="stat-card">
+                <h3>Highest Interest</h3>
+                <div class="value">4.27/5</div>
+                <div class="subtitle">Data Analysis 📊</div>
+            </div>
+            <div class="stat-card">
+                <h3>Most Varied</h3>
+                <div class="value">1.65σ</div>
+                <div class="subtitle">Legal Checks (polarized)</div>
+            </div>
+            <div class="stat-card">
+                <h3>Avg. AI Adoption Interest</h3>
+                <div class="value">3.79/5</div>
+                <div class="subtitle">Mean across all tasks</div>
+            </div>
+        </div>
+
+        <!-- KEY FINDINGS -->
+        <div class="section">
+            <h2>📈 Key Findings & Patterns</h2>
+
+            <div class="key-finding">
+                <h3>🎯 Clear Priority Hierarchy Emerges</h3>
+                <p>
+                    <strong>Data Analysis dominates:</strong> 14 out of 26 respondents gave this a 5/5 rating (54%). 
+                    The team sees immediate, high-value automation potential here. <strong>Consistency checks</strong> 
+                    come in a close second (4.08 average). These structural, systematic tasks are where the team wants 
+                    AI to take the lead.
+                </p>
+            </div>
+
+            <div class="key-finding">
+                <h3>⚠️ Governance & Judgment Tasks Show Hesitation</h3>
+                <p>
+                    <strong>Legal background checks</strong> (3.20 average) and <strong>Q&A during submission</strong> 
+                    (3.60 average) reveal cautious optimism. These are tasks where judgment, accountability, and 
+                    human oversight matter. The wider spread in responses (std dev 1.65) suggests the team is still 
+                    figuring out where to trust AI in high-stakes scenarios.
+                </p>
+            </div>
+
+            <div class="key-finding">
+                <h3>💡 Critical Insight: Humans Want Partnership, Not Replacement</h3>
+                <p>
+                    One respondent's submitted feedback encapsulates the team's broader ethos: 
+                    <em>"I would not phrase it as 'let AI take over,' as all our tasks are our ultimate responsibility."</em>
+                    The team isn't asking for automation; they're asking for intelligent assistance and quality improvement.
+                </p>
+            </div>
+        </div>
+
+        <!-- TASK-BY-TASK BREAKDOWN -->
+        <div class="section">
+            <h2>🎯 Task-by-Task Analysis</h2>
+
+            <div class="task-card eager">
+                <div class="task-name">📊 Analysing Data</div>
+                <div class="task-stats">
+                    <div class="stat">
+                        <span class="stat-label">Average</span>
+                        <span class="stat-value">4.27 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Responses</span>
+                        <span class="stat-value">26/27</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Mode</span>
+                        <span class="stat-value">5 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Consensus</span>
+                        <span class="stat-value">Strong ✓</span>
+                    </div>
+                </div>
+                <div class="rating-scale">
+                    <div class="rating-item">0★: 0</div>
+                    <div class="rating-item">1★: 0</div>
+                    <div class="rating-item">2★: 0</div>
+                    <div class="rating-item medium">3★: 7</div>
+                    <div class="rating-item medium">4★: 5</div>
+                    <div class="rating-item high">5★: 14</div>
+                </div>
+                <p style="margin-top: 12px; color: #333; font-size: 0.95em;">
+                    <strong>Insight:</strong> This is your quick win. Over half the team (54%) gave this a 5/5. 
+                    Strong candidate for pilot AI tooling. Data wrangling, pattern detection, and report generation 
+                    all immediately actionable.
+                </p>
+            </div>
+
+            <div class="task-card eager">
+                <div class="task-name">✅ Consistency Checks (Tasks, Deliverables, Timelines)</div>
+                <div class="task-stats">
+                    <div class="stat">
+                        <span class="stat-label">Average</span>
+                        <span class="stat-value">4.08 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Responses</span>
+                        <span class="stat-value">26/27</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Mode</span>
+                        <span class="stat-value">5 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Variance</span>
+                        <span class="stat-value">Medium</span>
+                    </div>
+                </div>
+                <div class="rating-scale">
+                    <div class="rating-item">0★: 0</div>
+                    <div class="rating-item low">1★: 2</div>
+                    <div class="rating-item low">2★: 1</div>
+                    <div class="rating-item medium">3★: 4</div>
+                    <div class="rating-item medium">4★: 5</div>
+                    <div class="rating-item high">5★: 14</div>
+                </div>
+                <p style="margin-top: 12px; color: #333; font-size: 0.95em;">
+                    <strong>Insight:</strong> Second-highest priority. AI can flag inconsistencies, cross-check 
+                    timelines, and validate document coherence. Reduces human error and frees up cognitive load for 
+                    strategic decisions. Some hesitation (2 low ratings) suggests need for transparency in AI logic.
+                </p>
+            </div>
+
+            <div class="task-card moderate">
+                <div class="task-name">💬 Q&A During Submission Phase</div>
+                <div class="task-stats">
+                    <div class="stat">
+                        <span class="stat-label">Average</span>
+                        <span class="stat-value">3.60 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Responses</span>
+                        <span class="stat-value">25/27</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Mode</span>
+                        <span class="stat-value">5 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Spread</span>
+                        <span class="stat-value">Moderate</span>
+                    </div>
+                </div>
+                <div class="rating-scale">
+                    <div class="rating-item">0★: 0</div>
+                    <div class="rating-item low">1★: 4</div>
+                    <div class="rating-item low">2★: 1</div>
+                    <div class="rating-item medium">3★: 7</div>
+                    <div class="rating-item medium">4★: 2</div>
+                    <div class="rating-item high">5★: 11</div>
+                </div>
+                <p style="margin-top: 12px; color: #333; font-size: 0.95em;">
+                    <strong>Insight:</strong> Moderate enthusiasm with real hesitation. This task involves real-time 
+                    stakeholder interaction and accountability. Team wants AI support (drafting, context lookup) but 
+                    needs human judgment on tone, sensitivity, and policy alignment. Build AI as copilot, not autonomous.
+                </p>
+            </div>
+
+            <div class="task-card hesitant">
+                <div class="task-name">⚖️ Legal Background Checks on New Calls</div>
+                <div class="task-stats">
+                    <div class="stat">
+                        <span class="stat-label">Average</span>
+                        <span class="stat-value">3.20 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Responses</span>
+                        <span class="stat-value">25/27</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Mode</span>
+                        <span class="stat-value">5 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Consensus</span>
+                        <span class="stat-value">Polarized ⚡</span>
+                    </div>
+                </div>
+                <div class="rating-scale">
+                    <div class="rating-item">0★: 0</div>
+                    <div class="rating-item low">1★: 6</div>
+                    <div class="rating-item low">2★: 4</div>
+                    <div class="rating-item medium">3★: 4</div>
+                    <div class="rating-item medium">4★: 1</div>
+                    <div class="rating-item high">5★: 10</div>
+                </div>
+                <p style="margin-top: 12px; color: #333; font-size: 0.95em;">
+                    <strong>Insight:</strong> <span style="color: #dc2626;">Most polarized task</span> (σ = 1.65). 
+                    10 respondents see clear automation potential; 10 have serious reservations. This reflects legitimate 
+                    concerns about legal liability, regulatory compliance, and AI hallucination risk. <strong>Recommendation:</strong> 
+                    Position AI as evidence triage & flagging tool, not decision-maker. Human verification mandatory.
+                </p>
+            </div>
+
+            <div class="task-card eager">
+                <div class="task-name">✨ Other Suggestions (Free-Form)</div>
+                <div class="task-stats">
+                    <div class="stat">
+                        <span class="stat-label">Average</span>
+                        <span class="stat-value">3.78 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Responses</span>
+                        <span class="stat-value">9/27</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Mode</span>
+                        <span class="stat-value">5 ⭐</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Engagement</span>
+                        <span class="stat-value">Selective</span>
+                    </div>
+                </div>
+                <div class="rating-scale">
+                    <div class="rating-item">0★: 0</div>
+                    <div class="rating-item low">1★: 2</div>
+                    <div class="rating-item">2★: 0</div>
+                    <div class="rating-item medium">3★: 1</div>
+                    <div class="rating-item medium">4★: 1</div>
+                    <div class="rating-item high">5★: 5</div>
+                </div>
+                <p style="margin-top: 12px; color: #333; font-size: 0.95em;">
+                    <strong>Insight:</strong> Only 1/3 of the team proposed additional tasks, but those who did 
+                    showed high enthusiasm. Key suggestions: tender assessment, document summarization, email drafting, 
+                    and evaluation criteria validation. These should feed into future training sessions.
+                </p>
+            </div>
+        </div>
+
+
+
+        <!-- SUGGESTIONS -->
+        <div class="section">
+            <h2>💡 Team Suggestions for AI-Assisted Work</h2>
+            <div class="comments-section">
+                <p style="margin-bottom: 20px; color: #555;">Extracted from respondent feedback — concrete, actionable use cases that should inform training curriculum:</p>
+                <div class="comment-item">
+                    <p><strong>Assessment of tenders:</strong> Need clarity on legal boundaries and AI capabilities 
+                    in complex compliance scenarios (medical devices, regulated sectors).</p>
+                </div>
+                <div class="comment-item">
+                    <p><strong>Tender specification support:</strong> Rephrasing, award criteria, deliverables pricing, 
+                    consistency checks.</p>
+                </div>
+                <div class="comment-item">
+                    <p><strong>Document analysis tasks:</strong> Checking repetitive documents, summarizing background materials, 
+                    extracting key points.</p>
+                </div>
+                <div class="comment-item">
+                    <p><strong>Communication:</strong> Formulating emails (especially tricky or sensitive ones), Q&A drafting 
+                    during submissions.</p>
+                </div>
+                <div class="comment-item">
+                    <p><strong>Evaluation support:</strong> Flagging inconsistencies, compliance validation, performance 
+                    indicators extraction, risk identification.</p>
+                </div>
+                <div class="comment-item">
+                    <p><strong>Report generation:</strong> Drafting individual reports, synthesizing into consensus reports, 
+                    structured output creation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECOMMENDATIONS -->
+        <div class="section">
+            <h2>🎯 Strategic Recommendations for Training Design</h2>
+
+            <div class="recommendation">
+                <strong>1. Build Modular, Role-Based Sessions</strong>
+                <p>
+                    The enthusiasm spreads across different tasks for different roles. Offer modules for:</p>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>Data-focused roles:</strong> Advanced analysis, prompt engineering, data quality validation</li>
+                    <li><strong>Document-heavy roles:</strong> Summarization, consistency checking, compliance validation</li>
+                    <li><strong>Communication roles:</strong> Email drafting, Q&A support, report writing</li>
+                </ul>
+            </div>
+
+            <div class="recommendation">
+                <strong>2. Address Legal & Risk Concerns Head-On</strong>
+                <p>
+                    The 3.20 average on legal checks reflects real governance concerns, not irrational fear. Dedicate 
+                    a session to: What AI cannot do safely. Where humans must retain authority. Audit trails & compliance. 
+                    Verification workflows. This builds trust with skeptics.
+                </p>
+            </div>
+
+            <div class="recommendation">
+                <strong>3. Identify & Empower Early Adopters</strong>
+                <p>
+                    ~8–10 enthusiasts gave 5/5 ratings. These are your peer champions. Train them first, deeper. Ask them 
+                    to lead breakout sessions or peer teaching. They'll model responsible, excited adoption for the skeptics.
+                </p>
+            </div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="section" style="background: linear-gradient(135deg, #667eea15, #764ba215);">
+            <h2>📊 Executive Summary</h2>
+
+            <p style="font-size: 1.1em; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                Your team is <strong>pragmatic and ethically grounded.</strong> They're not asking for wholesale automation; 
+                they're asking for intelligent assistance that respects human judgment and accountability. 
+            </p>
+
+            <p style="font-size: 1.1em; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                <strong>The demand is clear:</strong> Data analysis (4.27/5) and consistency checking (4.08/5) are top 
+                priorities. Quick wins here will build credibility for more ambitious AI use cases.
+            </p>
+
+            <p style="font-size: 1.1em; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                <strong>The caution is legitimate:</strong> Legal and high-stakes tasks show hesitation (3.20–3.60) because 
+                they involve real risk. Training should validate these concerns and offer frameworks for safe delegation.
+            </p>
+
+            <p style="font-size: 1.1em; line-height: 1.8; color: #333;">
+                <strong>The opportunity is massive:</strong> 27 engaged respondents, multiple suggestions, genuine curiosity. 
+                Your team is ready to learn. Design training that respects their intelligence, addresses their concerns, and 
+                delivers tangible value—and you'll have champions, not skeptics.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>A2 Away Day 2026 | Survey Analysis Report | Exported 31 Aug 2026</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Dataset: 27 respondents | 5 core tasks + free-form suggestions | 9 qualitative comments</p>
+        </div>
+    </div>
+</body>
+</html>
