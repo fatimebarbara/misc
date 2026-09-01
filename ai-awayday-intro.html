@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working with AI, hands on — the sessions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3ECDF;--card:#FFFDF8;--ink:#211A14;--ink-soft:#5A4F43;
+    --terra:#C0532E;--terra-deep:#9C3F20;--teal:#1E4D47;--teal-deep:#153A35;
+    --ochre:#C6912E;--ochre-deep:#8F6413;
+    --line:rgba(33,26,20,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.55;position:relative;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(58% 45% at 92% -8%, rgba(198,145,46,.20), transparent 60%),
+               radial-gradient(52% 48% at -8% 106%, rgba(192,83,46,.15), transparent 60%);}
+  .wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:clamp(2.2rem,5vw,4.5rem) clamp(1.2rem,4vw,2.6rem) 4rem;}
+
+  .kicker{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;font-weight:800;color:var(--terra-deep);
+    display:flex;align-items:center;gap:.9rem;}
+  .kicker::before{content:"";width:36px;height:2px;background:var(--terra);}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.3rem,6.5vw,4.4rem);line-height:.98;letter-spacing:-.025em;margin:1rem 0 .6rem;}
+  h1 span{color:var(--terra);}
+  .lede{font-family:'Fraunces',serif;font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.42;color:var(--ink-soft);max-width:54ch;}
+
+  .hint{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.4rem;background:var(--card);border:1px solid var(--line);
+    border-radius:100px;padding:.5rem 1.05rem;font-size:.86rem;font-weight:600;color:var(--ink-soft);}
+  .hint::before{content:"↻";color:var(--terra);font-size:1.05rem;font-weight:800;}
+
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;font-size:.8rem;}
+  .chip{display:inline-flex;align-items:center;gap:.42rem;background:var(--card);border:1px solid var(--line);
+    border-radius:100px;padding:.32rem .78rem;font-weight:600;color:var(--ink-soft);}
+  .sq{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .sq.f{background:var(--ochre);} .sq.t{background:var(--teal);} .sq.h{background:var(--terra);}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.2rem;}
+  @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr;}}
+
+  .flip{perspective:1400px;height:290px;cursor:pointer;}
+  .inner{position:relative;width:100%;height:100%;transition:transform .62s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d;}
+  .flip.on .inner{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    border-radius:16px;padding:1.3rem 1.35rem;display:flex;flex-direction:column;overflow:hidden;}
+
+  /* front */
+  .front{background:var(--card);border:1px solid var(--line);border-top:6px solid var(--acc,var(--terra));
+    box-shadow:0 4px 16px rgba(33,26,20,.07);}
+  .front .n{font-family:'Fraunces',serif;font-size:2.5rem;color:var(--acc,var(--terra));line-height:1;opacity:.85;}
+  .front .lab{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--acc,var(--terra-deep));margin-top:.7rem;}
+  .front h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.34rem;line-height:1.1;margin-top:.3rem;}
+  .front .tag{font-size:.9rem;color:var(--ink-soft);margin-top:.55rem;line-height:1.4;}
+  .front .dur{margin-top:auto;font-size:.72rem;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--ink);
+    align-self:flex-start;padding:.32rem .75rem;border-radius:100px;}
+  .front .turn{position:absolute;bottom:1.2rem;right:1.2rem;font-size:1rem;color:var(--acc,var(--terra));opacity:.5;}
+
+  /* back */
+  .back{transform:rotateY(180deg);background:linear-gradient(165deg,var(--bk1,#22534C),var(--bk2,#153A35));color:#F6EFE2;
+    border:1px solid rgba(0,0,0,.12);box-shadow:0 6px 20px rgba(33,26,20,.16);}
+  .back .k{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#E9C77E;margin-bottom:.55rem;}
+  .back p{font-size:.9rem;line-height:1.44;color:#EFE6D6;}
+  .back ul{list-style:none;margin-top:.15rem;}
+  .back li{position:relative;padding-left:1rem;font-size:.87rem;line-height:1.38;margin-bottom:.42rem;color:#EFE6D6;}
+  .back li::before{content:"▪";position:absolute;left:0;color:#E9C77E;}
+  .back li b, .back p b{color:#fff;font-weight:700;}
+  .back .close{margin-top:auto;font-family:'Fraunces',serif;font-style:italic;font-size:.86rem;color:#E9C77E;padding-top:.6rem;}
+
+  .tail{margin-top:2.6rem;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--terra);
+    border-radius:16px;padding:clamp(1.3rem,3vw,2rem);}
+  .tail h4{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.25rem,2.4vw,1.7rem);line-height:1.15;margin-bottom:.6rem;}
+  .tail p{color:var(--ink-soft);max-width:62ch;margin-bottom:.5rem;}
+  .tail p b{color:var(--ink);}
+
+  footer{margin-top:2rem;font-size:.8rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1.2rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">A2 Unit Away Day</div>
+  <h1>Working with AI,<br><span>hands on.</span></h1>
+  <p class="lede">We don't learn AI by hearing about it. We learn it by using it — so most of this day, you'll be the one at the keyboard.</p>
+
+  <span class="hint">Tap any card to see what happens in it</span>
+
+  <div class="legend">
+    <span class="chip"><span class="sq f"></span> Framing</span>
+    <span class="chip"><span class="sq t"></span> Together</span>
+    <span class="chip"><span class="sq h"></span> Hands-on</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- 00 -->
+    <div class="flip" style="--acc:#C6912E;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">00</div>
+          <div class="lab">Framing</div>
+          <h3>Opening the room</h3>
+          <p class="tag">Setting the tone for the day.</p>
+          <span class="dur">10 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back" style="--bk1:#B4831F;--bk2:#7E5810;">
+          <div class="k">What happens</div>
+          <p>A short, human opening. Curiosity over fear, judgement over hype.</p>
+          <p style="margin-top:.5rem;">The frame for everything after: these tools don't shrink us, they expand us.</p>
+          <div class="close">Nothing required of you — just arrive.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WARM UP -->
+    <div class="flip" style="--acc:#C0532E;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">★</div>
+          <div class="lab">Hands-on · on our feet</div>
+          <h3>Where do we stand?</h3>
+          <p class="tag">Four rounds where you move, not talk.</p>
+          <span class="dur">12 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back" style="--bk1:#B0492A;--bk2:#7D3018;">
+          <div class="k">Four rounds</div>
+          <ul>
+            <li><b>How much do you use it?</b> All the time — or never touched it.</li>
+            <li><b>Four corners.</b> Usage crossed with how well you know the risks.</li>
+            <li><b>Do you trust it?</b> Brilliant assistant, or confident fibber.</li>
+            <li><b>Where's this going?</b> A colleague in two years — or a side experiment.</li>
+          </ul>
+          <div class="close">Stand where you actually are.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 -->
+    <div class="flip" style="--acc:#1E4D47;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">01</div>
+          <div class="lab">Together · quiz</div>
+          <h3>How wrong are we about AI?</h3>
+          <p class="tag">On your phone. One question at a time.</p>
+          <span class="dur">10 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back">
+          <div class="k">What happens</div>
+          <p>Everyone answers, then we reveal — and talk about why the obvious answer wasn't the right one.</p>
+          <p style="margin-top:.55rem;"><b>The point:</b> we can be fluent, confident, and still completely wrong. That goes for us, and for the machine.</p>
+          <div class="close">Bring your phone.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="flip" style="--acc:#1E4D47;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">02</div>
+          <div class="lab">Together · build it live</div>
+          <h3>Build a great prompt, step by step</h3>
+          <p class="tag">From a lazy prompt to a usable one.</p>
+          <span class="dur">15 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back">
+          <div class="k">Two ladders, from our own work</div>
+          <ul>
+            <li><b>Drafting an email to a beneficiary</b> — the reply we all write again and again.</li>
+            <li><b>A presentation from a tender specification</b> — a long, dense document into a usable draft.</li>
+          </ul>
+          <p style="margin-top:.35rem;">One thing added at a time, re-run at every step, so you see what made the difference.</p>
+          <div class="close">A good prompt fixes structure. Only checking fixes facts.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="flip" style="--acc:#C0532E;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">03</div>
+          <div class="lab">Hands-on · in teams</div>
+          <h3>Prompt battle</h3>
+          <p class="tag">One audience each. One prompt. The room votes.</p>
+          <span class="dur">15 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back" style="--bk1:#B0492A;--bk2:#7D3018;">
+          <div class="k">Explain HaDEA three ways</div>
+          <ul>
+            <li><b>A five-year-old</b> — never heard the word "agency".</li>
+            <li><b>A sceptical minister</b> — twenty seconds, in a lift.</li>
+            <li><b>A human in 2040</b> — explained by an alien who's been watching us all along.</li>
+          </ul>
+          <p style="margin-top:.35rem;">Five minutes to write. Then each team reads out the prompt <b>and</b> the answer.</p>
+          <div class="close">You'll get a team sheet to work from.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="flip" style="--acc:#1E4D47;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">04</div>
+          <div class="lab">Together · your work</div>
+          <h3>A recurring task, solved</h3>
+          <p class="tag">Built from your survey answers.</p>
+          <span class="dur">40 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back">
+          <div class="k">The areas we'll work on</div>
+          <ul>
+            <li><b>Data analysis</b></li>
+            <li><b>Document-heavy work</b> — summarisation, consistency checking, compliance validation</li>
+            <li><b>Communication</b> — email drafting, Q&amp;A</li>
+          </ul>
+          <div class="close">Please fill in the survey — this session is only as good as what you send.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="flip" style="--acc:#C6912E;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">05</div>
+          <div class="lab">Framing · inspiration</div>
+          <h3>Use cases — from outside work</h3>
+          <p class="tag">What it does once it's not an office tool.</p>
+          <span class="dur">20 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back" style="--bk1:#B4831F;--bk2:#7E5810;">
+          <div class="k">A quick tour</div>
+          <ul>
+            <li>Health and nutrition</li>
+            <li>Connected apps</li>
+            <li>Knowledge management</li>
+            <li>Keynote writing</li>
+            <li>Video generation</li>
+          </ul>
+          <div class="close">Not to sell it to you — to widen what you imagine is possible.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="flip" style="--acc:#1E4D47;">
+      <div class="inner">
+        <div class="face front">
+          <div class="n">06</div>
+          <div class="lab">Together · close</div>
+          <h3>What we take back</h3>
+          <p class="tag">From a good day to a different week.</p>
+          <span class="dur">10 MIN</span>
+          <span class="turn">↻</span>
+        </div>
+        <div class="face back">
+          <div class="k">Three questions</div>
+          <ul>
+            <li>What change will you introduce in your practice?</li>
+            <li>What's the first thing you'll try this week?</li>
+            <li>What surprised you most today?</li>
+          </ul>
+          <div class="close">Ten minutes that decide whether any of this sticks.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tail">
+    <h4>Come as you are.</h4>
+    <p>Some of us use AI every day. Some have never opened it. Both are fine — the day is built for both.</p>
+    <p><b>Bring three things:</b> your phone, a task you're tired of doing, and one honest question about AI. Everything else, we'll do together.</p>
+  </div>
+
+  <footer>Timings indicative · Fatime &amp; Valentina</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.flip').forEach(function(c){
+    c.setAttribute('tabindex','0');
+    c.setAttribute('role','button');
+    c.addEventListener('click', function(){ c.classList.toggle('on'); });
+    c.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); c.classList.toggle('on'); }
+    });
+  });
+</script>
+</body>
+</html>
