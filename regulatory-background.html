@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaDEA Regulatory Background Check</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #0066cc 0%, #004aa3 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            font-size: 22px;
+            color: #0066cc;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #e8f0ff;
+            font-weight: 600;
+        }
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #555;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 12px;
+            color: #555;
+        }
+        .objective-box {
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4e9f7 100%);
+            border-left: 5px solid #0066cc;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .objective-box h3 {
+            color: #0066cc;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        .objective-box h3::before {
+            content: "🎯";
+            font-size: 20px;
+        }
+        .objective-box p {
+            color: #333;
+            margin: 0;
+            font-weight: 500;
+        }
+        .redaction-alert {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 5px solid #fbc02d;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .redaction-alert h3 {
+            color: #f57f17;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .redaction-alert h3::before {
+            content: "⚠";
+            font-size: 20px;
+        }
+        .redaction-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .redaction-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid #ffe082;
+            color: #333;
+            line-height: 1.5;
+        }
+        .redaction-item strong {
+            color: #f57f17;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .redaction-item code {
+            color: #c62828;
+            background: #fff9c4;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .redaction-warning {
+            font-size: 13px;
+            color: #d32f2f;
+            font-weight: 600;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ffe082;
+        }
+        .overview {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+            margin-bottom: 25px;
+        }
+        .overview p {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .prompt-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .prompt-copy {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            user-select: all;
+            -webkit-user-select: all;
+            -moz-user-select: all;
+            cursor: text;
+            color: #333;
+            border: 1px solid #ddd;
+            max-height: 600px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-weight: 500;
+            color: #856404;
+        }
+        .highlight-critical {
+            background: #f8d7da;
+            padding: 2px 4px;
+            border-radius: 2px;
+            color: #721c24;
+            font-weight: 500;
+        }
+        .copy-instruction {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .copy-instruction::before {
+            content: "📋";
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #004aa3;
+        }
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .severity-critical {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+        .severity-high {
+            color: #f57f17;
+            font-weight: 600;
+        }
+        .severity-medium {
+            color: #0066cc;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 40px;
+            background: #f5f5f5;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #999;
+        }
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+            header {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .section h2 {
+                font-size: 18px;
+            }
+            .redaction-items {
+                grid-template-columns: 1fr;
+            }
+            .prompt-copy {
+                font-size: 11px;
+            }
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            header {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>HaDEA Regulatory Background Check</h1>
+    </header>
+
+    <div class="content">
+        <div class="section">
+            <div class="objective-box">
+                <h3>Objective</h3>
+                <p>
+                    This prompt ensures that the 'Regulatory Background' section of a tender specification is complete, accurate, up-to-date, and aligned with EU and relevant international frameworks. It identifies gaps, inconsistencies, and compliance risks before publication.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="overview">
+                <p>
+                    <strong>Before running the compliance check,</strong> you must redact sensitive information from your Regulatory Background text. Use the mandatory redaction protocol below.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Mandatory Redaction Protocol</h2>
+            <p>
+                <strong>You MUST anonymise or redact before submitting your Regulatory Background text to any AI tool:</strong>
+            </p>
+            <div class="redaction-alert">
+                <h3>Redact These Items</h3>
+                <div class="redaction-items">
+                    <div class="redaction-item">
+                        <strong>Budget & Financial</strong>
+                        <code>€15,000,000</code> = <code>"[BUDGET REDACTED]"</code>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Partner / Beneficiary Names</strong>
+                        <code>Acme Corp</code> = <code>"[PARTNER]"</code>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Timelines (Confidential)</strong>
+                        <code>Closing: 31 March 2027</code> = <code>"[DATE REDACTED]"</code>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Internal Procedures</strong>
+                        <code>Threshold: 60%</code> = <code>"[PROCEDURE REDACTED]"</code>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Staff Names</strong>
+                        <code>Jane Smith</code> = <code>"HaDEA Call Manager"</code>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Confidential Details</strong>
+                        <code>Strategic partnership with DG X</code> = <code>"[CONFIDENTIAL]"</code>
+                    </div>
+                </div>
+                <div class="redaction-warning">
+                    ⚠ Critical: Never include unreferenced documents, personal data, or classified content.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Compliance Check Prompt</h2>
+            <div class="prompt-section">
+                <p class="copy-instruction">Select all text below and copy it into your AI system (Claude, ChatGPT, etc.)</p>
+                <div class="prompt-copy">═══════════════════════════════════════════════════════════════════════════════
+HADEA REGULATORY BACKGROUND COMPLIANCE CHECK PROMPT
+Task-Context-Rules-Output Structure
+Version 1.0 | September 2026
+═══════════════════════════════════════════════════════════════════════════════
+
+📌 CONTEXT
+────────────────────────────────────────────────────────────────────────────────
+
+You are an expert in EU public procurement, regulatory analysis, and tender 
+specification drafting. Your task is to review the Regulatory Background section 
+of a HaDEA call for tenders or procurement and assess whether it is complete, 
+accurate, consistent, and legally sound.
+
+<span class="highlight">**Key Distinction:** Identify whether HaDEA is the 
+**contracting authority** (calls managed directly by HaDEA) or the **intermediary** 
+(calls managed on behalf of another DG/entity). This determines which regulatory 
+instruments must be cited.</span>
+
+For Contracting Authority Calls:
+  Regulatory standing flows from HaDEA's legal charter, EU public procurement 
+  rules, and HaDEA's financial/operational procedures.
+
+For Intermediary Calls:
+  Regulatory standing flows from the originating DG/entity's mandate, the 
+  delegation/service contract authorising HaDEA to manage the call, EU public 
+  procurement rules, and the originating authority's requirements.
+
+All regulatory instruments checked:
+  — HaDEA's legal charter (Regulation, Decision, or mandate from the European Commission)
+  — EU public procurement rules (Directives 2014/23/EU, 2014/24/EU, 2014/25/EU)
+  — HaDEA's financial rules and operational procedures
+  — Specific EU strategies or policy frameworks the call advances
+  <span class="highlight">— If intermediary: The originating DG/entity's legal mandate (e.g., DG SANTE's charter, regulation, or decision)</span>
+  <span class="highlight">— If intermediary: HaDEA's authority to manage the call (delegation agreement, service contract, or operational procedure)</span>
+  — If intermediary: Specific policy frameworks the originating authority wants to advance
+
+<span class="highlight">Example: If DG SANTE asks HaDEA to manage a health-related call, the Regulatory 
+Background must cite DG SANTE's mandate AND HaDEA's role and delegation authority, 
+not just HaDEA's charter.</span>
+
+
+🎯 TASK
+────────────────────────────────────────────────────────────────────────────────
+
+Analyse the Regulatory Background section provided and produce ONE COMPLIANCE 
+TABLE that:
+
+1. Identifies **all relevant regulatory instruments** that should be cited 
+   (EU Regulations, Directives, Decisions, international conventions, policy 
+   frameworks)
+2. Assesses whether each is <span class="highlight">**Covered, Partially Covered, or Missing**</span> from 
+   the current text
+3. Flags the <span class="highlight">**severity of each gap** (Critical / High / Medium / Low)</span> based 
+   on legal risk to the tender
+4. Identifies gaps, inconsistencies, outdated references, or contradictions
+5. Provides <span class="highlight">**exact location references** in the document (page number and 
+   paragraph number)</span>
+6. Suggests **specific, actionable improvements** with verbatim replacement or 
+   additional text (max 2 sentences per suggestion)
+7. Explains **why** each gap creates legal, procurement, or compliance risk
+
+
+✋ RULES (Quality & Integrity Gates)
+────────────────────────────────────────────────────────────────────────────────
+
+Non-negotiable constraints:
+
+• <span class="highlight-critical">**Use only real, publicly available legal instruments.** 
+  Do not invent regulations, directives, or policy frameworks.</span>
+
+• **Do not disclose confidential information.** 
+  Exclude budget details, partner names if not yet public, or internal 
+  procedures marked "confidential."
+
+• **If you are uncertain whether an instrument is still current,** 
+  flag it explicitly: "Needs verification against EUR-Lex 
+  (knowledge cutoff: September 2026)." Do not assume an outdated reference 
+  is still valid.
+
+• <span class="highlight">**Coverage assessment uses only three categories:** 
+  Covered / Partially Covered / Missing. No in-between grades.</span>
+
+• <span class="highlight">**Severity Scale:**
+  ✓ Critical: Legal exposure, compliance risk, or procurement challenge 
+    if not addressed. Must be resolved before publication.
+  ✓ High: Affects transparency, fairness, or clarity of the tender; legal 
+    review may flag this. Should be resolved before publication.
+  ✓ Medium: Important for completeness and best practice but not a showstopper. 
+    Prioritize after Critical/High.
+  ✓ Low: Enhances context or demonstrates diligence; not mandatory.</span>
+
+• <span class="highlight">**Document location:** Always provide page number AND paragraph number 
+  (not just "page 5"—specify which paragraph).</span>
+
+• **Suggested improvements:** Provide exact wording (max 2 sentences). 
+  Include a citation to the legal instrument or source.
+
+• <span class="highlight-critical">**Do not produce any text outside the table.** 
+  All analysis—findings, explanations, recommendations—goes inside the 
+  table cells. Do not include preamble, narrative, or commentary outside 
+  the table.</span>
+
+• <span class="highlight">**Table population rule:** 
+  Only include rows where Coverage Status is Partially Covered or Missing, 
+  OR where Severity is Critical or High. Do not include rows for instruments 
+  that are Covered and have Low or no severity.</span>
+
+
+📊 OUTPUT: ONE TABLE ONLY (4-COLUMN COMPACT FORMAT)
+────────────────────────────────────────────────────────────────────────────────
+
+Produce ONE TABLE with the following 4-column structure. All four columns must fit 
+on a single screen without horizontal scrolling.
+
+| Regulatory Topic | Coverage & Severity | Issue Identified | Recommended Action & Suggested Text |
+|---|---|---|---|
+
+COLUMN GUIDANCE:
+
+**Regulatory Topic**
+  Name the regulatory instrument or area being assessed.
+  Examples: "HaDEA's Legal Charter," "Financial Regulation — Current Version," 
+  "AI Governance & Compliance," "Delegation to DG SANTE"
+
+**Coverage & Severity**
+  Format: [Coverage Status] / [Severity Level]
+  
+  Coverage Status values: <span class="highlight">Covered / Partially Covered / Missing</span>
+  
+  Severity Level values (only if NOT "Covered"): <span class="highlight">CRITICAL / HIGH / MEDIUM / LOW</span>
+  
+  Examples:
+    - "Covered / —" (no severity flag needed if coverage is complete)
+    - "Partially Covered / HIGH"
+    - "Missing / CRITICAL"
+
+**Issue Identified**
+  Plain language explanation of what is missing, partially covered, or inconsistent, 
+  and why it matters. Be specific about the risk or gap. If partially covered, specify 
+  exactly what is missing or unclear. Keep to 2–3 sentences.
+
+**Recommended Action & Suggested Text**
+  Format: [Action Type] — [Verbatim suggested text + location]
+  
+  Action Types: Keep / Update / Add / Clarify
+  
+  If action is "Keep": Confirm no changes needed.
+  
+  If action is "Update," "Add," or "Clarify": Provide:
+    - Exact wording (max 2 sentences) with citation to legal instrument
+    - Location for insertion: "(Page X, Paragraph Y)" or "(new paragraph after section Z)"
+  
+  Example:
+    "Add — 'This call is governed by Regulation (EU, Euratom) 2024/2509 of 23 September 2024 
+    on financial rules applicable to the general budget of the Union (OJ L 2024/2509, 26.9.2024). 
+    Procurement procedures follow Articles 167–178 thereof.' (Page 1, Paragraph 2)."
+
+</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Sample Output Table — Downloadable Excel</h2>
+            <p>
+                Use this Excel file to see a real-world example of what the compliance check produces. This sample shows the 4-column table format applied to a fake regulatory background with intentional gaps, inconsistencies, and missing instruments.
+            </p>
+            <div style="background: #f0f7ff; padding: 20px; border-radius: 8px; border-left: 4px solid #0066cc; margin: 15px 0;">
+                <p style="margin: 0; font-weight: 600; color: #0066cc; display: flex; align-items: center; gap: 10px;">
+                    📥 <a href="HaDEA-Compliance-Check-Sample-Output.xlsx" style="color: #0066cc; text-decoration: underline;">Download Sample Output Table (Excel)</a>
+                </p>
+                <p style="margin: 8px 0 0 0; font-size: 13px; color: #555;">
+                    Includes 12 worked examples showing Covered, Partially Covered, and Missing coverage statuses with severity flagging (Critical, High, Medium, Low) and actionable fixes.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        HaDEA Regulatory Background Check | v1.0
+    </footer>
+</div>
+</body>
+</html>
