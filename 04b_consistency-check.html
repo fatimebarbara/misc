@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objectives-Deliverables-Timeline Consistency Check</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #d9534f 0%, #a83c35 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            font-size: 22px;
+            color: #d9534f;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #f5e6e3;
+            font-weight: 600;
+        }
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #555;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 12px;
+            color: #555;
+        }
+        .objective-box {
+            background: linear-gradient(135deg, #fdeef2 0%, #f9d5e1 100%);
+            border-left: 5px solid #d9534f;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .objective-box h3 {
+            color: #d9534f;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        .objective-box h3::before {
+            content: "🎯";
+            font-size: 20px;
+        }
+        .objective-box p {
+            color: #333;
+            margin: 8px 0;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        .objective-box p:first-child {
+            margin-top: 0;
+        }
+        .protocol-box {
+            background: linear-gradient(135deg, #d4edff 0%, #b3d9ff 100%);
+            border-left: 5px solid #004aa3;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .protocol-box h3 {
+            color: #004aa3;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        .protocol-box h3::before {
+            content: "✓";
+            font-size: 20px;
+        }
+        .protocol-steps {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .protocol-step {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .protocol-step:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .protocol-step strong {
+            color: #004aa3;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .protocol-step p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+        .protocol-box .footer-text {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #004aa3;
+            font-weight: 600;
+            color: #004aa3;
+            text-align: center;
+        }
+        .redaction-alert {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 5px solid #fbc02d;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .redaction-alert h3 {
+            color: #856404;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        .redaction-alert h3::before {
+            content: "⚠";
+            font-size: 20px;
+        }
+        .redaction-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .redaction-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #fbc02d;
+        }
+        .redaction-item strong {
+            display: block;
+            color: #333;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .redaction-item code {
+            display: block;
+            background: #f5f5f5;
+            padding: 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #d32f2f;
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+        .redaction-item em {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+        .redaction-alert p {
+            color: #333;
+            margin: 8px 0;
+            font-size: 13px;
+        }
+        .redaction-alert .footer-text {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #fbc02d;
+            font-weight: 600;
+            color: #721c24;
+        }
+        .prompt-copy {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 8.5px;
+            line-height: 1.3;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            user-select: all;
+            -webkit-user-select: all;
+            -moz-user-select: all;
+            cursor: text;
+            color: #333;
+            border: 1px solid #ddd;
+            max-height: 600px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        .highlight-yellow {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .highlight-red {
+            background-color: #f8d7da;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🔍 Objectives-Deliverables-Timeline Consistency Check</h1>
+        <p>Handout for HaDEA Colleagues | Calls for Tenders & Calls for Grants</p>
+    </header>
+
+    <div class="content">
+        <div class="section">
+            <h2>Objective</h2>
+            <div class="objective-box">
+                <h3>What This Check Does</h3>
+                <p>This consistency check ensures that the objectives, tasks, deliverables, and timelines in a tender Specification, Terms of Reference (ToR), or grant Call Documentation are internally coherent, logically connected, properly sequenced, and achievable within the stated contract/grant duration and budget.</p>
+                <p>It identifies misalignments, missing dependencies, compressed schedules, and objective-deliverable gaps before the call is published, reducing contract/grant management risk and contractor/grantee disputes.</p>
+                <p><strong>Applicable to:</strong> Service contracts, Supplies/Works tenders, Research studies, Grant programmes, Action grants, Scholarships, Infrastructure projects.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔐 Secure Analysis Protocol</h2>
+            <div class="protocol-box">
+                <h3>Copy ONLY Relevant REDACTED Sections | Use Internal Tools Strictly</h3>
+                
+                <div class="protocol-steps">
+                    <div class="protocol-step">
+                        <strong>STEP 1: IDENTIFY RELEVANT SECTIONS</strong>
+                        <p>From your Call documentation, copy ONLY the sections needed for consistency analysis:</p>
+                        <ul style="margin-left: 20px; margin-top: 8px;">
+                            <li>Objectives & scope of work</li>
+                            <li>Tasks and sub-tasks</li>
+                            <li>Deliverables & acceptance criteria</li>
+                            <li>Timeline & milestones</li>
+                            <li>Contract duration & budget ceiling</li>
+                            <li>Any work package or phase descriptions</li>
+                        </ul>
+                        <p style="margin-top: 8px;"><strong>Do NOT copy:</strong> Detailed budget breakdowns, evaluator names, strategic priorities, internal decision criteria.</p>
+                    </div>
+
+                    <div class="protocol-step">
+                        <strong>STEP 2: APPLY MANDATORY REDACTION</strong>
+                        <p>Before pasting, remove or anonymize ALL sensitive information using the categories below.</p>
+                    </div>
+
+                    <div class="protocol-step">
+                        <strong>STEP 3: USE INTERNAL TOOLS ONLY</strong>
+                        <p><strong style="color: #d32f2f;">STRICTLY:</strong> Only use Claude Desktop (installed locally) or an organizational AI tool explicitly authorized by your security/IT officer.</p>
+                        <p><strong style="color: #d32f2f;">NEVER use:</strong> Public AI services (ChatGPT, Gemini, Claude.ai), cloud collaboration platforms without restricted access, or any external service.</p>
+                    </div>
+
+                    <div class="protocol-step">
+                        <strong>STEP 4: RUN ANALYSIS</strong>
+                        <p>Paste the redacted sections + this prompt into your internal tool. Receive 5 tables + prioritized issues.</p>
+                    </div>
+                </div>
+
+                <div class="footer-text">
+                    ✓ Redacted document + internal tool only = Safe, compliant, confidential analysis
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Mandatory Redaction Categories</h2>
+            <div class="redaction-alert">
+                <h3>Remove or Anonymize BEFORE Analysis</h3>
+                <div class="redaction-grid">
+                    <div class="redaction-item">
+                        <strong>Budget & Financial</strong>
+                        <code>€15,000,000</code>
+                        <em>→ [BUDGET REDACTED]</em>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Partner/Beneficiary Names</strong>
+                        <code>Acme Corp, University X</code>
+                        <em>→ [PARTNER REDACTED]</em>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Timelines (Confidential)</strong>
+                        <code>Closing: 31 March 2027</code>
+                        <em>→ [DATE REDACTED]</em>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Internal Procedures</strong>
+                        <code>Threshold: 60%, Score formula</code>
+                        <em>→ [PROCEDURE REDACTED]</em>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Staff Names</strong>
+                        <code>Jane Smith, Dr. Martin García</code>
+                        <em>→ [STAFF NAME REDACTED]</em>
+                    </div>
+                    <div class="redaction-item">
+                        <strong>Confidential Details</strong>
+                        <code>Partnership with DG SANTE, Strategic focus</code>
+                        <em>→ [CONFIDENTIAL]</em>
+                    </div>
+                </div>
+                <div class="redaction-alert footer-text">
+                    ⚠ Copy ONLY relevant redacted sections. Never include unreferenced documents, personal data, or classified content.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Consistency Check Prompt</h2>
+            <p>Paste your redacted Call documentation + this prompt into your internal tool. Where you see <span class="highlight-yellow">yellow highlights</span>, customize for your specific call. Where you see <span class="highlight-red">red highlights</span>, do NOT modify — these are non-negotiable analysis rules.</p>
+            <div class="prompt-copy" id="promptText">═══════════════════════════════════════════════════════════════════════════════
+OBJECTIVES-DELIVERABLES-TIMELINE CONSISTENCY CHECK PROMPT
+EU Procurement Tender & Grant Programmes
+═══════════════════════════════════════════════════════════════════════════════
+
+OBJECTIVE:
+You are an expert in project management and EU procurement tender design. Your task is 
+to analyse the OBJECTIVES, TASKS, DELIVERABLES, and TIMELINES in the tender 
+documentation or grant call to ensure they are internally consistent, logically connected, 
+sequenced correctly, and achievable within the stated contract/grant duration and budget.
+
+CONTEXT (CUSTOMIZE FOR YOUR CALL):
+- Call Type: <span class="highlight-yellow">[Service contract / Supply contract / Works contract / Grant programme / Action grant / Other]</span>
+- Scope: <span class="highlight-yellow">[Full tender specifications / Terms of Reference / Call for Proposals]</span>
+- Timeframe: <span class="highlight-yellow">[Insert contract/grant duration, e.g., "15 months", "36 months", "24-month project period + 12-month dissemination"]</span>
+- Budget: <span class="highlight-yellow">[Insert maximum budget, e.g., "EUR 400,000"]</span>
+- Coverage/Analysis Period: <span class="highlight-yellow">[Insert period covered if applicable, e.g., "12 years", "FY2025-2026", "calendar year"]</span>
+- Key Stakeholders: <span class="highlight-yellow">[List: Member States, ECHA, Commission DGs, grantees, etc.]</span>
+
+CRITICAL ASSUMPTIONS TO VERIFY:
+<span class="highlight-red">1. No hidden dependencies between deliverables (e.g., Task C requires outputs from Task A, but A is scheduled after C)
+2. Resource availability matches workload (person-months allocated per task)
+3. Consultation/stakeholder timelines allow for adequate turnaround and response collection
+4. Quality assurance and revision cycles are built into the schedule
+5. No conflicting deliverable submission deadlines
+6. Base analysis ONLY on information explicitly stated in the documentation
+7. Do NOT assume additional resources, budget flexibility, or timeline extensions
+8. Flag ambiguities rather than interpreting unclear language</span>
+
+═══════════════════════════════════════════════════════════════════════════════
+TASK 1: OBJECTIVES ANALYSIS
+═══════════════════════════════════════════════════════════════════════════════
+
+INSTRUCTIONS:
+1. Extract ALL stated objectives from the document (both explicit and implicit).
+2. For each objective, assess <span class="highlight-yellow">SMART criteria</span>:
+   - Specific: Is the objective clearly defined with measurable targets?
+   - Measurable: Are there KPIs or success metrics defined?
+   - Achievable: Are resources and timeline adequate?
+   - Relevant: Does it align with the overall call scope and stakeholder needs?
+   - Time-bound: Is there a clear deadline or completion criterion?
+3. Flag objectives that are vague, contradictory, or missing success criteria.
+
+OUTPUT TABLE: | Objective | SMART Status | Vagueness Issues | Success Criteria Defined? | Flag for Review |
+
+═══════════════════════════════════════════════════════════════════════════════
+TASK 2: TASKS-DELIVERABLES MAPPING
+═══════════════════════════════════════════════════════════════════════════════
+
+INSTRUCTIONS:
+1. Create complete list of all tasks mentioned in the documentation.
+2. For each task, list ALL deliverables associated with it.
+3. Map each deliverable to the study question(s), objective(s), or <span class="highlight-yellow">grant output category</span> it addresses.
+4. Identify gaps:
+   - Objectives with no mapped deliverables
+   - Deliverables without clear connection to stated objectives
+   - Deliverables that appear to address unstated requirements
+
+IMPORTANT: Include intermediate deliverables (summaries, reports, workshop outputs, presentations). 
+Distinguish between primary deliverables (contractually required) and supporting outputs.
+
+OUTPUT TABLE: | Task | Sub-tasks | Primary Deliverable(s) | Supporting Outputs | Linked Objectives/<span class="highlight-yellow">Grant Outputs</span> | Coverage Status |
+
+═══════════════════════════════════════════════════════════════════════════════
+TASK 3: TIMELINE ASSESSMENT & DEPENDENCY ANALYSIS
+═══════════════════════════════════════════════════════════════════════════════
+
+A) TIMELINE OVERVIEW:
+1. Extract all explicitly stated deadlines from the schedule section.
+2. Calculate working days/months available between each milestone.
+3. List all deliverables with submission deadlines (both draft and final versions).
+
+B) REALISM CHECK:
+For each major deliverable, assess if timeline is realistic given:
+   - Scope and expected volume (page limits, number of outputs)
+   - Required turnaround time for quality assurance and revision
+   - Stakeholder feedback cycles
+   - External dependencies (e.g., <span class="highlight-yellow">ECHA data, Member State reports, grant partner coordination</span>)
+   - Team capacity and task complexity
+
+C) DEPENDENCY ANALYSIS:
+1. Identify all deliverables that are prerequisites for subsequent work.
+2. Flag any reverse dependencies (deliverable B due before A, but B depends on A).
+3. Identify potential bottlenecks (<span class="highlight-yellow">parallel activities competing for resources, long upstream tasks</span>).
+4. <span class="highlight-yellow">For grants: assess if work packages can proceed in parallel or if sequential phases are required</span>.
+
+OUTPUT TABLE: | Deliverable / Milestone | Deadline | Duration Allocated | Scope/Volume | Realistic? | Dependencies | Prerequisite For | Risk Level |
+
+═══════════════════════════════════════════════════════════════════════════════
+TASK 4: CONSISTENCY TABLE — INTEGRATED VIEW
+═══════════════════════════════════════════════════════════════════════════════
+
+Create ONE comprehensive table showing how objectives, tasks, deliverables, and timelines interlock.
+
+OUTPUT TABLE: | Study Question/<span class="highlight-yellow">Grant Output / Work Package</span> | Related Task(s) | Primary Deliverable | Due Date | Duration (weeks) | Dependencies | Achievable? | Issues Identified |
+
+═══════════════════════════════════════════════════════════════════════════════
+TASK 5: ISSUE FLAGGING & RECOMMENDATIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+For each consistency issue found, document:
+
+1. ISSUE TYPE: Timeline compression | Dependency sequencing error | Unclear deliverable specification | 
+   Resource mismatch | Objective-deliverable gap | <span class="highlight-yellow">Stakeholder engagement / Partner coordination bottleneck</span> | 
+   Quality assurance gap | Conflicting requirements | Missing interim milestones
+
+2. SEVERITY: <span class="highlight-red">🔴 CRITICAL (contract/grant cannot succeed) | 🟡 HIGH (significant delays likely) | 🟠 MEDIUM (rework probable) | 🟢 LOW (best practice recommendation)</span>
+
+3. EVIDENCE: Cite document section, page, timeline metric
+
+4. RECOMMENDED ACTION: Specific timeline adjustment, clarification needed, resource reallocation, or deliverable scope refinement
+
+OUTPUT TABLE: | Issue Description | Issue Type | Severity | Evidence (Page/Section) | Root Cause | Recommended Action | Timeline Impact |
+
+═══════════════════════════════════════════════════════════════════════════════
+FINAL OUTPUT STRUCTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+A) EXECUTIVE SUMMARY
+   - Overall consistency rating: GREEN / YELLOW / RED
+   - Number of critical issues: [X]
+   - Key bottlenecks identified: [List]
+   - Top 3 recommended actions: [Priority order]
+
+B) DETAILED FINDINGS (5 Tables)
+   - Objectives Assessment Table
+   - Tasks-Deliverables Mapping Table
+   - Timeline & Dependency Analysis Table
+   - Consistency Check Master Table
+   - Issues & Recommendations Table
+
+C) RISK MITIGATION STRATEGIES (Optional)
+   For each CRITICAL or HIGH issue: Recommended mitigation, Owner, Implementation timing
+
+═══════════════════════════════════════════════════════════════════════════════
+RULES (NON-NEGOTIABLE)
+═══════════════════════════════════════════════════════════════════════════════
+
+<span class="highlight-red">- Base analysis ONLY on information explicitly stated in the documentation
+- Do NOT assume additional resources, budget flexibility, or timeline extensions
+- Flag ambiguities rather than interpreting unclear language
+- Reference specific page numbers, sections, and quotations
+- When timeline appears compressed, calculate actual working days vs. allocated days
+- For consultation activities, estimate minimum turnaround time:
+  • Survey distribution → response collection → analysis: 6-8 weeks minimum
+  • Interviews/focus groups → transcription → analysis: 4-6 weeks minimum
+  • Feedback incorporation → revision → resubmission: 3-4 weeks minimum
+- Note any deliverables with approval/revision cycles (these extend effective timelines)
+- Identify any deliverables that appear in payment triggers or milestone-based funding (these are contractually critical)</span>
+
+═══════════════════════════════════════════════════════════════════════════════
+END OF PROMPT
+═══════════════════════════════════════════════════════════════════════════════
