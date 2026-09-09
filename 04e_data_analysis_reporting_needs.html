@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<style id="print-rules">
+@media print{
+  :root{ color-scheme: light; }
+  body{ background:#fff !important; font-size:10.5pt; }
+  @page{ size:A4; margin:14mm 12mm; }
+  .wrap{ max-width:none !important; padding:0 3px !important; }
+  .masthead .mast, header .hd{ padding-top:0 !important; }
+  h1,h2,h3{ break-after:avoid; }
+  .intro{ display:block !important; padding-top:22px !important; break-inside:auto; }
+  .intro .prose{ max-width:none !important; }
+  .rail{ display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+         gap:10px !important; margin-top:18px; break-inside:avoid; align-items:start; }
+  .card{ break-inside:avoid; }
+  .card .row{ grid-template-columns:minmax(0,auto) minmax(0,1fr) !important; }
+  section, .ind, .dec, figure, .opening{ break-inside:avoid; }
+  .decisions, .promptsec{ break-before:page; }
+  .pg{ display:block !important; }
+  .pg > div + div{ margin-top:18px; }
+  pre{ break-inside:auto; font-size:8.2pt; }
+  a{ text-decoration:none; color:inherit; }
+}
+</style>
+
+</head>
+<body>
+<title>Eight Standing Analyses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#F5F7F4; --surface:#FCFCFB; --surface-2:#EFF2ED;
+  --ink:#16241C; --ink-2:#39463D; --muted:#65726A; --rule:#D6DDD5; --rule-soft:#E6EAE4;
+  --ivy:#0F8461; --ivy-soft:#E3F0E9; --archive:#25406B; --archive-soft:#E5EAF2;
+  --maxw:1120px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#141815; --surface:#1C211D; --surface-2:#232A25;
+  --ink:#E8EDE7; --ink-2:#C6CFC6; --muted:#95A29A; --rule:#2E3730; --rule-soft:#262E28;
+  --ivy:#3AA07F; --ivy-soft:#1B2B25; --archive:#8FAAD6; --archive-soft:#1B2230;
+}}
+:root[data-theme="dark"]{
+  --paper:#141815; --surface:#1C211D; --surface-2:#232A25;
+  --ink:#E8EDE7; --ink-2:#C6CFC6; --muted:#95A29A; --rule:#2E3730; --rule-soft:#262E28;
+  --ivy:#3AA07F; --ivy-soft:#1B2B25; --archive:#8FAAD6; --archive-soft:#1B2230;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif; font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+h1,h2,h3{font-family:"Zilla Slab",Georgia,serif; text-wrap:balance; margin:0}
+p{margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+
+.masthead{border-bottom:2px solid var(--ink); background:var(--surface)}
+.mast{display:flex; flex-wrap:wrap; gap:28px; align-items:flex-end; justify-content:space-between; padding:32px 0 22px}
+.crest{display:flex; gap:14px; align-items:center}
+.agency .acr{font-family:"Zilla Slab",Georgia,serif; font-size:27px; font-weight:700; letter-spacing:.04em; color:var(--ink); line-height:1}
+.agency .full{font-family:"Source Sans 3",sans-serif; font-size:15px; color:var(--ink-2); margin-top:4px; line-height:1.35; max-width:44ch}
+.agency .unit{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-top:6px}
+.crest{padding-bottom:16px; border-bottom:1px solid var(--rule-soft)}
+h1{font-size:clamp(34px,5.4vw,56px); font-weight:700; letter-spacing:-.02em; line-height:1.02; margin-top:20px}
+.deck{font-size:18px; color:var(--ink-2); max-width:58ch; margin-top:12px}
+.fiction{background:var(--archive-soft); border-bottom:1px solid var(--rule)}
+.fiction p{padding:10px 0; font-size:13.5px; color:var(--ink-2)}
+.fiction b{color:var(--archive)}
+
+.intro{padding:44px 0 4px; display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:48px; align-items:start}
+@media (max-width:900px){.intro{grid-template-columns:1fr; gap:30px}}
+.intro .prose{max-width:64ch}
+.intro h2{font-family:"IBM Plex Mono",monospace; font-size:14px; font-weight:600; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--ivy); margin-bottom:14px}
+.intro p+p{margin-top:14px}
+.card{background:var(--surface); border:1px solid var(--rule); border-radius:3px; padding:16px 18px}
+.card h3{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); font-weight:500; margin-bottom:11px}
+.card .row{display:grid; grid-template-columns:auto 1fr; gap:5px 11px; font-size:13.5px; color:var(--ink-2)}
+.card .row b{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ivy); font-weight:600; padding-top:2px}
+.rail{display:flex; flex-direction:column; gap:14px}
+
+.sechead{border-top:2px solid var(--ink); margin-top:46px; padding-top:20px;
+  display:flex; align-items:baseline; justify-content:space-between; gap:20px; flex-wrap:wrap}
+.sechead h2{font-size:clamp(25px,3.2vw,34px); font-weight:600; letter-spacing:-.01em}
+.sechead .meta{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.08em; color:var(--muted)}
+.secintro{max-width:70ch; color:var(--ink-2); margin-top:12px}
+
+.list{display:flex; flex-direction:column; margin-top:28px}
+.ind{display:grid; grid-template-columns:52px minmax(0,1fr); gap:0 20px; border-top:1px solid var(--rule); padding:24px 0 28px}
+.ind:first-child{border-top-color:var(--ink)}
+@media (max-width:700px){.ind{grid-template-columns:1fr; gap:12px}}
+.n{font-family:"Zilla Slab",serif; font-size:34px; font-weight:600; line-height:1; color:var(--ivy); font-variant-numeric:tabular-nums}
+.ind h3{font-size:22px; font-weight:600; letter-spacing:-.005em}
+.tgt{display:inline-flex; align-items:baseline; gap:7px; margin-top:9px; padding:4px 11px; border-radius:2px;
+  background:var(--ivy-soft); border:1px solid color-mix(in srgb,var(--ivy) 28%,transparent)}
+.tgt .k{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ivy)}
+.tgt .v{font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600; color:var(--ink)}
+.blocks{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px 28px; margin-top:16px}
+.blk .k{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); display:block; margin-bottom:5px}
+.blk p{font-size:15px; line-height:1.55; color:var(--ink-2)}
+.foot{display:flex; flex-wrap:wrap; gap:6px; margin-top:15px; align-items:center}
+.chip{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.05em; padding:3px 8px;
+  border:1px solid var(--rule); border-radius:2px; color:var(--ink-2); background:var(--surface)}
+.chip.c{color:var(--ivy); border-color:color-mix(in srgb,var(--ivy) 36%,transparent); background:var(--ivy-soft)}
+.foot .lab{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-right:2px}
+
+.promptsec{margin-top:50px; border-top:2px solid var(--ink); padding-top:20px}
+.pg{display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:30px; margin-top:22px}
+@media (max-width:900px){.pg{grid-template-columns:1fr}}
+pre{margin:0; background:var(--surface); border:1px solid var(--rule); border-radius:3px; padding:20px 22px;
+  overflow-x:auto; font-family:"IBM Plex Mono",monospace; font-size:12.6px; line-height:1.72; color:var(--ink-2);
+  white-space:pre-wrap; word-break:break-word}
+pre b{color:var(--ink); font-weight:600}
+pre .c{color:var(--ivy)}
+.steps{display:flex; flex-direction:column; gap:13px}
+.step{display:grid; grid-template-columns:24px 1fr; gap:12px; align-items:start}
+.step .d{font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:600; color:var(--surface); background:var(--ink);
+  width:22px; height:22px; border-radius:50%; display:grid; place-items:center; margin-top:2px}
+.step p{font-size:14.5px; line-height:1.5; color:var(--ink-2)}
+.step b{color:var(--ink)}
+footer{margin-top:48px; border-top:1px solid var(--rule); padding:22px 0 56px; color:var(--muted); font-size:13.5px}
+:focus-visible{outline:2px solid var(--ivy); outline-offset:2px}
+</style>
+
+<div class="masthead">
+  <div class="wrap mast">
+    <div>
+      <div class="crest">
+        <svg width="46" height="46" viewBox="0 0 34 34" aria-hidden="true">
+          <path d="M17 3c0 5-4 6-4 10a4 4 0 0 0 8 0c0-4-4-5-4-10z" fill="var(--ivy)"/>
+          <path d="M6 17c4-2 7 1 9 1s-1 5-5 5-5-4-4-6z" fill="var(--ivy)" opacity=".78"/>
+          <path d="M28 17c-4-2-7 1-9 1s1 5 5 5 5-4 4-6z" fill="var(--ivy)" opacity=".78"/>
+          <path d="M17 17v14" stroke="var(--ink)" stroke-width="1.6" fill="none"/>
+        </svg>
+        <div class="agency">
+          <div class="acr">HEDERA</div>
+          <div class="full">Health, Enthusiasm, Deadlines &amp; Edible Resources Executive Agency</div>
+          <div class="unit">Unit R.2 — Reporting, Analysis &amp; Reality Checks</div>
+        </div>
+      </div>
+      <h1>Eight Standing Analyses</h1>
+      <p class="deck">What HEDERA measures on every reporting cycle, why each indicator exists, and the prompt that rebuilds the report from the refreshed data.</p>
+    </div>
+  </div>
+</div>
+<div class="fiction"><div class="wrap"><p><b>Fictional worked example.</b> The Health, Enthusiasm, Deadlines &amp; Edible Resources Executive Agency does not exist. Its six programmes and its data are invented for a data-analysis exercise. The reporting mechanics are real; the agency is not.</p></div></div>
+
+<div class="wrap">
+
+<section class="intro">
+  <div class="prose">
+    <h2>The reporting cycle</h2>
+    <p>HEDERA reports on its own performance on two fixed cycles. A <strong>monthly note</strong> goes to the Directors' Committee on the second Tuesday of each month, covering the eight indicators below at agency and programme level. A <strong>semester review</strong> in January and July does the same over a longer window and feeds the Annual Activity Report.</p>
+    <p>The content of both is identical in structure. Every edition covers the same eight indicators, in the same order, computed the same way, from the same workbook. That is deliberate: the value of a recurring analysis lies in being comparable with the last one, and an indicator that changes definition between editions tells you nothing about whether performance moved.</p>
+    <p>This document defines the eight. It states what each indicator measures, why the Committee needs it rather than merely enjoys it, what the output shows, which sheets it is computed from, and the corporate target it is judged against. It contains no findings — the figures live in the periodic report, and this document is what tells you how to read them.</p>
+    <p>The targets are round on purpose: <span class="mono">100 days</span> to grant, <span class="mono">30</span> and <span class="mono">60</span> days to pay, <span class="mono">90%</span> of reports on time, error rate under <span class="mono">2%</span>. A target nobody can recite is a target nobody manages against.</p>
+  </div>
+
+  <aside class="rail">
+    <div class="card">
+      <h3>The six programmes</h3>
+      <div class="row">
+        <b>VITA</b><span>EU4Vitality — longer lives, shorter queues</span>
+        <b>CRUST</b><span>Croissant Risk, Uniform Standards and Traceability</span>
+        <b>CLOUDY</b><span>Cloud, Latency, Open Data and Uncertain Digital Yield</span>
+        <b>NOVA</b><span>Horizon Nova — frontier research and adjacent curiosity</span>
+        <b>FIBRE</b><span>Fibre In Basically Rural Europe</span>
+        <b>ESPRESSO</b><span>European Small Producers, Retailers, Enterprises and Shop Support Operations</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Reporting cycle</h3>
+      <div class="row">
+        <b>MONTHLY</b><span>Note to the Directors' Committee, second Tuesday</span>
+        <b>SEMESTER</b><span>Full review, January and July</span>
+        <b>ANNUAL</b><span>Feeds the Annual Activity Report and discharge</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Evidence base</h3>
+      <div class="row">
+        <b>SOURCE</b><span>Programme Performance Database, 16 data sheets</span>
+        <b>PERIOD</b><span>2019 to date, refreshed monthly</span>
+        <b>LEVEL</b><span>Agency total and all six programmes, every indicator</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>The indicators</h2>
+    <div class="meta">8 items · same order every edition</div>
+  </div>
+  <p class="secintro">Each indicator is reported at agency level and broken down by programme. Where an indicator has a corporate target, the report flags the result against it; where it does not, it is reported against the previous period.</p>
+  <div class="list" id="list"></div>
+</section>
+
+<section class="promptsec">
+  <div class="sechead" style="border-top:0; margin-top:0; padding-top:0">
+    <h2>The prompt that rebuilds the report</h2>
+    <div class="meta">paste · attach the workbook · about a minute</div>
+  </div>
+  <p class="secintro">The definitions above hold from edition to edition. This is the instruction that turns a refreshed workbook back into the finished report — the same eight indicators, the same house style, the same comparison against the previous period.</p>
+
+  <div class="pg">
+    <div>
+<pre><b>Prepare the periodic performance report for the HEDERA Directors'
+Committee. The workbook is attached.</b>
+
+<span class="c"># Data</span>
+Use only the attached workbook. Sheets: Calls, Proposals, Evaluations,
+Grants, Payments, Reporting, Amendments, Audits, Beneficiaries,
+TrainingEvents, Helpdesk, StaffCapacity, BudgetExecution, KPITargets,
+Survey. Keys: Call_ID, Proposal_ID, Grant_ID, Org_ID, Programme_Code.
+Treat the current year as partial and label it year-to-date; compare
+like-for-like periods only. Never estimate a figure you can compute,
+and never carry a number forward from a previous edition.
+
+<span class="c"># Output</span>
+One self-contained HTML page in the house style (ivy green #0F8461,
+Zilla Slab headings, Source Sans 3 body, IBM Plex Mono for figures;
+light and dark themes).
+Structure: KPI strip → the eight indicators in fixed order →
+a decisions-requested list → a spoken opening.
+
+<span class="c"># The eight indicators, in this order</span>
+1. Time to grant against the 100-day target
+2. Payment timeliness against 30 and 60 days
+3. Budget execution and year-end commitment bunching
+4. Call demand and success rate against the 15% floor
+5. Reporting compliance against 90% on time
+6. Widening participation against the 25% target
+7. Assurance: audit error rate, corrections, amendment load
+8. Capacity: workload per FTE, service load, delivery cost
+
+<span class="c"># For each indicator, four things and nothing else</span>
+- THE FIGURE. One sentence, agency level, leading with the number,
+  flagged against KPITargets: on target / watch / off target.
+- BY PROGRAMME. Compare all six. Name the best and the weakest
+  explicitly; a programme that moves against the agency trend is
+  the finding, so say so.
+- SINCE LAST PERIOD. Compare with the previous edition's window on a
+  like-for-like basis. State the direction and the size of the move.
+  Where a KPI moved more than 10%, say what in the data explains it
+  and name the sheet and column you checked. If nothing in the data
+  explains it, say that instead of guessing.
+- WHAT I WOULD DO. One recommendation, specific enough to act on,
+  or one thing genuinely worth highlighting as good news. Never both,
+  never neither.
+
+<span class="c"># House rules</span>
+- Euro amounts: €1.2m / €340k. Percentages one decimal. Days whole.
+- Measured tone. No superlatives, no "significantly", no exclamation.
+- Every claim traceable to a sheet and column; name them inline.
+- Where a figure rests on fewer than 20 records, say so in the text.
+- End with three to five decisions the Committee is asked to take,
+  each tied to the indicator that produced it.
+
+<span class="c"># Then</span>
+Give me a 90-second spoken opening covering only what moved.</pre>
+    </div>
+
+    <div>
+      <div class="steps">
+        <div class="step"><div class="d">1</div><p><b>Refresh the workbook.</b> Same sheet names, same column headers, new rows. Nothing in the prompt changes between editions.</p></div>
+        <div class="step"><div class="d">2</div><p><b>Attach it and paste the prompt.</b> Add one line at the top if this edition has a specific worry: <span class="mono">"Focus indicator 2 on Q4 — the Director asked about December."</span></p></div>
+        <div class="step"><div class="d">3</div><p><b>Read the "since last period" lines first.</b> They are the part you did not already know, and they come from a comparison you would otherwise have made by eye.</p></div>
+        <div class="step"><div class="d">4</div><p><b>Argue with one number.</b> Ask where it came from. The answer names a sheet and a column, and either the number survives or you have found something.</p></div>
+        <div class="step"><div class="d">5</div><p><b>Keep your edits.</b> When you change the wording of an indicator, paste that change into the prompt for the next edition. The prompt gets better; the work gets shorter.</p></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <h3>Why the prompt is built this way</h3>
+        <p style="font-size:13.5px; color:var(--muted); line-height:1.55">It carries four things a request for "a summary of my data" does not: the <b style="color:var(--ink)">source and its keys</b>, so joins are made rather than guessed; the <b style="color:var(--ink)">fixed structure</b>, so the edition is comparable with the last one; the <b style="color:var(--ink)">house style</b>, so the result circulates without re-editing; and an explicit instruction for the <b style="color:var(--ink)">hard case</b> — what to do when a number moves and nothing in the data explains it. That last line is what stops a confident sentence from being invented.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>HEDERA — Health, Enthusiasm, Deadlines &amp; Edible Resources Executive Agency · Unit R.2 — Reporting, Analysis &amp; Reality Checks. Indicator definitions, valid until the Single Programming Document revises the targets. Prepared for the away day; the agency is fictional and the workbook is synthetic.</p>
+</footer>
+</div>
+
+<script>
+const IND=[
+{n:1,t:"Time to grant",tk:"Target",tv:"100 days",cad:"Monthly",aud:"Directors, Heads of Unit",
+ src:["Grants","Calls","KPITargets"],
+ q:"Mean number of days from a call deadline to the signature of the grant agreement, per programme and per year.",
+ w:"It is the indicator the agency is publicly measured on and the one beneficiaries feel directly — every day here is a day a project has staff hired and no contract. It is also a lagging signal of a staffing problem that began months earlier, which is why it is read next to indicator 8.",
+ s:"Agency mean against the 100-day target, with all six programmes on the same axis. The agency line routinely conceals a single programme moving the other way, so the programme split is the analysis, not a supplement to it."},
+
+{n:2,t:"Payment timeliness",tk:"Target",tv:"30 / 60 days",cad:"Monthly",aud:"Directors, Accounting",
+ src:["Payments","Grants"],
+ q:"Share of payments executed inside the contractual limit — 30 days for pre-financing, 60 for interim and final — with the mean days taken and the late-payment interest incurred.",
+ w:"Late payment is a legal obligation with a price attached, and it is what beneficiaries talk about publicly. It is also the fastest indicator of a queue forming anywhere in the chain, because the payment is the last step of every process upstream of it.",
+ s:"Share within limit by year and by programme, then the same figure by calendar month. The monthly cut is what produces action: the misses are never spread evenly across the year, and an annual average conceals exactly the weeks that need managing."},
+
+{n:3,t:"Budget execution and year-end bunching",tk:"Target",tv:"99% executed",cad:"Monthly, weekly from October",aud:"Directors, Budget",
+ src:["BudgetExecution","Grants","Payments"],
+ q:"Commitment appropriations executed as a share of those available, per programme, together with the share of that execution falling in the final quarter.",
+ w:"Under-execution returns money and invites questions. A heavy fourth quarter gets the money out but concentrates risk, overtime and error into the weeks with the least capacity to absorb them. Execution alone hides this, so the two figures are always reported together — the shape matters as much as the total.",
+ s:"Execution rate per programme against the 99% target, the Q4 share of commitments, and cumulative decommitments. Read alongside indicator 2, since the December payment window and the December commitment window are the same weeks."},
+
+{n:4,t:"Call demand and success rate",tk:"Floor",tv:"15% funded",cad:"Per call, reported monthly",aud:"Directors, Programme managers",
+ src:["Calls","Proposals","Grants"],
+ q:"Proposals received per call, share funded, and the volume of applicant effort absorbed for each project funded.",
+ w:"A falling success rate is not automatically evidence of a healthy, competitive programme. It raises the cost the sector pays to work with us, and below roughly one in ten it begins deterring the smaller and less experienced applicants that indicator 6 says we need more of. The floor exists to make that trade-off visible before it is irreversible.",
+ s:"Success rate by programme and year against the 15% floor, proposal volume, and the count of unsuccessful proposals. Two operational figures ride along: the share submitted in the final 24 hours, and the share failing on admissibility — the second is preventable at almost no cost."},
+
+{n:5,t:"Reporting compliance",tk:"Target",tv:"90% on time",cad:"Monthly",aud:"Directors, Project officers",
+ src:["Reporting","Beneficiaries","Grants"],
+ q:"Share of periodic reports submitted by their due date, with the delay distribution and the current overdue list.",
+ w:"A late report delays the payment behind it, so this indicator is the upstream cause of part of indicator 2. It is also the one that converts most directly into work — the output is a list of names that project officers can act on before the end of the week, not a percentage to contemplate.",
+ s:"On-time rate by programme against the 90% target, then broken by the month the report was due and by coordinator experience. Those two cuts are what turn a compliance percentage into a scheduling decision and an onboarding decision."},
+
+{n:6,t:"Widening participation",tk:"Target",tv:"25% of coordinators",cad:"Monthly, in full each semester",aud:"Directors, parent DG",
+ src:["Grants","Proposals","Beneficiaries","KPITargets"],
+ q:"Share of grant coordinators based in widening countries, against the corporate target, with the equivalent share at application stage.",
+ w:"It is a mandate and it is reported upward. The second half of the definition is what makes the indicator useful rather than merely compliant: reporting the application share next to the award share establishes where the gap opens. If it opens at evaluation, the problem is ours. If it opens at application, it belongs to outreach, and evaluation-side measures will not close it.",
+ s:"Coordinator share by year and programme against the 25% target, the application-stage share, and success rates for widening and non-widening applicants side by side."},
+
+{n:7,t:"Assurance: audits and amendments",tk:"Threshold",tv:"error rate under 2%",cad:"Each semester, plus monthly amendment load",aud:"Directors, Internal Audit",
+ src:["Audits","Amendments","Grants"],
+ q:"Ex-post audited error rate against the 2% materiality threshold, financial corrections issued, recurring finding types, and the amendment load each programme generates.",
+ w:"The error rate goes into the Annual Activity Report and the discharge procedure, which gives it the longest afterlife of any figure here. Amendment volume is the early warning sitting in front of it: projects that need restructuring are usually the projects that later need explaining. Reporting the two together is what turns assurance from an annual surprise into a managed trend.",
+ s:"Error rate by year and by programme against the threshold, the share of individual audits above 2% — an average under the threshold can still contain a programme that is not — the recurring finding types, and amendments per grant with mean processing time."},
+
+{n:8,t:"Capacity, service load and delivery cost",tk:"Reported against",tv:"previous period",cad:"Monthly",aud:"Directors, HR",
+ src:["StaffCapacity","Helpdesk","Survey","TrainingEvents"],
+ q:"Active grants and portfolio value per FTE by unit, with vacancy rates; helpdesk volume and service levels; and cost per unit of output for the training programme.",
+ w:"This is the indicator that makes the resource case, and the only one that explains the others. A unit whose portfolio grows while its establishment plan does not will appear first in indicator 1, then in indicator 2, and eventually in indicator 7. Reported on its own it is an HR statistic; reported next to the other seven it is the cause.",
+ s:"Grants per FTE and vacancy rate by unit, read against that unit's own time-to-grant figure. Helpdesk volume and service levels split between call-deadline months and ordinary ones. Cost per participant and measured learning gain by delivery mode, so cheaper and equivalent are not confused."}
+];
+
+document.getElementById("list").innerHTML = IND.map(d=>`
+<article class="ind">
+  <div class="n">${String(d.n).padStart(2,"0")}</div>
+  <div>
+    <h3>${d.t}</h3>
+    <div class="tgt"><span class="k">${d.tk}</span><span class="v">${d.tv}</span></div>
+    <div class="blocks">
+      <div class="blk"><span class="k">What we measure</span><p>${d.q}</p></div>
+      <div class="blk"><span class="k">Why the Committee needs it</span><p>${d.w}</p></div>
+      <div class="blk"><span class="k">What the output shows</span><p>${d.s}</p></div>
+    </div>
+    <div class="foot">
+      <span class="lab">Cycle</span><span class="chip c">${d.cad}</span>
+      <span class="lab" style="margin-left:8px">Audience</span><span class="chip">${d.aud}</span>
+      <span class="lab" style="margin-left:8px">Sheets</span>${d.src.map(s=>`<span class="chip mono">${s}</span>`).join("")}
+    </div>
+  </div>
+</article>`).join("");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<style id="print-rules">
+@media print{
+  :root{ color-scheme: light; }
+  body{ background:#fff !important; font-size:10.5pt; }
+  @page{ size:A4; margin:14mm 12mm; }
+  .wrap{ max-width:none !important; padding:0 3px !important; }
+  .masthead .mast, header .hd{ padding-top:0 !important; }
+  h1,h2,h3{ break-after:avoid; }
+  .intro{ display:block !important; padding-top:22px !important; break-inside:auto; }
+  .intro .prose{ max-width:none !important; }
+  .rail{ display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+         gap:10px !important; margin-top:18px; break-inside:avoid; align-items:start; }
+  .card{ break-inside:avoid; }
+  .card .row{ grid-template-columns:minmax(0,auto) minmax(0,1fr) !important; }
+  section, .ind, .dec, figure, .opening{ break-inside:avoid; }
+  .decisions, .promptsec{ break-before:page; }
+  .pg{ display:block !important; }
+  .pg > div + div{ margin-top:18px; }
+  pre{ break-inside:auto; font-size:8.2pt; }
+  a{ text-decoration:none; color:inherit; }
+}
+</style>
+
+</head>
+<body>
+<title>HEDERA Performance Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#F5F7F4; --surface:#FCFCFB; --surface-2:#EFF2ED;
+  --ink:#16241C; --ink-2:#39463D; --muted:#65726A; --rule:#D6DDD5; --rule-soft:#E6EAE4;
+  --ivy:#0F8461; --ivy-soft:#E3F0E9; --archive:#25406B; --archive-soft:#E5EAF2;
+  --good:#0F8461; --watch:#B8801A; --off:#C0392B; --good-soft:#E3F0E9; --watch-soft:#F7EFDD; --off-soft:#F8E7E4;
+  --c1:#0F8461; --c2:#2D6FD1; --c3:#B8801A; --c4:#8E44AD; --c5:#C0392B; --c6:#0E8FA0;
+  --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#141815; --surface:#1C211D; --surface-2:#232A25;
+  --ink:#E8EDE7; --ink-2:#C6CFC6; --muted:#95A29A; --rule:#2E3730; --rule-soft:#262E28;
+  --ivy:#3AA07F; --ivy-soft:#1B2B25; --archive:#8FAAD6; --archive-soft:#1B2230;
+  --good:#3AA07F; --watch:#D0A03E; --off:#E4776A; --good-soft:#17281F; --watch-soft:#2A2314; --off-soft:#2C1B18;
+  --c1:#3AA07F; --c2:#5D93E0; --c3:#B8801A; --c4:#A97ACE; --c5:#DC6A5C; --c6:#1E96A6;
+}}
+:root[data-theme="dark"]{
+  --paper:#141815; --surface:#1C211D; --surface-2:#232A25;
+  --ink:#E8EDE7; --ink-2:#C6CFC6; --muted:#95A29A; --rule:#2E3730; --rule-soft:#262E28;
+  --ivy:#3AA07F; --ivy-soft:#1B2B25; --archive:#8FAAD6; --archive-soft:#1B2230;
+  --good:#3AA07F; --watch:#D0A03E; --off:#E4776A; --good-soft:#17281F; --watch-soft:#2A2314; --off-soft:#2C1B18;
+  --c1:#3AA07F; --c2:#5D93E0; --c3:#B8801A; --c4:#A97ACE; --c5:#DC6A5C; --c6:#1E96A6;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+h1,h2,h3{font-family:"Zilla Slab",Georgia,serif; margin:0; text-wrap:balance}
+p{margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+
+header{background:var(--surface); border-bottom:2px solid var(--ink)}
+.hd{display:flex; flex-wrap:wrap; gap:20px 40px; justify-content:space-between; align-items:flex-end; padding:26px 0 20px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted)}
+.nameplate{display:flex; gap:13px; align-items:center; padding-bottom:14px; margin-bottom:14px; border-bottom:1px solid var(--rule-soft)}
+.nameplate svg{flex:none}
+.np-txt .np-acr{font-family:"Zilla Slab",Georgia,serif; font-size:23px; font-weight:700; letter-spacing:.04em; color:var(--ink); line-height:1}
+.np-txt .np-full{font-family:"Source Sans 3",sans-serif; font-size:13.5px; color:var(--ink-2); margin-top:3px; line-height:1.35}
+.np-txt .np-unit{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-top:5px}
+h1{font-size:clamp(27px,4vw,42px); font-weight:700; letter-spacing:-.02em; line-height:1.05; margin-top:8px}
+.hd .sub{color:var(--ink-2); font-size:16px; margin-top:8px; max-width:56ch}
+.stamp{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.07em; color:var(--muted);
+  border:1px solid var(--rule); border-radius:2px; padding:9px 12px; line-height:1.7; white-space:nowrap}
+.stamp b{color:var(--ink); font-weight:600}
+.fiction{background:var(--archive-soft); border-bottom:1px solid var(--rule); font-size:13px; color:var(--ink-2)}
+.fiction p{padding:9px 0}
+.fiction b{color:var(--archive)}
+
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); margin:26px 0 6px}
+.kpi{background:var(--surface); padding:13px 15px 14px}
+.kpi .lab{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); line-height:1.5; min-height:28px}
+.kpi .val{font-family:"Zilla Slab",serif; font-size:30px; font-weight:600; letter-spacing:-.01em; line-height:1.1; margin-top:3px; font-variant-numeric:tabular-nums}
+.kpi .val small{font-size:15px; color:var(--muted); font-weight:400}
+.kpi .foot{display:flex; align-items:center; gap:7px; margin-top:6px; font-size:12.5px; color:var(--muted)}
+.pill{font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+  padding:2px 6px; border-radius:2px; white-space:nowrap}
+.pill.good{background:var(--good-soft); color:var(--good)}
+.pill.watch{background:var(--watch-soft); color:var(--watch)}
+.pill.off{background:var(--off-soft); color:var(--off)}
+.striptip{font-size:12.5px; color:var(--muted); margin-bottom:30px}
+
+section{border-top:1px solid var(--rule); padding:26px 0 30px}
+section.first{border-top:2px solid var(--ink)}
+.sh{display:grid; grid-template-columns:32px 1fr auto; gap:14px; align-items:baseline; margin-bottom:10px}
+.sh .n{font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600; color:var(--ivy)}
+.sh h2{font-size:22px; font-weight:600}
+.sh .src{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.07em; color:var(--muted); text-align:right}
+.body{display:grid; grid-template-columns:minmax(0,1fr) minmax(310px,.9fr); gap:26px; align-items:start; padding-left:46px}
+@media (max-width:860px){.body{grid-template-columns:1fr; padding-left:0} .sh{grid-template-columns:32px 1fr} .sh .src{display:none}}
+.lead{font-size:17px; line-height:1.55; color:var(--ink)}
+.lead b{font-variant-numeric:tabular-nums}
+.rows{display:flex; flex-direction:column; gap:11px; margin-top:14px}
+.r{display:grid; grid-template-columns:104px 1fr; gap:14px; align-items:start}
+@media (max-width:520px){.r{grid-template-columns:1fr; gap:3px}}
+.r .k{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); padding-top:3px}
+.r p{font-size:14.5px; line-height:1.55; color:var(--ink-2)}
+.r.shift .k{color:var(--archive)}
+.r.act{background:var(--ivy-soft); border-left:2px solid var(--ivy); border-radius:0 2px 2px 0; padding:9px 12px; margin-left:-12px;
+  grid-template-columns:92px 1fr}
+.r.act .k{color:var(--ivy); font-weight:600; padding-top:2px}
+.r.act p{color:var(--ink)}
+.arrow{font-family:"IBM Plex Mono",monospace; font-weight:600}
+.bad{color:var(--off)} .good{color:var(--good)} .flat{color:var(--muted)}
+.trace{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); margin-top:13px}
+
+figure{margin:0; background:var(--surface); border:1px solid var(--rule); border-radius:3px; padding:12px 12px 8px}
+figcaption{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); text-align:center; margin-top:4px}
+.legend{display:flex; flex-wrap:wrap; gap:9px; justify-content:center; margin-top:7px}
+.lg{display:flex; align-items:center; gap:5px; font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--muted)}
+.lg i{width:9px; height:9px; border-radius:2px; display:block}
+
+.decisions{margin-top:30px; border-top:2px solid var(--ink); padding-top:20px}
+.dec{display:grid; grid-template-columns:28px 1fr; gap:14px; padding:15px 0; border-bottom:1px solid var(--rule-soft); align-items:start}
+.dec .l{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; color:var(--surface); background:var(--ivy);
+  width:25px; height:25px; border-radius:50%; display:grid; place-items:center}
+.dec h3{font-size:16.5px; font-weight:600; margin-bottom:3px}
+.dec p{font-size:14.5px; color:var(--ink-2)}
+.dec .from{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--muted); margin-top:5px}
+.opening{margin-top:30px; background:var(--ivy-soft); border:1px solid color-mix(in srgb,var(--ivy) 26%,transparent);
+  border-radius:3px; padding:22px 24px}
+.opening .k{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--ivy)}
+.opening h2{font-size:20px; margin:4px 0 12px}
+.opening p{font-size:16.5px; line-height:1.62; max-width:72ch; color:var(--ink)}
+.opening p+p{margin-top:12px}
+footer{margin-top:32px; border-top:1px solid var(--rule); padding:20px 0 56px; font-size:13px; color:var(--muted)}
+:focus-visible{outline:2px solid var(--ivy); outline-offset:2px}
+</style>
+
+<header>
+  <div class="wrap hd">
+    <div>
+      <div class="nameplate">
+        <svg width="40" height="40" viewBox="0 0 34 34" aria-hidden="true">
+          <path d="M17 3c0 5-4 6-4 10a4 4 0 0 0 8 0c0-4-4-5-4-10z" fill="var(--ivy)"/>
+          <path d="M6 17c4-2 7 1 9 1s-1 5-5 5-5-4-4-6z" fill="var(--ivy)" opacity=".78"/>
+          <path d="M28 17c-4-2-7 1-9 1s1 5 5 5 5-4 4-6z" fill="var(--ivy)" opacity=".78"/>
+          <path d="M17 17v14" stroke="var(--ink)" stroke-width="1.6" fill="none"/>
+        </svg>
+        <div class="np-txt">
+          <div class="np-acr">HEDERA</div>
+          <div class="np-full">Health, Enthusiasm, Deadlines &amp; Edible Resources Executive Agency</div>
+          <div class="np-unit">Unit R.2 — Reporting, Analysis &amp; Reality Checks</div>
+        </div>
+      </div>
+      <div class="eyebrow">Periodic report to the Directors' Committee</div>
+      <h1>Performance Report — September 2026</h1>
+      <p class="sub">The eight standing indicators, at agency and programme level. Data cut 8 September 2026; 2026 figures are year-to-date and compared like-for-like with January–August 2025.</p>
+    </div>
+    <div class="stamp">
+      <b>Edition</b> 2026-09 · monthly<br>
+      <b>Prepared</b> Unit R.2<br>
+      <b>Source</b> Programme Performance DB<br>
+      <b>Build time</b> 1 min 08 s
+    </div>
+  </div>
+</header>
+<div class="fiction"><div class="wrap"><p><b>Fictional worked example.</b> The Health, Enthusiasm, Deadlines &amp; Edible Resources Executive Agency does not exist. Its programmes and every figure below are invented for a data-analysis exercise.</p></div></div>
+
+<div class="wrap">
+
+<div class="kpis">
+  <div class="kpi"><div class="lab">Time to grant<br>2026 YTD</div><div class="val">94<small> d</small></div>
+    <div class="foot"><span class="pill good">On target</span> target 100 d</div></div>
+  <div class="kpi"><div class="lab">Payments within<br>limit</div><div class="val">97.5<small>%</small></div>
+    <div class="foot"><span class="pill good">On target</span> was 94.2%</div></div>
+  <div class="kpi"><div class="lab">Commitment<br>execution 2025</div><div class="val">98.7<small>%</small></div>
+    <div class="foot"><span class="pill watch">Watch</span> target 99%</div></div>
+  <div class="kpi"><div class="lab">Call<br>success rate</div><div class="val">12.8<small>%</small></div>
+    <div class="foot"><span class="pill off">Below floor</span> floor 15%</div></div>
+  <div class="kpi"><div class="lab">Reports<br>on time</div><div class="val">66.4<small>%</small></div>
+    <div class="foot"><span class="pill off">Off target</span> target 90%</div></div>
+  <div class="kpi"><div class="lab">Widening<br>coordinators</div><div class="val">24.2<small>%</small></div>
+    <div class="foot"><span class="pill watch">Near target</span> target 25%</div></div>
+  <div class="kpi"><div class="lab">Audited<br>error rate</div><div class="val">1.46<small>%</small></div>
+    <div class="foot"><span class="pill good">Under 2%</span> 54 audits</div></div>
+  <div class="kpi"><div class="lab">Committed<br>2026 YTD</div><div class="val">€364<small>m</small></div>
+    <div class="foot"><span class="pill watch">In year</span> 141 grants signed</div></div>
+</div>
+<p class="striptip">Flags compare each figure with the KPITargets sheet. Percentages to one decimal, days whole, euro to three significant figures. Two indicators moved by more than 10% this period: reporting compliance and widening participation.</p>
+
+<div id="sections"></div>
+
+<div class="decisions">
+  <h2 style="font-size:24px; margin-bottom:6px">Decisions requested</h2>
+  <p style="color:var(--ink-2); max-width:70ch; margin-bottom:8px">Four this edition, each tied to the indicator that produced it.</p>
+
+  <div class="dec"><div class="l">A</div><div>
+    <h3>Fill the two vacant B.1 posts, or set CLOUDY a separate 130-day target for 2027</h3>
+    <p>CLOUDY has been above the 100-day commitment for three consecutive cohorts while every other programme has come in under it. Unit B.1's establishment plan has been flat since 2023 and its vacancy rate is 12.9%. The Committee is asked to choose between the resource and the target, rather than restating the target.</p>
+    <p class="from">From indicators 1 and 8 · Grants, StaffCapacity</p></div></div>
+
+  <div class="dec"><div class="l">B</div><div>
+    <h3>Move the November–December payment cut-off forward by two weeks</h3>
+    <p>November and December clear 69% of payments inside the limit against 94% in the rest of the year, in every year on record. A six-year stable pattern is a scheduling choice, not a capacity failure, and moving the internal deadline costs nothing.</p>
+    <p class="from">From indicators 2 and 3 · Payments, BudgetExecution</p></div></div>
+
+  <div class="dec"><div class="l">C</div><div>
+    <h3>Shift summer reporting deadlines to September at grant-preparation stage</h3>
+    <p>Reports due in July and August arrive on time 34% and 38% of the time against roughly 76% in every other month. Either move those deadlines when the grant is prepared, or stop counting them in the corporate KPI. Continuing to report a blended figure that conceals both is the one option with nothing to recommend it.</p>
+    <p class="from">From indicator 5 · Reporting</p></div></div>
+
+  <div class="dec"><div class="l">D</div><div>
+    <h3>Extend the widening outreach pilot to ESPRESSO and NOVA before the 2027 calls</h3>
+    <p>Widening coordinator share has risen from 19.2% to 24.2% and is now within a point of target — the pilot worked. It has not reached NOVA, which sits at 8.0%. Since widening and non-widening applicants succeed at almost the same rate, the remaining gap is in who applies, and outreach is the instrument that moves it.</p>
+    <p class="from">From indicator 6 · Grants, Proposals, Beneficiaries</p></div></div>
+</div>
+
+<div class="opening">
+  <div class="k">To be read aloud · about 90 seconds</div>
+  <h2>Opening</h2>
+  <p>Good morning. Two things improved this period, two did not, and one programme is doing something the agency average is hiding.</p>
+  <p>First the good news, because there is some. Time to grant is at 94 days year to date — the first time the agency has come in under the 100-day commitment. And widening participation has gone from 19.2% to 24.2%, which puts us within a point of a target we have missed every year since 2019. The outreach pilot is the only thing in the data that changed, so I would extend it.</p>
+  <p>The programme the average is hiding is CLOUDY, at 127 days against everyone else's 81 to 97. It has been above target for three cohorts. Unit B.1 has been at a flat establishment plan since 2023 with a 12.9% vacancy rate, and nothing else in the workbook moves with it. Decision A asks you to choose between the posts and the target.</p>
+  <p>The one that got worse is reporting compliance: 66.4% on time, down from 73.3%, against a target of 90%. Two cuts explain nearly all of it — July and August deadlines, and first-time coordinators. Neither is a compliance problem, which is why Decision C is about the calendar rather than about enforcement.</p>
+  <p>Everything else is stable. Payments are at 97.5% inside the limit with interest down to eleven thousand euro, error rate is under materiality at 1.46%, and execution is at 98.7%. Four decisions, and I would like to start with A.</p>
+</div>
+
+<footer>
+  <p>HEDERA — Health, Enthusiasm, Deadlines &amp; Edible Resources Executive Agency · Unit R.2 — Reporting, Analysis &amp; Reality Checks · Edition 2026-09. Every figure traceable to the Programme Performance Database 2019–2026. Generated from the standing prompt; reviewed before circulation.</p>
+</footer>
+</div>
+
+<script>
+const PC={VITA:"var(--c1)",CRUST:"var(--c2)",CLOUDY:"var(--c3)",NOVA:"var(--c4)",FIBRE:"var(--c5)",ESPRESSO:"var(--c6)"};
+const YR=["2019","2020","2021","2022","2023","2024","2025"];
+
+function grid(W,H,L,R,T,B,lo,hi,dec){let g="";for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3,y=T+(hi-v)/(hi-lo)*(H-T-B);
+ g+=`<line x1="${L}" y1="${y.toFixed(1)}" x2="${W-R}" y2="${y.toFixed(1)}" stroke="var(--rule-soft)" stroke-width="1"/>`+
+    `<text x="${L-7}" y="${(y+3.6).toFixed(1)}" text-anchor="end" fill="var(--muted)" font-size="9" font-family="IBM Plex Mono,monospace">${v.toFixed(dec)}</text>`;}return g;}
+
+function multiline(cfg){
+  const W=500,H=196,L=42,R=16,T=12,B=26;
+  const all=cfg.series.flatMap(s=>s.v);
+  const lo=cfg.lo??Math.floor(Math.min(...all)*0.95), hi=cfg.hi??Math.ceil(Math.max(...all)*1.05);
+  const n=cfg.x.length, X=i=>L+i*(W-L-R)/(n-1), Y=v=>T+(hi-v)/(hi-lo)*(H-T-B);
+  let g=grid(W,H,L,R,T,B,lo,hi,cfg.dec??0);
+  cfg.x.forEach((lab,i)=>{g+=`<text x="${X(i).toFixed(1)}" y="${H-9}" text-anchor="middle" fill="var(--muted)" font-size="9.5" font-family="IBM Plex Mono,monospace">${lab}</text>`;});
+  cfg.series.forEach(s=>{
+    const d=s.v.map((v,i)=>`${i?"L":"M"}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join(" ");
+    g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="${s.dash?1.6:2}" stroke-linejoin="round" stroke-linecap="round"${s.dash?' stroke-dasharray="5 4"':""}/>`;
+    if(!s.dash)s.v.forEach((v,i)=>{g+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="${i===s.v.length-1?4:2.5}" fill="${s.c}" stroke="var(--surface)" stroke-width="${i===s.v.length-1?2:1.3}"/>`;});
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${cfg.alt}">${g}</svg>`;
+}
+function barchart(cfg){
+  const W=500,H=196,L=42,R=16,T=18,B=26, n=cfg.v.length;
+  const lo=cfg.lo??0, hi=cfg.hi??Math.max(...cfg.v)*1.15, bw=(W-L-R)/n, Y=v=>T+(hi-v)/(hi-lo)*(H-T-B);
+  let g=grid(W,H,L,R,T,B,lo,hi,cfg.dec??0);
+  cfg.v.forEach((v,i)=>{const x=L+i*bw+3,w=bw-6,y=Y(v),h=Math.max(2,Y(lo)-y);
+    const c=cfg.colors?cfg.colors[i]:((cfg.hl||[]).includes(i)?"var(--c5)":"var(--c1)");
+    g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="${c}"/>`;
+    g+=`<text x="${(x+w/2).toFixed(1)}" y="${(y-5).toFixed(1)}" text-anchor="middle" fill="var(--ink-2)" font-size="9.5" font-weight="600" font-family="IBM Plex Mono,monospace">${v.toFixed(cfg.dec??0)}</text>`;
+    g+=`<text x="${(x+w/2).toFixed(1)}" y="${H-9}" text-anchor="middle" fill="var(--muted)" font-size="${cfg.xs??9.5}" font-family="IBM Plex Mono,monospace">${cfg.x[i]}</text>`;});
+  if(cfg.ref!==undefined){const y=Y(cfg.ref);
+    g+=`<line x1="${L}" y1="${y.toFixed(1)}" x2="${W-R}" y2="${y.toFixed(1)}" stroke="var(--off)" stroke-width="1.5" stroke-dasharray="5 4"/>`+
+       `<text x="${W-R}" y="${(y-5).toFixed(1)}" text-anchor="end" fill="var(--off)" font-size="9.5" font-family="IBM Plex Mono,monospace">${cfg.refLabel}</text>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${cfg.alt}">${g}</svg>`;
+}
+function pgroup(vals,ref,refLabel,dec,hi){
+  const names=Object.keys(vals);
+  return barchart({x:names,v:names.map(k=>vals[k]),colors:names.map(k=>PC[k]),ref:ref,refLabel:refLabel,
+    dec:dec??0,hi:hi,xs:8.5,alt:"By programme"});
+}
+
+const S=[
+{n:1,t:"Time to grant",src:"Grants · Calls · KPITargets",
+ lead:"Time to grant is <b>94 days</b> year to date against the <b>100-day</b> commitment — the first period in which the agency has come in under target.",
+ prog:"Five of six programmes are inside 100 days: VITA at 81, NOVA at 84, CRUST at 92, FIBRE at 94, ESPRESSO at 97. CLOUDY sits at <b>127</b>, and is the only programme above target.",
+ shift:{a:"\u25bc",c:"good",t:"Down <b>12 days</b> from 106 for the 2025 cohort, continuing a six-year improvement. CLOUDY improved too — 140 to 127 — but from a level 40 days worse than anyone else, and it has now been above target for three consecutive cohorts."},
+ act:{k:"Highlight",t:"Worth stating plainly at the Committee: the 100-day commitment is met at agency level for the first time since it was set. The qualification is that removing CLOUDY from the average would put us at 90 days — the achievement is real and one programme is carrying a deficit against it."},
+ trace:"Grants.Time_To_Grant_Days by Call_Year × Programme_Code; target from KPITargets where KPI_Code = TTG.",
+ fig:()=>multiline({x:YR,lo:70,hi:155,alt:"Time to grant by programme",series:[
+   {name:"VITA",v:[130,127,123,118,112,107,95],c:PC.VITA},
+   {name:"CLOUDY",v:[132,129,119,112,103,148,140],c:PC.CLOUDY},
+   {name:"NOVA",v:[142,134,135,127,124,123,117],c:PC.NOVA},
+   {name:"FIBRE",v:[135,126,121,115,110,109,92],c:PC.FIBRE},
+   {name:"Target",v:[100,100,100,100,100,100,100],c:"var(--muted)",dash:1}]}),
+ cap:"Days from call deadline to signature, by cohort",
+ leg:[["VITA",PC.VITA],["CLOUDY",PC.CLOUDY],["NOVA",PC.NOVA],["FIBRE",PC.FIBRE],["100-day target","var(--muted)"]]},
+
+{n:2,t:"Payment timeliness",src:"Payments · Grants",
+ lead:"<b>97.5%</b> of payments cleared inside the contractual limit year to date. Pre-financing runs at <b>20 days</b> against a 30-day limit and interim payments at <b>37 days</b> against 60.",
+ prog:"All six programmes are above 94%: NOVA at 100.0%, CLOUDY at 98.1%, FIBRE at 98.0%, CRUST at 97.6%, ESPRESSO at 97.1%, VITA weakest at <b>94.3%</b>. The spread is three points, which is the narrowest it has been.",
+ shift:{a:"\u25b2",c:"good",t:"Up from <b>94.2%</b> over the same January–August window in 2025. Late-payment interest is down from €52.7k for the whole of 2025 to <b>€10.8k</b> so far. The December test has not happened yet, and November and December are the only months that have ever failed."},
+ act:{k:"Watch",t:"November and December clear 68.7% and 69.4% respectively, against 94% in every other month, in every year on record. That pattern has survived six years of general improvement, so it will not fix itself. Move the internal cut-off forward two weeks — Decision B."},
+ trace:"Payments.Actual_Days_To_Pay vs Contractual_Limit_Days, Status = Executed; grouped on month of Due_Date and on Programme_Code.",
+ fig:()=>barchart({x:["J","F","M","A","M","J","J","A","S","O","N","D"],
+   v:[92.9,91.5,94.1,95.0,93.1,94.1,94.2,87.6,92.5,89.8,68.7,69.4],lo:60,hi:104,hl:[10,11],dec:1,
+   alt:"Payments within limit by month"}),
+ cap:"% of payments inside the limit, by calendar month"},
+
+{n:3,t:"Budget execution and year-end bunching",src:"BudgetExecution · Grants",
+ lead:"Commitment execution closed 2025 at <b>98.7%</b> against a <b>99%</b> target — a shortfall of €5.4m in appropriations returned. 2026 stands at 63.4% year to date, which is normal at this point in the year.",
+ prog:"VITA and ESPRESSO both closed at 99.9%, FIBRE at 99.7%, NOVA at 98.9%, CRUST at 98.4%. CLOUDY is the weakest at <b>96.4%</b> — the same programme as indicator 1, and for the same reason: commitments it could not sign in time.",
+ shift:{a:"\u25a0",c:"flat",t:"Essentially unchanged: 98.9% in 2024, 98.7% in 2025. Q4 carried <b>40.3%</b> of commitments, in line with the 39–46% range of every year since 2019. Cumulative decommitments stand at €44.7m."},
+ act:{k:"Note",t:"No action requested on the headline. But 40% of commitments and 29.5% of payment value land in the quarter that contains the two worst payment months of the year. The bunching is what makes indicator 2's December problem expensive, and Decision B addresses both."},
+ trace:"BudgetExecution.Committed_EURm ÷ Commitment_Appropriations_EURm by Programme_Code; Q4_Share_Of_Commitments_Pct.",
+ fig:()=>pgroup({VITA:99.9,CRUST:98.4,CLOUDY:96.4,NOVA:98.9,FIBRE:99.7,ESPRESSO:99.9},99,"target 99%",1,102),
+ cap:"Commitment execution 2025, by programme"},
+
+{n:4,t:"Call demand and success rate",src:"Calls · Proposals · Grants",
+ lead:"The success rate was <b>12.8%</b> for the 2025 cohort, below the <b>15%</b> floor for the fourth consecutive year. Since 2019, <b>7,600</b> proposals have been prepared and not funded.",
+ prog:"CRUST is the only programme above the floor at 17.3%. CLOUDY 14.3%, VITA 13.8%, FIBRE 12.4%, ESPRESSO 10.8%, and NOVA at <b>7.4%</b> — roughly one proposal in fourteen.",
+ shift:{a:"\u25bc",c:"bad",t:"Down again, from 13.0% to 12.8%, on a proposal count that rose from 1,289 to 1,348. Demand is not the problem; the budget per call has not kept pace with it. NOVA fell furthest, from 9.4% to 7.4%."},
+ act:{k:"Recommend",t:"Two cheap fixes before the 2027 calls. <b>3.2%</b> of proposals still fail on admissibility — a pre-submission check would recover most of them at no cost to anyone. And <b>57.2%</b> arrive in the final 24 hours, which is what makes the portal fragile at deadline; a two-stage procedure on NOVA would cut wasted effort where the rate is lowest."},
+ trace:"COUNT(Grants) ÷ COUNT(Proposals) by Call_Year and Programme_Code; Proposals.Admissible, Proposals.Hours_Before_Deadline.",
+ fig:()=>pgroup({VITA:13.8,CRUST:17.3,CLOUDY:14.3,NOVA:7.4,FIBRE:12.4,ESPRESSO:10.8},15,"floor 15%",1,20),
+ cap:"Success rate, 2025 cohort, by programme"},
+
+{n:5,t:"Reporting compliance",src:"Reporting · Beneficiaries",
+ lead:"<b>66.4%</b> of reports due in 2026 arrived on time against a <b>90%</b> target. This is the agency's largest and longest-standing gap against any corporate target.",
+ prog:"VITA leads at 77.1% and CLOUDY at 76.9%. FIBRE 66.7%, CRUST 63.2%, NOVA 59.6%, and ESPRESSO weakest at <b>57.1%</b> — a twenty-point spread between the best and worst programme.",
+ shift:{a:"\u25bc",c:"bad",t:"Down <b>6.9 points</b> from 73.3% in 2025, the largest adverse move in this edition. <b>84</b> reports have been late so far in 2026, by an average of 8.8 days. The deterioration is concentrated in ESPRESSO and NOVA; VITA is unchanged."},
+ act:{k:"Recommend",t:"The two cuts account for nearly all of it. July and August deadlines come in at <b>34%</b> and <b>38%</b> on time against roughly 76% in every other month, and first-time coordinators manage <b>43.5%</b> against 74% for the rest. Move summer deadlines at grant-preparation stage (Decision C) and add a reporting walkthrough to the kick-off meeting for first-time coordinators. Neither requires enforcement."},
+ trace:"Reporting.On_Time by Due_Year, month of Due_Date and Programme_Code; joined to Beneficiaries.Experience_Profile via Coordinator_Org_ID.",
+ fig:()=>barchart({x:["J","F","M","A","M","J","J","A","S","O","N","D"],
+   v:[76.3,78.0,80.0,76.1,74.1,72.6,34.4,37.6,74.8,74.0,77.5,78.8],lo:0,hi:104,hl:[6,7],dec:1,
+   ref:90,refLabel:"target 90%",alt:"On-time reporting by month"}),
+ cap:"% of reports on time, by month the report was due"},
+
+{n:6,t:"Widening participation",src:"Grants · Proposals · Beneficiaries",
+ lead:"<b>24.2%</b> of coordinators are from widening countries year to date, against a <b>25%</b> target. The agency is within one point of a target it has missed every year since 2019.",
+ prog:"Measured on the 2025 cohort, FIBRE leads at 33.3% and CLOUDY at 29.2%, both above target. VITA 20.0%, ESPRESSO 16.7%, CRUST 17.5%, and NOVA lowest at <b>8.0%</b>.",
+ shift:{a:"\u25b2",c:"good",t:"Up <b>5.0 points</b> from 19.2% in 2025 — the largest favourable move in this edition, and the first year the figure has risen two periods running. The outreach pilot launched in 2025 is the only relevant change in the data."},
+ act:{k:"Highlight",t:"The diagnostic supports extending it. Widening applicants succeed at <b>13.6%</b> against 14.5% for the rest — close enough that evaluation is not where the gap sits. The gap is at application: widening organisations are 18.6% of applicants. That makes outreach the effective instrument, and NOVA at 8.0% the place to point it next (Decision D)."},
+ trace:"Grants.Widening_Coordinator by Call_Year and Programme_Code; application share and success rates from Proposals split on Widening_Coordinator.",
+ fig:()=>multiline({x:[...YR,"26 YTD"],lo:0,hi:30,alt:"Widening share vs target",series:[
+   {name:"Actual",v:[18.5,16.2,19.5,18.2,14.3,14.9,19.2,24.2],c:PC.FIBRE},
+   {name:"Target",v:[25,25,25,25,25,25,25,25],c:"var(--muted)",dash:1}]}),
+ cap:"% of coordinators from widening countries",
+ leg:[["Actual",PC.FIBRE],["25% target","var(--muted)"]]},
+
+{n:7,t:"Assurance: audits and amendments",src:"Audits · Amendments",
+ lead:"The audited error rate is <b>1.46%</b> across 54 audits closed in 2026, comfortably under the <b>2%</b> materiality threshold. Corrections issued since 2019 total <b>€6.18m</b>.",
+ prog:"FIBRE is cleanest at 1.20%, then CLOUDY 1.33%, NOVA 1.43%, VITA 1.56%, CRUST 1.82%. ESPRESSO sits at <b>2.33%</b> — above materiality as a programme, even though the agency average is comfortably below it.",
+ shift:{a:"\u25bc",c:"good",t:"Down from 1.76% in 2025 on a larger sample, so the improvement is better evidenced than last edition's. Amendment load is steady at 0.24 to 0.39 per grant, highest on FIBRE, at a mean 45 days to process."},
+ act:{k:"Recommend",t:"Two things the average hides. <b>26.6%</b> of individual audits still come back above 2%, and ESPRESSO is above threshold as a whole programme — that needs a targeted look before the semester review. And the recurring findings have not changed in four years: personnel cost calculation (47 cases) and timesheet evidence (31). That is a beneficiary training gap, not an audit finding, and a one-hour webinar at kick-off would address more of it than another audit round."},
+ trace:"Audits.Error_Rate_Pct by Audit_Year and Programme_Code; Audits.Main_Finding frequency; COUNT(Amendments) ÷ COUNT(Grants) by Programme_Code.",
+ fig:()=>pgroup({VITA:1.56,CRUST:1.82,CLOUDY:1.33,NOVA:1.43,FIBRE:1.20,ESPRESSO:2.33},2,"materiality 2%",2,2.8),
+ cap:"Audited error rate, %, by programme"},
+
+{n:8,t:"Capacity, service load and delivery cost",src:"StaffCapacity · Helpdesk · TrainingEvents",
+ lead:"Unit B.1 carries <b>3.55</b> active grants per FTE on a <b>12.9%</b> vacancy rate and an establishment plan that has been flat since 2023. B.1 manages CLOUDY.",
+ prog:"Load per FTE varies by an order of magnitude and legitimately so: A.2 carries 9.00 grants per FTE on small training contracts, B.2 carries 1.42 on large research consortia. The comparison that matters is each unit against its own trend — and B.1 is the only unit whose vacancy rate has risen for three consecutive years.",
+ shift:{a:"\u25a0",c:"flat",t:"B.1 headcount fell from 50.5 to 48.7 FTE while its portfolio held steady. Its vacancy rate went 8.7% in 2023, 11.4% in 2024, 13.5% in 2025, 12.9% now — and CLOUDY's time to grant went 103, 148, 140, 127 days over the same four years. No other variable in the workbook tracks that."},
+ act:{k:"Recommend",t:"Fill the two vacant B.1 posts (Decision A). Two smaller points: helpdesk SLA compliance falls to <b>76.1%</b> in call-deadline months against 88.1% otherwise, which is a rostering fix rather than a headcount one. And on delivery cost, online training runs at <b>€184</b> per participant against <b>€1,243</b> face-to-face, but with lower measured learning gain (23.4% against 30.7%) and more than double the no-show rate — cheaper, and not the same product."},
+ trace:"StaffCapacity.Grants_Per_FTE, Staff_FTE and Vacancy_Rate_Pct by Year and Managing_Unit; Helpdesk grouped on Deadline_Month; TrainingEvents by Delivery_Mode.",
+ fig:()=>multiline({x:["2019","2020","2021","2022","2023","2024","2025","2026"],lo:0,hi:16,alt:"B.1 vacancy rate and CLOUDY time to grant",series:[
+   {name:"B.1 vacancy %",v:[7.7,10.2,3.7,9.2,8.7,11.4,13.5,12.9],c:PC.CLOUDY}]}),
+ cap:"Unit B.1 vacancy rate, % — read against CLOUDY above"}
+];
+
+document.getElementById("sections").innerHTML = S.map((d,i)=>`
+<section${i===0?' class="first"':""}>
+  <div class="sh"><div class="n">${String(d.n).padStart(2,"0")}</div><h2>${d.t}</h2><div class="src">${d.src}</div></div>
+  <div class="body">
+    <div>
+      <p class="lead">${d.lead}</p>
+      <div class="rows">
+        <div class="r"><div class="k">By programme</div><p>${d.prog}</p></div>
+        <div class="r shift"><div class="k">Since last period</div><p><span class="arrow ${d.shift.c}">${d.shift.a}</span> ${d.shift.t}</p></div>
+        <div class="r act"><div class="k">${d.act.k}</div><p>${d.act.t}</p></div>
+      </div>
+      <p class="trace">↳ ${d.trace}</p>
+    </div>
+    <figure>${d.fig()}${d.leg?`<div class="legend">${d.leg.map(([n,c])=>`<span class="lg"><i style="background:${c}"></i>${n}</span>`).join("")}</div>`:""}<figcaption>${d.cap}</figcaption></figure>
+  </div>
+</section>`).join("");
+</script>
+
+</body>
+</html>
