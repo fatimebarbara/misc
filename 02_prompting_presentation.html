@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prompt Ladder — presenting a published call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF3FB;--card:#FFFFFF;--ink:#182338;--ink-soft:#586074;
+    --terra:#E8552E;--terra-deep:#BC4321;--teal:#1F6FD0;--teal-deep:#0A4AA0;--ochre:#E3A72A;
+    --line:rgba(20,40,80,.13);--hl:#FFE35C;
+    --ok:#1F7A4D;--ok-soft:#E4F3EA;--no:#C0392B;--no-soft:#FBE7E4;
+    --weak:#8A7C5E;--weak-soft:#F3EEE1;--new:#DCEBFA;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.5;position:relative;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(52% 45% at 90% -8%, rgba(255,214,23,.28), transparent 60%),
+      radial-gradient(45% 45% at -8% 6%, rgba(31,111,208,.18), transparent 60%),
+      radial-gradient(55% 55% at 105% 105%, rgba(232,85,46,.15), transparent 60%);}
+  .wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:clamp(2rem,4vw,3.2rem) clamp(1.2rem,4vw,2.4rem) 3.2rem;}
+
+  .eyebrow{font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--terra-deep);display:flex;align-items:center;gap:.9rem;}
+  .eyebrow::before{content:"";width:32px;height:2px;background:var(--terra);}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2rem,5vw,3.2rem);line-height:1.02;letter-spacing:-.02em;margin:.8rem 0 0;
+    background:linear-gradient(100deg,#0A4AA0,#1F6FD0 46%,#E8552E);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .intro{font-size:1.02rem;color:var(--ink-soft);margin-top:.8rem;max-width:62ch;}
+  .intro b{color:var(--ink);}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(1.2rem,2.6vw,1.7rem);margin-top:1.4rem;}
+  .panel > h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.2rem,2.4vw,1.6rem);}
+  .panel .sub{color:var(--ink-soft);font-size:.93rem;margin-top:.2rem;}
+
+  .blocks5{margin-top:1rem;}
+  .b5row{display:grid;grid-template-columns:96px 1fr;gap:.9rem;padding:.55rem 0;border-bottom:1px solid var(--line);font-size:.95rem;}
+  .b5row:last-child{border-bottom:0;}
+  .b5n{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;}
+  .n1{color:var(--teal-deep);} .n2{color:var(--terra-deep);} .n3{color:#5C4069;} .n4{color:#8A5E12;} .n5{color:#77848E;}
+  .b5row .d{color:var(--ink-soft);} .b5row .d b{color:var(--ink);}
+  .opt{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(20,40,80,.07);color:var(--ink-soft);padding:.15rem .45rem;border-radius:99px;font-weight:700;}
+  .attach{background:rgba(122,90,140,.09);border:1px solid rgba(122,90,140,.3);border-radius:9px;padding:.7rem .85rem;margin-top:.6rem;font-size:.87rem;color:#4a3a55;}
+  .attach b{color:#3a2c44;}
+
+  .legend{display:flex;gap:1.1rem;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.75rem 1.1rem;margin-top:1.4rem;}
+  .legend .ll{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+  .key{display:flex;align-items:center;gap:.45rem;font-size:.86rem;}
+  .sw{width:24px;height:13px;border-radius:3px;flex-shrink:0;}
+  .sw.k0{background:var(--new);border-bottom:2px solid var(--teal);}
+  .sw.k1{background:var(--ok-soft);border-bottom:2px solid var(--ok);}
+  .sw.k2{background:var(--weak-soft);border-bottom:2px dotted var(--weak);}
+  .sw.k3{background:var(--no-soft);border-bottom:2px solid var(--no);}
+  .sw.k4{background:var(--hl);}
+
+  .facts{display:grid;grid-template-columns:140px 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:.8rem;font-size:.92rem;}
+  .facts > div{padding:.45rem .85rem;border-bottom:1px solid var(--line);}
+  .facts > div:nth-child(odd){background:rgba(20,40,80,.035);color:var(--ink-soft);font-weight:600;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;}
+  .facts > div:nth-last-child(-n+2){border-bottom:0;}
+
+  .rung{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-top:1.4rem;overflow:hidden;}
+  .rhead{display:flex;align-items:center;gap:.8rem;padding:.9rem clamp(1rem,2.6vw,1.7rem);border-bottom:1px solid var(--line);}
+  .rn{width:34px;height:34px;flex-shrink:0;border-radius:50%;color:#fff;display:grid;place-items:center;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;}
+  .v1 .rn{background:#77848E;} .v1 .rhead{background:rgba(154,167,177,.12);}
+  .v2 .rn{background:var(--terra-deep);} .v2 .rhead{background:rgba(232,85,46,.09);}
+  .v3 .rn{background:#B8801A;} .v3 .rhead{background:rgba(227,167,42,.13);}
+  .v4 .rn{background:var(--teal-deep);} .v4 .rhead{background:rgba(31,111,208,.10);}
+  .rhead .lab{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+  .rhead .adds{font-family:'Fraunces',serif;font-weight:600;font-size:1.1rem;line-height:1.1;}
+  .v1 .adds{color:#5c6870;} .v2 .adds{color:var(--terra-deep);} .v3 .adds{color:#8A5E12;} .v4 .adds{color:var(--teal-deep);}
+  .score{margin-left:auto;text-align:right;flex-shrink:0;}
+  .score .sn{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:600;line-height:1;}
+  .v1 .sn{color:#77848E;} .v2 .sn{color:var(--terra-deep);} .v3 .sn{color:#8A5E12;} .v4 .sn{color:var(--teal-deep);}
+  .score .sl2{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;}
+  .split .left{border-right:1px solid var(--line);background:rgba(20,40,80,.025);}
+  .colhead{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+    padding:.7rem clamp(.9rem,2.2vw,1.4rem) .4rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;}
+  .copybtn{font-family:'Hanken Grotesk';font-size:.68rem;font-weight:700;color:#fff;background:var(--teal);border:none;border-radius:6px;padding:.28rem .6rem;cursor:pointer;}
+  .copybtn:hover{background:var(--teal-deep);}
+
+  .prompt{margin:0 clamp(.9rem,2.2vw,1.4rem) 1.1rem;background:#fff;border:1px solid var(--line);border-radius:9px;padding:.85rem 1rem;font-size:.85rem;line-height:1.55;white-space:pre-wrap;}
+  .fld{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-soft);margin:.75rem 0 .15rem;}
+  .fld:first-child{margin-top:0;}
+  .fld.isnew{color:var(--teal-deep);}
+  .fld .nt{background:var(--teal);color:#fff;font-size:.55rem;padding:.1rem .4rem;border-radius:99px;letter-spacing:.1em;margin-left:.3rem;}
+  .nw{background:var(--new);border-bottom:2px solid var(--teal);border-radius:3px;padding:.03em .18em;}
+  .clip{display:inline-block;background:rgba(31,111,208,.1);border:1px solid rgba(31,111,208,.35);color:var(--teal-deep);border-radius:6px;padding:.2rem .5rem;font-size:.78rem;font-weight:600;}
+
+  .deck{padding:.4rem clamp(.9rem,2.2vw,1.4rem) 1.1rem;}
+  .sl{border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin-bottom:.45rem;background:#fff;}
+  .sl:last-child{margin-bottom:0;}
+  .sl.same{opacity:.5;}
+  .sl .sn2{font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:.15rem;}
+  .flag{display:inline-block;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:.1rem .4rem;border-radius:99px;margin-left:.3rem;}
+  .flag.chg{background:var(--ok);color:#fff;} .flag.unc{background:rgba(20,40,80,.09);color:var(--ink-soft);}
+  .sl h4{font-family:'Fraunces',serif;font-weight:600;font-size:.98rem;line-height:1.2;margin-bottom:.3rem;}
+  .sl ul{list-style:none;}
+  .sl li{position:relative;padding-left:.85rem;font-size:.84rem;margin-bottom:.18rem;}
+  .sl li:last-child{margin-bottom:0;}
+  .sl li::before{content:"▪";position:absolute;left:0;color:var(--teal);font-size:.65rem;top:.2em;}
+  .fix{background:var(--ok-soft);border-bottom:2px solid var(--ok);padding:.03em .18em;border-radius:3px;}
+  .weak{background:var(--weak-soft);border-bottom:2px dotted var(--weak);padding:.03em .18em;border-radius:3px;}
+  .no{background:var(--no-soft);border-bottom:2px solid var(--no);padding:.03em .18em;border-radius:3px;}
+  .diffcount{display:flex;gap:.4rem;flex-wrap:wrap;padding:0 clamp(.9rem,2.2vw,1.4rem) .6rem;}
+  .dc{background:var(--ok-soft);border:1px solid #b8d8c4;border-radius:99px;padding:.22rem .6rem;font-size:.74rem;color:#1F7A4D;font-weight:600;}
+
+  .qbox{margin:0 clamp(.9rem,2.2vw,1.4rem) .7rem;background:rgba(31,111,208,.07);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:.7rem .85rem;font-size:.87rem;}
+  .qbox .qt{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--teal-deep);margin-bottom:.3rem;}
+  .qbox div.q{margin-bottom:.3rem;} .qbox div.q:last-child{margin-bottom:0;}
+
+  .calls{border-top:1px solid var(--line);padding:1rem clamp(1rem,2.6vw,1.7rem);display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;}
+  .calls .cl{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:.5rem;}
+  .good .cl{color:var(--ok);} .left-open .cl{color:#8A5E12;}
+  .calls ul{list-style:none;}
+  .calls li{position:relative;padding-left:1rem;margin-bottom:.42rem;font-size:.89rem;}
+  .calls li:last-child{margin-bottom:0;}
+  .calls li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;}
+  .good li::before{background:var(--ok);} .left-open li::before{background:var(--ochre);}
+  .calls li.done{color:var(--ink-soft);} .calls li.done s{color:#9AA7B1;}
+
+  .verdict{padding:.85rem clamp(1rem,2.6vw,1.7rem);display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;border-top:1px solid var(--line);}
+  .verdict .vk{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700;padding:.25rem .55rem;border-radius:99px;white-space:nowrap;margin-top:.1rem;}
+  .verdict .vt{font-family:'Fraunces',serif;font-size:clamp(.98rem,1.9vw,1.15rem);font-weight:600;line-height:1.25;}
+  .verdict .vs{font-size:.86rem;color:var(--ink-soft);margin-top:.25rem;}
+  .v1 .verdict{background:rgba(192,57,43,.07);} .v1 .verdict .vk{background:var(--no);color:#fff;} .v1 .verdict .vt{color:#8e2a20;}
+  .v2 .verdict{background:rgba(232,85,46,.09);} .v2 .verdict .vk{background:var(--terra-deep);color:#fff;} .v2 .verdict .vt{color:var(--terra-deep);}
+  .v3 .verdict{background:rgba(227,167,42,.16);} .v3 .verdict .vk{background:#B8801A;color:#fff;} .v3 .verdict .vt{color:#8A5E12;}
+  .v4 .verdict{background:rgba(31,111,208,.09);} .v4 .verdict .vk{background:var(--teal-deep);color:#fff;} .v4 .verdict .vt{color:var(--teal-deep);}
+
+  .notebox{margin:0 clamp(1rem,2.6vw,1.7rem) 1.1rem;background:rgba(227,167,42,.12);border:1px dashed var(--ochre);border-radius:10px;padding:.95rem 1.05rem;}
+  .notebox .tg{display:inline-block;background:var(--ochre);color:#3d2c05;font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:.2rem .55rem;border-radius:99px;margin-bottom:.5rem;}
+  .notebox h3{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:#8A5E12;margin-bottom:.45rem;}
+  .notebox ul{list-style:none;}
+  .notebox li{position:relative;padding-left:1rem;margin-bottom:.42rem;font-size:.89rem;color:#5c4409;}
+  .notebox li:last-child{margin-bottom:0;}
+  .notebox li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--ochre);}
+  .notebox strong{color:#3d2c05;}
+
+  .change{background:rgba(198,145,46,.12);border:1px dashed var(--ochre);border-radius:9px;padding:.7rem .9rem;margin:0 clamp(.9rem,2.2vw,1.4rem) 1.1rem;font-size:.86rem;}
+  .change b{color:#8A5E12;}
+  mark{background:var(--hl);color:var(--ink);padding:.03em .22em;border-radius:4px;font-weight:600;}
+
+  table{width:100%;border-collapse:collapse;font-size:.89rem;margin-top:.8rem;}
+  th{text-align:center;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;padding-bottom:.5rem;}
+  th:first-child{text-align:left;}
+  td{padding:.5rem .3rem;border-top:1px solid var(--line);text-align:center;}
+  td:first-child{text-align:left;padding-left:0;}
+  .x{color:var(--no);font-weight:700;} .v{color:var(--ok);font-weight:700;}
+  tfoot td{border-top:2px solid var(--ink);font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;padding-top:.6rem;}
+  tfoot td:first-child{font-family:'Hanken Grotesk';font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;}
+
+  .attention{background:linear-gradient(135deg,#1F6FD0,#0A4AA0);color:#EAF1FB;border-radius:14px;padding:clamp(1.3rem,2.8vw,1.9rem);margin-top:1.4rem;box-shadow:0 10px 26px rgba(10,74,160,.22);}
+  .attention h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.3rem,2.6vw,1.7rem);color:#fff;}
+  .attention .asub{color:#C8DBF3;font-size:.93rem;margin:.2rem 0 .9rem;}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:.9rem;}
+  .tcard{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:9px;padding:.75rem .85rem;}
+  .tcard .tk{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#FFD617;font-weight:700;margin-bottom:.2rem;}
+  .tcard .tv{font-size:.89rem;}
+  .attention ul{margin:0 0 0 1rem;}
+  .attention li{margin-bottom:.35rem;font-size:.93rem;}
+  .attention li b{color:#FFD617;}
+  .punch{font-family:'Fraunces',serif;font-size:clamp(1.05rem,2vw,1.3rem);font-weight:600;color:#fff;border-top:1px solid rgba(255,255,255,.28);padding-top:.9rem;margin-top:1rem;}
+
+  footer{margin-top:1.8rem;font-size:.8rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:1rem;}
+
+  @media(max-width:820px){
+    .split{grid-template-columns:1fr;} .split .left{border-right:0;border-bottom:1px solid var(--line);}
+    .calls,.three,.facts,.b5row{grid-template-columns:1fr;}
+    .facts > div{border-bottom:1px solid var(--line);}
+    .score{display:none;} table{font-size:.8rem;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Four versions of one presentation</div>
+  <h1>The prompt ladder<br>with a document attached</h1>
+  <p class="intro">You have to present a newly published call to national authorities. The source is a real 75-page tender specification — which moves the value somewhere different. The <b>full prompt is repeated every time</b> so you can copy it out. Problems fall <b>7 → 4 → 1 → 0</b>.</p>
+
+  <!-- FIVE BLOCKS -->
+  <div class="panel">
+    <h2>The five blocks</h2>
+    <p class="sub">In the order that matters — not the order you'd write them in.</p>
+    <div class="blocks5">
+      <div class="b5row"><div class="b5n n1">Task</div><div class="d">What you want, and <b>what finished looks like</b>. The goal is what gives the answer an ending.</div></div>
+      <div class="b5row"><div class="b5n n2">Context</div><div class="d">Who's reading, the facts, and <b>what to leave out</b>. Negative instructions are the most underused line in any prompt.
+        <div class="attach"><b>Context includes what you attach.</b> Attach only material you are authorised to upload to the tool you're using. Watch for personal data, confidential business information, evaluation material, or anything with a sensitivity marking. <b>When in doubt, ask before you upload.</b></div>
+      </div></div>
+      <div class="b5row"><div class="b5n n3">Rules</div><div class="d"><b>What to do when it doesn't know</b> — flag it, ask you, or leave it blank. The block almost nobody writes.</div></div>
+      <div class="b5row"><div class="b5n n4">Output</div><div class="d">Format, length, tone, examples. A word or slide limit edits better than "be concise".</div></div>
+      <div class="b5row"><div class="b5n n5">Role <span class="opt">Optional</span></div><div class="d">"You are an experienced project officer." The move you reach for first, and the one that changes least.</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="ll">How to read</span>
+    <span class="key"><span class="sw k0"></span>New in this version</span>
+    <span class="key"><span class="sw k1"></span>What it fixed</span>
+    <span class="key"><span class="sw k2"></span>Still weak</span>
+    <span class="key"><span class="sw k3"></span>Would not show</span>
+    <span class="key"><span class="sw k4"></span>Yours to change</span>
+  </div>
+
+  <!-- SITUATION -->
+  <div class="panel">
+    <h2>What you're working with</h2>
+    <p class="sub">Identical for all four prompts. The call is real; the meeting is illustrative.</p>
+    <div class="facts">
+      <div>The document</div><div>Tender specifications, <strong>HADEA/2026/OP/0038</strong> — plant health and plant protection products under Better Training for Safer Food. Open procedure, 75 pages.</div>
+      <div>Your audience</div><div>BTSF National Contact Points and plant health / PPP competent authorities</div>
+      <div>Their mood</div><div>Politely sceptical. They train their own inspectors, they are short-staffed, and four days away from an inspectorate is expensive</div>
+      <div>Your slot</div><div>15 minutes at a coordination meeting</div>
+      <div>You need</div><div>They nominate strong candidates when invitations arrive, instead of filling seats late</div>
+    </div>
+  </div>
+
+  <!-- V1 -->
+  <div class="rung v1">
+    <div class="rhead"><div class="rn">1</div>
+      <div><div class="lab">Blocks filled</div><div class="adds">None — and nothing attached</div></div>
+      <div class="score"><div class="sn">7</div><div class="sl2">problems</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt — full text</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt" data-prompt>Prepare a presentation on the new BTSF call for plant health.</div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="deck">
+          <div class="sl"><div class="sn2">Slide 1</div><h4>Better Training for Safer Food</h4>
+            <ul><li>An EU training initiative on food, feed, animal and plant health</li><li><span class="no">Run by the Commission since 2006</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 2</div><h4>The new call</h4>
+            <ul><li><span class="no">A budget of around €5 million</span></li><li><span class="no">Approximately 30 workshops across Europe</span></li><li><span class="no">Over 1,000 officials to be trained</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 3</div><h4>Objectives</h4>
+            <ul><li>Harmonise implementation of EU legislation</li><li>Protect the EU from plant pests and diseases</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 4</div><h4>Who can participate</h4>
+            <ul><li>Officials of Member States and Candidate Countries</li><li><span class="no">Applications open to all interested staff</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 5</div><h4>Next steps</h4>
+            <ul><li><span class="no">The call closes in the autumn</span></li><li>Contact your National Contact Point</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="calls">
+      <div class="good"><div class="cl">In its favour</div>
+        <ul><li>The objectives on slide 3 happen to be close to the real ones. The rest is decoration.</li></ul></div>
+      <div class="left-open"><div class="cl">Seven problems</div>
+        <ul>
+          <li><strong>1 · Figures with no source.</strong> €5 million, 30 workshops, 1,000 officials — all invented, all wrong.</li>
+          <li><strong>2 · Nothing specific to this call.</strong> Your audience already knows what BTSF is.</li>
+          <li><strong>3 · Wrong about the process.</strong> Participants are nominated through NCPs, not self-selected. Someone will correct this out loud.</li>
+          <li><strong>4 · Pitched at nobody.</strong> Could be for bidders, officials or the public.</li>
+          <li><strong>5 · No goal, no ask.</strong> "Contact your NCP" — half the room <em>is</em> the NCP.</li>
+          <li><strong>6 · Ignores the scepticism.</strong> Nothing on why this is worth their staff time.</li>
+          <li><strong>7 · You can't tell what came from where.</strong> Because nothing did.</li>
+        </ul></div>
+    </div>
+    <div class="verdict"><span class="vk">Biggest problem</span>
+      <div><div class="vt">It made up three numbers and said them with a straight face.</div>
+      <div class="vs">Everything else you could fix by editing. Invented figures are only caught if someone in the room knows better — and if nobody does, they end up in the minutes.</div></div></div>
+  </div>
+
+  <!-- V2 -->
+  <div class="rung v2">
+    <div class="rhead"><div class="rn">2</div>
+      <div><div class="lab">Added</div><div class="adds">Context — the document</div></div>
+      <div class="score"><div class="sn">4</div><div class="sl2">problems</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt — full text</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt" data-prompt><span class="fld">Task</span>Prepare a presentation on this call.<span class="fld isnew">Context — source<span class="nt">New</span></span><span class="nw">Attached: the tender specifications for HADEA/2026/OP/0038. Use only what is in this document.</span></div>
+        <div style="padding:0 clamp(.9rem,2.2vw,1.4rem) 1.1rem;"><span class="clip">📎 Tender_Specifications_HADEA_2026_OP_0038.pdf</span></div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="deck">
+          <div class="sl"><div class="sn2">Slide 1</div><h4>Call for tenders HADEA/2026/OP/0038</h4>
+            <ul><li><span class="fix">Open procedure, not divided into lots</span></li><li><span class="fix">Maximum value €3,900,000 — €1,950,000 per period</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 2</div><h4>Scope of the services</h4>
+            <ul><li><span class="fix">Task 1 — 19 workshops of 4 days, min. 4 tutors</span></li><li><span class="fix">Task 2 — 6 workshops of 3 days, min. 3 tutors</span></li><li><span class="fix">650 trained participant units per period</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 3</div><h4><span class="weak">Selection criteria</span></h4>
+            <ul><li><span class="weak">Average yearly turnover above €1,000,000</span></li><li><span class="weak">Three projects, min. €300,000 each, last five years</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 4</div><h4><span class="weak">Award criteria</span></h4>
+            <ul><li><span class="weak">Price 20%, quality 80%; minimum 60 points overall</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 5</div><h4><span class="weak">Reporting and payments</span></h4>
+            <ul><li><span class="weak">Interim reports M5 and M18; final M29–30</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slides 6–11</div><h4><span class="weak">Data protection · subcontracting · AI use · signature policy · annexes</span></h4>
+            <ul><li><span class="weak">Six further slides summarising the remaining sections in order</span></li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="calls">
+      <div class="good"><div class="cl">Fixed by attaching the document</div>
+        <ul>
+          <li class="done"><s><strong>1 · Figures with no source</strong></s> — €3.9 million, not €5 million. 25 workshops, not 30.</li>
+          <li class="done"><s><strong>2 · Nothing specific</strong></s> — unmistakably about this procurement.</li>
+          <li class="done"><s><strong>3 · Wrong about the process</strong></s> — the invented self-application route is gone. You didn't correct it; the document did.</li>
+        </ul></div>
+      <div class="left-open"><div class="cl">Four left</div>
+        <ul>
+          <li><strong>4 · Wrong audience.</strong> Turnover thresholds and award weightings matter enormously — to bidders. Your room contains none.</li>
+          <li><strong>5 · No goal, no ask.</strong> It ends with annexes.</li>
+          <li><strong>6 · Ignores the scepticism.</strong></li>
+          <li><strong>7 · You can't tell what came from where.</strong> Some of this is a firm requirement; some is labelled in the document as an example.</li>
+        </ul></div>
+    </div>
+    <div class="verdict"><span class="vk">Biggest problem</span>
+      <div><div class="vt">It summarised the document instead of serving the meeting.</div>
+      <div class="vs">Eleven slides, every fact correct, and more than half written for people who aren't in the room. Attaching a file tells it what the facts are — not who they're for.</div></div></div>
+  </div>
+
+  <!-- V3 -->
+  <div class="rung v3">
+    <div class="rhead"><div class="rn">3</div>
+      <div><div class="lab">Added</div><div class="adds">Goal, audience, output</div></div>
+      <div class="score"><div class="sn">1</div><div class="sl2">problem</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt — full text</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt" data-prompt><span class="fld">Task</span>Prepare a presentation on this call.
+<span class="nw">Done means: when invitations arrive, these authorities nominate strong candidates early instead of filling seats late or not at all.</span><span class="fld">Context — source</span>Attached: the tender specifications for HADEA/2026/OP/0038. Use only what is in this document.<span class="fld isnew">Context — audience &amp; constraints<span class="nt">New</span></span><span class="nw">BTSF National Contact Points and plant health / plant protection product competent authorities. They are not bidders — leave out anything procurement-facing: turnover thresholds, award criteria, subcontracting, signature policy, annexes. They already know what BTSF is.
+They are politely sceptical: they train their own inspectors, they are short-staffed, and four days away from an inspectorate is expensive. Address that directly rather than talking around it.</span><span class="fld isnew">Output<span class="nt">New</span></span><span class="nw">Maximum 8 slides for a 15-minute slot. One headline and up to four short bullets per slide. Bold every figure. Plain language, no procurement vocabulary. Concede the fair criticisms rather than defending. End with a specific ask.</span></div>
+        <div class="change"><b>Yours to change:</b> the "leave out anything procurement-facing" list is what cuts half the deck. Swap it for whatever your own audience doesn't need — it's the most powerful sentence here.</div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back</span></div>
+        <div class="deck">
+          <div class="sl"><div class="sn2">Slide 1</div><h4><span class="fix">Plant health training is being re-tendered</span></h4>
+            <ul><li>A new BTSF contract for plant health and plant protection products</li><li><span class="fix">Nothing is contracted yet — this is the procurement stage</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 2</div><h4>What is being bought</h4>
+            <ul><li><strong>25</strong> workshops per period — <strong>19</strong> of four days, <strong>6</strong> of three</li><li><strong>650</strong> trained participant units, around <strong>26</strong> per workshop</li><li>In at least <strong>8</strong> Member States and Candidate Countries</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 3</div><h4>The likely subjects</h4>
+            <ul><li>Biocontrol substances; risk mitigation for pesticides</li><li>Professional operators and the plant passport system</li><li>Surveys, pest management and eradication of quarantine pests</li><li>Import controls, including Border Control Post visits</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 4</div><h4><span class="fix">"We already train our own inspectors"</span></h4>
+            <ul><li>True — and this doesn't replace that</li><li>What you can't do alone: put your inspector in a room with counterparts from across the EU</li><li><span class="fix">If the subject is purely national, keep it national. This is for the parts that aren't</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 5</div><h4>What it costs you</h4>
+            <ul><li>Fully supported: travel, transfers and full board covered</li><li>Partially supported: you cover travel and accommodation</li><li><span class="fix">The real cost is the <strong>four days</strong>, and we won't pretend otherwise</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 6</div><h4>Your role</h4>
+            <ul><li>Participants are proposed and approved by <strong>you</strong>, through BTSF Academy</li><li>Invitations arrive at least <strong>60 days</strong> before each workshop</li><li>Unused seats go to a reserve list — an empty seat is a lost one</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 7</div><h4>The part people forget</h4>
+            <ul><li>Activities before and after the workshop, not just the four days</li><li>A dissemination survey opens <strong>90 days</strong> afterwards</li><li>Tell your nominees at the start, not at day four</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 8</div><h4><span class="fix">What we're asking</span></h4>
+            <ul><li>Start thinking now about who you would send</li><li>Tell us where these subjects miss your real training gaps</li><li>Say so if a topic duplicates what you already run well</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="calls">
+      <div class="good"><div class="cl">Fixed</div>
+        <ul>
+          <li class="done"><s><strong>4 · Wrong audience</strong></s> — eight slides, all of which concern someone in the room.</li>
+          <li class="done"><s><strong>5 · No goal, no ask</strong></s> — three things to do, and slide 1 heads off the likeliest misunderstanding.</li>
+          <li class="done"><s><strong>6 · Ignores the scepticism</strong></s> — slide 4 concedes before arguing; slide 5 names the four days as the real cost.</li>
+          <li><strong>The negative instruction did the work.</strong> "Leave out anything procurement-facing" removed more than any positive instruction could have added.</li>
+        </ul></div>
+      <div class="left-open"><div class="cl">One left</div>
+        <ul>
+          <li><strong>7 · You still can't tell what came from where.</strong> Slide 3 reads as a programme; the document calls those examples. Slide 2's figures are firm. They look identical on screen.</li>
+          <li>Everything is drawn from a real document, so everything sounds equally verified.</li>
+        </ul></div>
+    </div>
+    <div class="verdict"><span class="vk">Biggest problem</span>
+      <div><div class="vt">It dropped the hedges, and a hedge is not decoration.</div>
+      <div class="vs">"Roughly envisaged", "examples", "subject to approval" — the qualifiers are longer than the facts they qualify, so they go first when text is compressed into bullets. What's left is accurate and overstated at once.</div></div></div>
+  </div>
+
+  <!-- V4 -->
+  <div class="rung v4">
+    <div class="rhead"><div class="rn">4</div>
+      <div><div class="lab">Added</div><div class="adds">Rules, and Role</div></div>
+      <div class="score"><div class="sn">0</div><div class="sl2">problems</div></div></div>
+    <div class="split">
+      <div class="left">
+        <div class="colhead"><span>Your prompt — full text</span><button class="copybtn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt" data-prompt><span class="fld">Task</span>Prepare a presentation on this call.
+Done means: when invitations arrive, these authorities nominate strong candidates early instead of filling seats late or not at all.<span class="fld">Context — source</span>Attached: the tender specifications for HADEA/2026/OP/0038. Use only what is in this document.<span class="fld">Context — audience &amp; constraints</span>BTSF National Contact Points and plant health / plant protection product competent authorities. They are not bidders — leave out anything procurement-facing: turnover thresholds, award criteria, subcontracting, signature policy, annexes. They already know what BTSF is.
+They are politely sceptical: they train their own inspectors, they are short-staffed, and four days away from an inspectorate is expensive. Address that directly rather than talking around it.<span class="fld isnew">Rules<span class="nt">New</span></span><span class="nw">Mark clearly anything on a slide that is not in the document — a figure, a date, a claim.
+For each slide, tell me whether the document presents it as a firm requirement, an example, a forecast, or something conditional.
+Tell me what my audience will expect to hear that the document does not contain.
+Where you would state something more precisely than the document does, say so instead of tidying it up.
+If a detail matters and you don't have it, ask me before writing rather than guessing.
+Anything I need to decide goes in a note to me, not on a slide.</span><span class="fld">Output</span>Maximum 8 slides for a 15-minute slot. One headline and up to four short bullets per slide. Bold every figure. Plain language, no procurement vocabulary. Concede the fair criticisms rather than defending. End with a specific ask.<span class="fld isnew">Role<span class="nt">New</span></span><span class="nw">You are a <mark>[project officer who runs training contracts and briefs national authorities]</mark>.</span></div>
+      </div>
+      <div>
+        <div class="colhead"><span>What comes back — changes marked</span></div>
+        <div class="qbox">
+          <div class="qt">It asked first</div>
+          <div class="q"><strong>1.</strong> Is this before or after contract signature? Almost every "when, where and who" answer changes.</div>
+          <div class="q"><strong>2.</strong> Do you want the contract value on a slide? €3,900,000 is a ceiling for bidders, not a training budget — to this audience it invites the wrong question.</div>
+        </div>
+        <div class="diffcount"><span class="dc">5 slides changed</span><span class="dc">3 untouched</span><span class="dc">0 figures altered</span></div>
+        <div class="deck">
+          <div class="sl same"><div class="sn2">Slide 1 <span class="flag unc">Unchanged</span></div><h4>Plant health training is being re-tendered</h4>
+            <ul><li>Nothing is contracted yet — this is the procurement stage</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 2 <span class="flag chg">Changed</span></div><h4>What is being bought</h4>
+            <ul><li><strong>25</strong> workshops per period — <strong>19</strong> of four days, <strong>6</strong> of three</li><li><strong>650</strong> trained participant units, around <strong>26</strong> per workshop</li><li><span class="fix">A second period of the same size may follow — <strong>conditional</strong> on budget, on the need continuing, and on approval of the final report</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 3 <span class="flag chg">Changed</span></div><h4><span class="fix">Examples of the likely subjects — not yet fixed</span></h4>
+            <ul><li>Biocontrol substances; pesticide risk mitigation; plant passports; surveys and eradication; import controls</li><li><span class="fix">These illustrate the scope for bidders. <strong>Don't plan around them yet</strong></span></li></ul></div>
+          <div class="sl same"><div class="sn2">Slide 4 <span class="flag unc">Unchanged</span></div><h4>"We already train our own inspectors"</h4>
+            <ul><li>True — and this doesn't replace that</li></ul></div>
+          <div class="sl same"><div class="sn2">Slide 5 <span class="flag unc">Unchanged</span></div><h4>What it costs you</h4>
+            <ul><li>The real cost is the four days</li></ul></div>
+          <div class="sl"><div class="sn2">Slide 6 <span class="flag chg">Changed</span></div><h4>Your role</h4>
+            <ul><li>Participants are proposed and approved by <strong>you</strong>, through BTSF Academy</li><li>Invitations arrive at least <strong>60 days</strong> before each workshop</li><li><span class="fix">Country quotas are set before the contract starts. The split in the tender documents is a <strong>planning estimate</strong>, not your allocation</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 7 <span class="flag chg">Changed</span></div><h4>The part people forget</h4>
+            <ul><li>A dissemination survey opens <strong>90 days</strong> afterwards</li><li><span class="fix">Certificates depend on completing the pre- and post-course activities — <strong>check the exact conditions</strong> once the contract is in place</span></li></ul></div>
+          <div class="sl"><div class="sn2">Slide 8 <span class="flag chg">Changed</span></div><h4>What we're asking</h4>
+            <ul><li>Start thinking now about who you would send</li><li>Tell us where these subjects miss your real training gaps</li><li><span class="fix">Dates, locations and the provider: <strong>not known yet</strong>. You'll hear from us after signature</span></li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notebox">
+      <span class="tg">Not part of the deck · your Rules block produced it</span>
+      <h3>What is firm, what is not, and what isn't in the document at all</h3>
+      <ul>
+        <li><strong>Firm requirements.</strong> Workshop counts (19 + 6), the days (4 and 3), 650 trained participant units per period, minimum tutor numbers, the €3,900,000 ceiling, the 60-day invitation notice, the reporting months.</li>
+        <li><strong>Examples, not commitments.</strong> The subjects on slide 3. The document presents these as illustrations of scope for tenderers, expressly not the final deliverables. <strong>Present them as the programme and you will be quoted on it.</strong></li>
+        <li><strong>A forecast, not an allocation.</strong> The participant split of roughly 89% Member States, 8% Candidate Countries, 3% EFTA and others is given to help tenderers plan financially, and quotas may be adjusted.</li>
+        <li><strong>Conditional.</strong> The second 30-month period depends on budget, on need continuing, and on approval of the final report. "60 months" flat would overstate it.</li>
+        <li><strong>Missing — and they will ask.</strong> The submission deadline is not in these specifications; the document points to the contract notice and the Portal. I haven't guessed a date.</li>
+        <li><strong>Missing.</strong> Dates, locations and the contractor. The timeline runs in contract months from signature, not calendar dates.</li>
+        <li><strong>Added by me, not the document.</strong> "Put your inspector in a room with counterparts from across the EU" on slide 4 — that's an argument I constructed, not a statement from the source. Yours to stand behind.</li>
+      </ul>
+    </div>
+
+    <div class="calls">
+      <div class="good"><div class="cl">Fixed</div>
+        <ul>
+          <li class="done"><s><strong>7 · You can't tell what came from where</strong></s> — every slide sorted into firm, example, forecast or conditional.</li>
+          <li><strong>Look at what the edits are.</strong> "Conditional on", "not yet fixed", "a planning estimate", "not known yet". Every one puts back a hedge version 3 had dropped.</li>
+          <li><strong>The most valuable line is about an absence.</strong> The deadline isn't in the specifications at all — version 3 would have carried an invented one onto a slide.</li>
+        </ul></div>
+      <div class="left-open"><div class="cl">What no prompt fixes</div>
+        <ul>
+          <li><strong>It read one document.</strong> The contract notice and the Portal page are separate — and one of them holds the deadline.</li>
+          <li><strong>Slide 4 is an argument, not a fact.</strong> Whether it lands is your judgement.</li>
+          <li><strong>You still have to read it.</strong> A deck sourced entirely from a real document is the most convincing wrong deck you'll ever produce.</li>
+        </ul></div>
+    </div>
+    <div class="verdict"><span class="vk">Biggest change</span>
+      <div><div class="vt">Five slides gained a qualifier. Nothing gained a fact.</div>
+      <div class="vs">Three slides untouched, no figure altered. The deck didn't become more informative — it became less promising, and everything genuinely new arrived in a note addressed to you.</div></div></div>
+  </div>
+
+  <!-- TRACKER -->
+  <div class="panel">
+    <h2>All four versions</h2>
+    <p class="sub">Nothing you fixed ever comes back.</p>
+    <table>
+      <thead><tr><th>Problem</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+      <tbody>
+        <tr><td>Figures with no source</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Generic — nothing specific to this call</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Wrong about how the process works</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Pitched at the wrong audience</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>No goal, no ask</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Ignores the audience's scepticism</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td><td class="v">✓</td></tr>
+        <tr><td>Firm, example and forecast look identical</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="v">✓</td></tr>
+      </tbody>
+      <tfoot><tr><td>Problems remaining</td><td>7</td><td>4</td><td>1</td><td>0</td></tr></tfoot>
+    </table>
+  </div>
+
+  <!-- TAKEAWAY -->
+  <div class="attention">
+    <h2>If you remember nothing else</h2>
+    <p class="asub">When there is a document, three lines get you most of the way.</p>
+    <div class="three">
+      <div class="tcard"><div class="tk">Attach it</div><div class="tv">Subject to your organisation's rules on what may be uploaded.</div></div>
+      <div class="tcard"><div class="tk">Say who it's for</div><div class="tv">And what to leave out. The negative list cuts more than the positive one adds.</div></div>
+      <div class="tcard"><div class="tk">Ask what's firm</div><div class="tv">Requirement, example, forecast or condition — make it sort them before you present.</div></div>
+    </div>
+    <ul>
+      <li><b>"Use only the attached document."</b> One sentence that stops it topping up from memory.</li>
+      <li><b>Ask what's missing,</b> not just what's there. The deadline wasn't in the file.</li>
+      <li><b>Check the figures</b> against the source before they go on a slide with your name on it.</li>
+    </ul>
+    <p class="punch">A deck built entirely from a real document is the most convincing wrong deck you will ever produce.</p>
+  </div>
+
+  <footer>Try it with a call you are working on this week.</footer>
+
+</div>
+
+<script>
+  function copyPrompt(btn){
+    const box = btn.closest('.left').querySelector('[data-prompt]');
+    const clone = box.cloneNode(true);
+    clone.querySelectorAll('.fld').forEach(f=>{
+      f.querySelectorAll('.nt').forEach(n=>n.remove());
+      f.replaceWith(document.createTextNode('\n\n'+f.textContent.trim().toUpperCase()+'\n'));
+    });
+    const text = clone.textContent.replace(/\n{3,}/g,'\n\n').trim();
+    const done = ()=>{btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy',1500);};
+    if(navigator.clipboard){navigator.clipboard.writeText(text).then(done).catch(fb);}else{fb();}
+    function fb(){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);
+      ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
+  }
+</script>
+</body>
+</html>
