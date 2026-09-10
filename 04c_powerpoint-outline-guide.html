@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating a PowerPoint Presentation in GPT@EC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            line-height: 1.6;
+            color: #211A14;
+            background-color: #FBF6EC;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 3px solid #C0532E;
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            color: #211A14;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            color: #C0532E;
+            font-weight: 400;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: #1E4D47;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #C6912E;
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            color: #C0532E;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            background-color: #F3ECDF;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #1E4D47;
+            border-radius: 4px;
+        }
+
+        .purpose {
+            background-color: #FBF6EC;
+            border-left: 4px solid #C0532E;
+        }
+
+        .important-note {
+            background-color: #FBF6EC;
+            border-left: 4px solid #C6912E;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        .important-note strong {
+            color: #C0532E;
+        }
+
+        ol {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        ol li {
+            margin-bottom: 0.8rem;
+            padding-left: 0.5rem;
+        }
+
+        ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+            list-style-type: none;
+        }
+
+        ul li:before {
+            content: "▪ ";
+            color: #C0532E;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .section ul li:before {
+            color: #1E4D47;
+        }
+
+        .example-box {
+            background-color: #FBF6EC;
+            border-left: 3px solid #1E4D47;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .example-box strong {
+            font-style: normal;
+            color: #1E4D47;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-header {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1E4D47;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .use-case {
+            background-color: #FBF6EC;
+            border-left: 4px solid #C6912E;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #F3ECDF 0%, #FBF6EC 100%);
+            border-left: 4px solid #1E4D47;
+            border-right: 4px solid #C0532E;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+        }
+
+        .summary-box h2 {
+            border: none;
+            margin-top: 0;
+            color: #1E4D47;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #C0532E;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .summary-box {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>How to create a PowerPoint presentation in GPT@EC</h1>
+            <p class="subtitle">with the PowerPoint outline prompt</p>
+        </header>
+
+        <section class="section purpose">
+            <h2>Purpose</h2>
+            <p>Below are clear step-by-step instructions on how to use the PowerPoint presentation outline prompt.</p>
+            <p>Use this prompt when you already have a document containing information about a policy, project, initiative or topic, and you want to quickly turn it into a structured PowerPoint outline.</p>
+            <p>This method helps you create a solid starting point for a presentation without having to draft all slides manually.</p>
+        </section>
+
+        <section>
+            <h2>Step-by-step instructions</h2>
+
+            <h3>Step 1: Start a new chat with the prompt</h3>
+            <ul>
+                <li>Go to GPT@EC.</li>
+                <li>Open the Prompt library</li>
+                <li>Search for PowerPoint presentation outline (SCIC)</li>
+                <li>Click on the button Start new chat</li>
+            </ul>
+
+            <h3>Step 2: Upload your source document</h3>
+            <ul>
+                <li>In the new chat, click on the + symbol and select Upload files.</li>
+                <li>Select the document you want to use.</li>
+            </ul>
+            <div class="example-box">
+                <strong>Example:</strong>
+                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                    <li>a policy document</li>
+                    <li>project documentation</li>
+                    <li>annual learning orientations</li>
+                    <li>background notes</li>
+                    <li>briefing material</li>
+                </ul>
+                <p style="margin: 0.5rem 0 0 0;">This document will be used by GPT@EC to generate the outline for your presentation.</p>
+            </div>
+
+            <h3>Step 3: Run the prompt</h3>
+            <p>After uploading the file, run the prompt. GPT@EC will analyse the content of your document and generate a PowerPoint outline based on it. At this stage, GPT@EC gives you a draft outline, not a finished slide deck.</p>
+
+            <h3>Step 4: Copy the generated output</h3>
+            <ul>
+                <li>Select the full outline produced by GPT@EC.</li>
+                <li>Copy the text.</li>
+            </ul>
+
+            <h3>Step 5: Paste the outline into a text file</h3>
+            <ul>
+                <li>Open a plain text editor such as Notepad.</li>
+                <li>Paste the copied outline into the file.</li>
+                <li>Save it as a text file (for example, presentation_outline.txt).</li>
+            </ul>
+
+            <h3>Step 6: Open PowerPoint</h3>
+            <ul>
+                <li>Start Microsoft PowerPoint.</li>
+                <li>Open a new blank presentation.</li>
+            </ul>
+
+            <h3>Step 7: Import slides from the outline</h3>
+            <p>This is the important part in PowerPoint:</p>
+            <ul>
+                <li>Go to <strong>Insert</strong></li>
+                <li>Click <strong>New Slide</strong></li>
+                <li>Choose <strong>Slides from Outline</strong></li>
+            </ul>
+            <p>Then:</p>
+            <ul>
+                <li>Select the text file you just saved</li>
+                <li>Click <strong>Insert</strong></li>
+            </ul>
+            <p>PowerPoint will automatically create slides based on the outline.</p>
+
+            <h3>Step 8: Review the generated slides</h3>
+            <p>PowerPoint will create a slide deck from the structure in the text file. This gives you a quick first draft of the presentation.</p>
+
+            <div class="important-note">
+                <strong>Important note</strong><br><br>
+                The result will not be perfect from the start.<br><br>
+                Typically:
+                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                    <li>the content structure is useful</li>
+                    <li>the layout is basic</li>
+                    <li>the visual design is not yet adapted to your needs</li>
+                </ul>
+                <p style="margin-top: 0.5rem; margin-bottom: 0;">Think of this as a starting point, not a final presentation.</p>
+            </div>
+
+            <h3>Step 9: Improve and adapt the presentation</h3>
+            <p>After the slides are created, you should:</p>
+            <ul>
+                <li>review the wording</li>
+                <li>shorten or simplify text where needed</li>
+                <li>reorganise some slides if necessary</li>
+                <li>improve the flow of the story</li>
+                <li>add visuals, charts or images</li>
+                <li>apply the appropriate European Commission template</li>
+            </ul>
+            <p>You can then adjust the layout in PowerPoint using the relevant Commission presentation template.</p>
+        </section>
+
+        <section class="section use-case">
+            <h2>Example use case</h2>
+            <p>This method is especially useful when you need to create presentations from existing documentation.</p>
+            <p>For example:</p>
+            <ul>
+                <li>you need an overview of several projects</li>
+                <li>you already have extensive background documents</li>
+                <li>you want to quickly produce a first presentation draft</li>
+            </ul>
+            <p>In that case, you can:</p>
+            <ol>
+                <li>upload the background documents to GPT@EC</li>
+                <li>generate an outline</li>
+                <li>import it into PowerPoint</li>
+                <li>refine the content and design afterwards</li>
+            </ol>
+            <p>This can save considerable time when preparing presentations.</p>
+        </section>
+
+        <section class="summary-box">
+            <h2>Summary</h2>
+            <p>Using the PowerPoint presentation outline prompt in GPT@EC allows you to:</p>
+            <ul>
+                <li>reuse existing documents</li>
+                <li>generate a structured slide outline quickly</li>
+                <li>create a first PowerPoint draft automatically</li>
+                <li>focus your effort on improving content and layout rather than starting from scratch</li>
+            </ul>
+        </section>
+
+        <footer></footer>
+    </div>
+</body>
+</html>
